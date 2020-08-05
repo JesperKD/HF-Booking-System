@@ -1,0 +1,39 @@
+﻿@model UdlånsWeb.Models.ItemList
+@{
+    ViewData["Title"] = "Privacy Policy";
+}
+
+
+
+<div style="border:2px solid Black">
+    <label>Type</label>
+    <Select name="TypeSelect">
+        <option>
+            Rack
+        </option>
+        <option>
+            Switch
+        </option>
+        <option>
+            Router
+        </option>
+    </Select>
+
+    <div>
+        <dl>
+            @foreach (var item in Model.Items)
+            {
+                <dt>
+                    
+                </dt>
+                <dd>
+                    
+                </dd>
+            }
+        </dl>
+    </div>
+</div>
+
+
+
+
