@@ -1,0 +1,27 @@
+﻿@model UdlånsWeb.Models.UserList
+@{
+    ViewData["Title"] = "UserPage";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@foreach (var item in Model.Users)
+{
+
+    <div style="border-bottom:solid 2px black;">
+        <dl>
+            <dt>
+                Navn:
+            </dt>
+            <dd>
+                @item.Name
+                <br />
+                @using (Html.BeginForm("EditUser", "Home"))
+                {
+                    <a type="text/plain" asp-action="EditUser" asp-controller="Home">Edit</a>
+                }
+            </dd>
+        </dl>
+
+    </div>
+    <br />
+}
+

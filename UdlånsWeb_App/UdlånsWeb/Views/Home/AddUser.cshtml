@@ -1,0 +1,24 @@
+﻿@model UdlånsWeb.Models.User 
+@{
+    ViewData["Title"] = "AddUser";
+}
+<h2>Tilføj ny bruger</h2>
+
+@using (Html.BeginForm("AddUser"))
+{
+    <div>
+        @Html.TextBoxFor(u => u.Name, new { @class = "form-control", placeholder = "Navn" })
+    </div>
+    <br />
+    <div>
+        @Html.TextBoxFor(u => u.Email, new { @class = "form-control", placeholder = "Email" })
+    </div>
+    <br />
+    <p>Admin</p>
+    <div>
+        @Html.CheckBoxFor(u => u.Admin)
+    </div>
+    <button type="submit">Tilføj bruger</button>
+}
+
+

@@ -2,18 +2,26 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div>
-
-    <img src="./Images/ZBCLogo.jpg" height="150" width="150" />
-
-    <div>
-        <h1>Login</h1>
-        <label >Brugernavn</label><br />
-        <input type="text" name="UserName" /><br />
-
-        <label >Password</label><br />
-        <input type="password" name="passwordBox" value="" />
+<form action="action_page.php" method="post">
+    <div class="imgcontainer">
+        <img src="./Images/ZBCLogo.jpg" height="150" width="150" />
     </div>
-</div>
-<a asp-action="InfoPage" asp-controller="Home"> link</a>
+
+    <div class="container">
+        <label for="uname"><b>Username</b></label>
+        <input type="text" placeholder="Enter Username" name="uname" required>
+
+        <label for="psw"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="psw" required>
+
+        <button type="submit">Login</button>
+        <label>
+            <input type="checkbox" checked="checked" name="remember"> Remember me
+        </label>
+    </div>
+    <div class="container" style="background-color:#f1f1f1">
+        <span class="psw">Forgot <a href="#">password?</a></span>
+    </div>
+</form>
+
 

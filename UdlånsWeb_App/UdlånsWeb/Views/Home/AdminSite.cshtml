@@ -1,7 +1,71 @@
-﻿@{ 
+﻿@model UdlånsWeb.Models.ItemList
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewData["Title"] = "AdminSite";
 }
 
 
-<p>this is ment to be an admin site</p>
+<!-- Style for the collaps button -->
+<style>
+    .collapsible {
+        background-color: #eee;
+        color: #444;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+    }
+
+        .active, .collapsible:hover {
+            background-color: #ccc;
+        }
+
+
+    .content {
+        padding: 0 18px;
+        display: none;
+        overflow: hidden;
+        background-color: #f1f1f1;
+    }
+</style>
+
+@foreach (var item in Model.Items)
+{
+    <!-- Collapsible for more information on the host-->
+    <button name="CollapButton" type="button" class="collapsible" value="">@item.HostName <div style="background-color: forestgreen; width:20px; height:20px;"></div></button>
+    <div class="content">
+        <div class="container-fluid" style="border : solid 2px black;" >
+            <dl style="margin: 0px 10px 0px 0px;">
+                <dt>
+                    Brugernavn:
+                </dt>
+                <dd>
+                    @item.UserName
+                </dd>
+                <dt>
+                    Ip:
+                </dt>
+                <dd>
+                    @item.HostIp<br />
+                </dd>
+                <dt>
+                    Adgangskode:
+                </dt>
+                <dd>
+                    @item.HostPassword<br />
+                </dd>
+                <dt>
+                    VmWare version:
+                </dt>
+                <dd>
+                    @item.VmWareVersion<br />
+                </dd>
+            </dl>
+            <button type="submit">Ændre</button>
+        </div>
+    </div>
+}
 
