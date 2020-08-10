@@ -39,8 +39,6 @@ namespace UdlånsWeb.Controllers
             itemList.Items = TestData.GetItems();
             return View(itemList);
         }
-
-
         //Used to see the users
         #region UserPage
         [HttpGet]
@@ -64,36 +62,32 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult AddUser(User user)
         {
+            //Save the user to file/database
             createdUser = user;
-
-
-
+            //When the user clicks sava they will be returned to the userpage
             return Redirect("/Home/UserPage");
         }
 
         [HttpGet]
         public IActionResult AddUser()
         {
+            //returns the AddUser page 
             return View();
         }
         #endregion
 
-        [HttpPost]
+        #region Edit User
         public IActionResult EditUser()
         {
             return View();
         }
-        [HttpGet]
         public IActionResult EditUser(int? id)
         {
             UserList userList = new UserList();
             userList.Users = TestData.GetUsers();
-
             return View();
         }
-
-        
-
+        #endregion
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
