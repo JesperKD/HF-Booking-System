@@ -12,8 +12,8 @@ namespace UdlånsWeb.DataHandling
         public static List<ItemModel> GetItems()
         {
             List<ItemModel> items = new List<ItemModel>() {
-                new ItemModel("Host1", "kode1234!", "root", "2.14.1", "101.0.0.1"),
-                new ItemModel("Host2", "kode1234!", "root", "2.10.0", "110.0.0.1")
+                new ItemModel(){HostName = "Host1", HostPassword = "kode1234!", UserName = "root", VmWareVersion = "2.14.1", HostIp = "101.0.0.1", Rented = true},
+                new ItemModel(){HostName = "Host2", HostPassword = "kode1234!", UserName = "root", VmWareVersion = "2.10.0", HostIp = "110.0.0.1", Rented = false }
             };
             return items;
         }
@@ -21,8 +21,8 @@ namespace UdlånsWeb.DataHandling
         public static List<User> GetUsers()
         {
             List<User> users = new List<User>() { 
-                new User(){Name = "Flemming", UserName = "FlemAK", Email = "Flemse@ZBC.dk",Password = "***********", Admin = false }, 
-                new User(){Name = "Janni", UserName = "JanniS", Email = "JanniH@ZBC.dk", Password = "******", Admin = false}, 
+                new User(){Name = "Flemming", Initials = "FlemAK", Email = "Flemse@ZBC.dk", Admin = true }, 
+                new User(){Name = "Janni", Initials = "JanniS", Email = "JanniH@ZBC.dk", Admin = true}, 
             };
 
             return users;

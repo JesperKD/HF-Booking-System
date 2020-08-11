@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -19,13 +20,9 @@ namespace UdlånsWeb.Models
         public string HostIp { get; set; }
         [DisplayName ("Antal enheder per host")]
         public int NumberOfPeoplePerHost { get; set; }
-        public ItemModel(string hostName, string password, string username, string vmwareVersion, string hostIp)
-        {
-            HostName = hostName;
-            HostPassword = password;
-            UserName = username;
-            VmWareVersion = vmwareVersion;
-            HostIp = hostIp;
-        }
+        [BindProperty(SupportsGet = true)]
+        public bool Rented { get; set; }
+       
+        
     }
 }

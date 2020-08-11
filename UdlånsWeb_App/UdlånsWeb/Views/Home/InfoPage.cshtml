@@ -1,4 +1,4 @@
-﻿@model UdlånsWeb.Models.ItemList
+﻿@model List<UdlånsWeb.Models.ItemModel>
 @{
     ViewData["Title"] = "InfoPage";
 }
@@ -19,21 +19,43 @@
             background-color: #ccc;
         }
 
-
     .content {
         padding: 0 18px;
         display: none;
         overflow: hidden;
         background-color: #f1f1f1;
     }
+
+    .RentColorGreen {
+        background-color: forestgreen;
+        width: 20px;
+        height: 20px;
+        border-radius: 20px 20px;
+    }
+
+    .RentColorRed {
+        background-color: red;
+        width: 20px;
+        height: 20px;
+        border-radius: 20px 20px;
+    }
 </style>
 
-@foreach (var item in Model.Items)
+@foreach (var item in Model)
 {
     <!-- Collapsible for more information on the host-->
-    <button name="CollapButton" type="button" class="collapsible" value="">@item.HostName <div  style="background-color: forestgreen; width:20px; height:20px;"></div></button>
+    <button name="CollapButton" type="button" class="collapsible" value="">@item.HostName</button>
+
     <div class="content">
         <div style="border : solid 2px black">
+            @if (item.Rented == false)
+            {
+                <button class="RentColorGreen"></button>
+            }
+            else
+            {
+                <button class="RentColorRed"></button>
+            }
             <dl>
                 <dt>
                     Brugernavn:
@@ -60,6 +82,11 @@
                     @item.VmWareVersion<br />
                 </dd>
             </dl>
+            @using (Html.BeginForm("InfoPage", "Home", FormMethod.Post))
+            {
+                @Html.DisplayForModel(item.Rented)
+                <input type="submit" style="" value="Save"/>
+            }
         </div>
     </div>
 }

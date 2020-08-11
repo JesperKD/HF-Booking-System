@@ -15,14 +15,30 @@ namespace UdlånsWeb.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private List<item> Items { get; set; } 
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
+
+        #region HomePage
+        [HttpGet]
         public IActionResult HomePage()
         {
+            Items 
             return View();
         }
+        [HttpPost]
+        public IActionResult HomePage(string initials)
+        {
+            //Add logic for login 
+
+
+            //Redirect to InfoPage
+            return Redirect("/Home/InfoPage");
+        }
+        #endregion
+
         public IActionResult Privacy()
         {
             return View();
@@ -33,12 +49,22 @@ namespace UdlånsWeb.Controllers
             itemList.Items = TestData.GetItems();
             return View(itemList);
         }
+        [HttpGet]
         public IActionResult InfoPage()
         {
             ItemList itemList = new ItemList();
             itemList.Items = TestData.GetItems();
             return View(itemList);
         }
+        [HttpPost]
+        public IActionResult InfoPage(ItemModel item)
+        {
+            item.Rented = false;
+
+
+            return View();
+        }
+
         //Used to see the users
         #region UserPage
         [HttpGet]

@@ -9,6 +9,11 @@ namespace UdlånsWeb
 {
     class FromTxt
     {
+        /// <summary>
+        /// Used by app to read the txt file of users
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public string[] StringsFromTxt(string path)
         {
             try

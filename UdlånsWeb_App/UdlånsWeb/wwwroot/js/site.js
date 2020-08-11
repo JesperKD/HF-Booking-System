@@ -17,4 +17,8 @@ for (i = 0; i < coll.length; i++) {
     });
 }
 
+$(".RentColorGreen").on("click", function () {
+    $(this).addClass('RentColorRed');
+});
+
 
