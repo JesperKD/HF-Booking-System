@@ -54,12 +54,12 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult InfoPage()
         {
-            var ItemModel = new List<Item>();
-            ItemModel = TestData.GetItems();
-            return View(ItemModel);
+            var model = new ItemViewModel();
+            model.Items = TestData.GetItems();
+            return View(model);
         }
-        [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult InfoPage(Item item)
+        [HttpPost]
+        public IActionResult InfoPage(ItemViewModel item, int? id)
         {
 
             return Redirect("/Home");
@@ -87,8 +87,6 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult AddUser(User user)
         {
-            
-
             //Save the user to file/database
             createdUser = user;
             //When the user clicks sava they will be returned to the userpage

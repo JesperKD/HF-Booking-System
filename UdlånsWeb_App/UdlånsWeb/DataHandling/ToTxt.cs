@@ -82,58 +82,5 @@ namespace UdlånsWeb
             }
         }
 
-        public bool CharToTxt(string path, char input)
-        {
-            try
-            {
-                File.WriteAllText(path, input.ToString());
-                return true;
-
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-        }
-
-        public bool AppendCharToTxt(string path, char input)
-        {
-            try
-            {
-                File.AppendAllText(path, input.ToString());
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        public bool CharsToTxt(string path, char[] input)
-        {
-            try
-            {
-                File.WriteAllText(path, input.ToString());
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        public bool AppendCharsToTxt(string path, char[] input)
-        {
-            try
-            {
-                File.AppendAllText(path, input.ToString());
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
     }
 }

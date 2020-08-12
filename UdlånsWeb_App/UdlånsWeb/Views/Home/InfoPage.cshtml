@@ -1,4 +1,4 @@
-﻿@model List<UdlånsWeb.Models.Item>
+﻿@model ItemViewModel
 @{
     ViewData["Title"] = "InfoPage";
 }
@@ -41,16 +41,16 @@
     }
 </style>
 
-@for (int i = 0; i < Model.Count; i++)
+@for (int i = 0; i < Model.Items.Count; i++)
 {
 
 
 
     <!-- Collapsible for more information on the host-->
-    <button name="CollapButton" type="button" class="collapsible" value="">@Model[i].HostName</button>
+    <button name="CollapButton" type="button" class="collapsible" value="">@Model.Items[i].HostName</button>
     <div class="content">
         <div style="border : solid 2px black">
-            @if (Model[i].Rented == false)
+            @if (Model.Items[i].Rented == false)
             {
                 <button class="RentColorGreen"></button>
             }
@@ -63,25 +63,25 @@
                     Brugernavn:
                 </dt>
                 <dd>
-                    @Model[i].UserName
+                    @Model.Items[i].UserName
                 </dd>
                 <dt>
                     Ip:
                 </dt>
                 <dd>
-                    @Model[i].HostIp<br />
+                    @Model.Items[i].HostIp<br />
                 </dd>
                 <dt>
                     Adgangskode:
                 </dt>
                 <dd>
-                    @Model[i].HostPassword<br />
+                    @Model.Items[i].HostPassword<br />
                 </dd>
                 <dt>
                     VmWare version:
                 </dt>
                 <dd>
-                    @Model[i].VmWareVersion<br />
+                    @Model.Items[i].VmWareVersion<br />
                 </dd>
             </dl>
         </div>
@@ -89,7 +89,9 @@
         {
             @Html.ValidationSummary(true)
             
-            @Html.EditorForModel() 
+            <p hidden>@Html.EditorFor(m => m.Items)</p>
+            <input asp-for="Id" type="number" value="@i" hidden/>
+            
             <input type="submit" value="Lån"/>
         }
     </div>
