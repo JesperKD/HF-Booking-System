@@ -19,6 +19,7 @@ namespace UdlånsWeb.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private ToTxt ToTxt = new ToTxt();
+        private FromTxt FromTxt = new FromTxt();
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -52,14 +53,14 @@ namespace UdlånsWeb.Controllers
             var ItemModel = new List<Item>();
             ItemModel = TestData.GetItems();
 
-            //testing
-            User u = new User();
-            u.Name = "Kage Mand";
-            u.Initials = "KM";
-            u.Email = "kage@testing.dk";
-            u.Admin = false;
-            AddUser(u);
-            //testing
+            ////testing
+            //User u = new User();
+            //u.Name = "Kage Mand";
+            //u.Initials = "KM";
+            //u.Email = "kage@testing.dk";
+            //u.Admin = false;
+            //AddUser(u);
+            ////testing
 
             return View(ItemModel);
         }
@@ -83,6 +84,18 @@ namespace UdlånsWeb.Controllers
         public IActionResult UserPage()
         {
             var UserModel = new List<User>();
+
+            string[] rawUser = FromTxt.StringsFromTxt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\user.txt");
+            foreach (string rUser in rawUser)
+            {
+                string[] splits = rUser.Split(',');
+                User user = new User();
+                user.Name = splits[0];
+                user.Initials = splits[1];
+                user.Email = splits[2];
+                user.Admin = Convert.ToBoolean(splits[3]);
+                UserModel.Add(user);
+            }
             return View(UserModel);
         }
 
