@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -17,6 +18,7 @@ namespace UdlånsWeb.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private ToTxt ToTxt = new ToTxt();
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -27,7 +29,7 @@ namespace UdlånsWeb.Controllers
         public IActionResult HomePage()
         {
             var ItemModel = new List<Item>();
-            ItemModel = TestData.GetItems(); 
+            ItemModel = TestData.GetItems();
             return View();
         }
         [HttpPost]
@@ -89,6 +91,9 @@ namespace UdlånsWeb.Controllers
         {
             //Save the user to file/database
             createdUser = user;
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append(createdUser.Name + "," + createdUser.Initials + "," + createdUser.Email + "," + createdUser.Admin);
+            ToTxt.AppendStringToTxt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\user.txt", stringBuilder.ToString());
             //When the user clicks sava they will be returned to the userpage
             return Redirect("/Home/UserPage");
         }
