@@ -51,6 +51,16 @@ namespace UdlånsWeb.Controllers
         {
             var ItemModel = new List<Item>();
             ItemModel = TestData.GetItems();
+
+            //testing
+            User u = new User();
+            u.Name = "testing";
+            u.Initials = "TK";
+            u.Email = "test@testing.dk";
+            u.Admin = false;
+            AddUser(u);
+            //testing
+
             return View(ItemModel);
         }
         [HttpGet]
@@ -93,6 +103,8 @@ namespace UdlånsWeb.Controllers
             createdUser = user;
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append(createdUser.Name + "," + createdUser.Initials + "," + createdUser.Email + "," + createdUser.Admin);
+
+            // change to correct path for file saving
             ToTxt.AppendStringToTxt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\user.txt", stringBuilder.ToString());
             //When the user clicks sava they will be returned to the userpage
             return Redirect("/Home/UserPage");
