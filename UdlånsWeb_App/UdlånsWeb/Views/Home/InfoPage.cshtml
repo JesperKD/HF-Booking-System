@@ -1,4 +1,4 @@
-﻿@model List<UdlånsWeb.Models.ItemModel>
+﻿@model List<UdlånsWeb.Models.Item>
 @{
     ViewData["Title"] = "InfoPage";
 }
@@ -41,14 +41,16 @@
     }
 </style>
 
-@foreach (var item in Model)
+@for (int i = 0; i < Model.Count; i++)
 {
-    <!-- Collapsible for more information on the host-->
-    <button name="CollapButton" type="button" class="collapsible" value="">@item.HostName</button>
 
+
+
+    <!-- Collapsible for more information on the host-->
+    <button name="CollapButton" type="button" class="collapsible" value="">@Model[i].HostName</button>
     <div class="content">
         <div style="border : solid 2px black">
-            @if (item.Rented == false)
+            @if (Model[i].Rented == false)
             {
                 <button class="RentColorGreen"></button>
             }
@@ -61,33 +63,35 @@
                     Brugernavn:
                 </dt>
                 <dd>
-                    @item.UserName
+                    @Model[i].UserName
                 </dd>
                 <dt>
                     Ip:
                 </dt>
                 <dd>
-                    @item.HostIp<br />
+                    @Model[i].HostIp<br />
                 </dd>
                 <dt>
                     Adgangskode:
                 </dt>
                 <dd>
-                    @item.HostPassword<br />
+                    @Model[i].HostPassword<br />
                 </dd>
                 <dt>
                     VmWare version:
                 </dt>
                 <dd>
-                    @item.VmWareVersion<br />
+                    @Model[i].VmWareVersion<br />
                 </dd>
             </dl>
-            @using (Html.BeginForm("InfoPage", "Home", FormMethod.Post))
-            {
-                @Html.DisplayForModel(item.Rented)
-                <input type="submit" style="" value="Save"/>
-            }
         </div>
+        @using (Html.BeginForm())
+        {
+            @Html.ValidationSummary(true)
+            
+            @Html.EditorForModel() 
+            <input type="submit" value="Lån"/>
+        }
     </div>
 }
 

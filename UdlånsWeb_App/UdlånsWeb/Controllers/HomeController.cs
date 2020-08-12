@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -15,7 +17,6 @@ namespace UdlånsWeb.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private List<item> Items { get; set; } 
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -25,7 +26,8 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult HomePage()
         {
-            Items 
+            var ItemModel = new List<Item>();
+            ItemModel = TestData.GetItems(); 
             return View();
         }
         [HttpPost]
@@ -45,24 +47,22 @@ namespace UdlånsWeb.Controllers
         }
         public IActionResult AdminSite()
         {
-            ItemList itemList = new ItemList();
-            itemList.Items = TestData.GetItems();
-            return View(itemList);
+            var ItemModel = new List<Item>();
+            ItemModel = TestData.GetItems();
+            return View(ItemModel);
         }
         [HttpGet]
         public IActionResult InfoPage()
         {
-            ItemList itemList = new ItemList();
-            itemList.Items = TestData.GetItems();
-            return View(itemList);
+            var ItemModel = new List<Item>();
+            ItemModel = TestData.GetItems();
+            return View(ItemModel);
         }
-        [HttpPost]
-        public IActionResult InfoPage(ItemModel item)
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult InfoPage(Item item)
         {
-            item.Rented = false;
 
-
-            return View();
+            return Redirect("/Home");
         }
 
         //Used to see the users
@@ -70,9 +70,8 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult UserPage()
         {
-            UserList users = new UserList();
-            users.Users = TestData.GetUsers();
-            return View(users);
+            var UserModel = new List<User>();
+            return View(UserModel);
         }
 
         [HttpPost]
@@ -88,6 +87,8 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult AddUser(User user)
         {
+            
+
             //Save the user to file/database
             createdUser = user;
             //When the user clicks sava they will be returned to the userpage
@@ -109,8 +110,6 @@ namespace UdlånsWeb.Controllers
         }
         public IActionResult EditUser(int? id)
         {
-            UserList userList = new UserList();
-            userList.Users = TestData.GetUsers();
             return View();
         }
         #endregion

@@ -9,11 +9,11 @@ namespace UdlånsWeb.DataHandling
 {
     public static class TestData
     {
-        public static List<ItemModel> GetItems()
+        public static List<Item> GetItems()
         {
-            List<ItemModel> items = new List<ItemModel>() {
-                new ItemModel(){HostName = "Host1", HostPassword = "kode1234!", UserName = "root", VmWareVersion = "2.14.1", HostIp = "101.0.0.1", Rented = true},
-                new ItemModel(){HostName = "Host2", HostPassword = "kode1234!", UserName = "root", VmWareVersion = "2.10.0", HostIp = "110.0.0.1", Rented = false }
+            List<Item> items = new List<Item>() {
+                new Item(){HostName = "Host1", HostPassword = "kode1234!", UserName = "root", VmWareVersion = "2.14.1", HostIp = "101.0.0.1", Rented = true},
+                new Item(){HostName = "Host2", HostPassword = "kode1234!", UserName = "root", VmWareVersion = "2.10.0", HostIp = "110.0.0.1", Rented = false }
             };
             return items;
         }

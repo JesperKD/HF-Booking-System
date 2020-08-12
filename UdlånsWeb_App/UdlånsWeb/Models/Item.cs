@@ -8,7 +8,7 @@ using UdlånsWeb.DataHandling;
 
 namespace UdlånsWeb.Models
 {
-    public class ItemModel
+    public class Item
     {
         [DisplayName ("Host Navn")]
         public string HostName { get; set; }
@@ -20,9 +20,8 @@ namespace UdlånsWeb.Models
         public string HostIp { get; set; }
         [DisplayName ("Antal enheder per host")]
         public int NumberOfPeoplePerHost { get; set; }
-        [BindProperty(SupportsGet = true)]
         public bool Rented { get; set; }
-       
-        
+        public int Id { get; set; }
+
     }
 }

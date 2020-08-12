@@ -1,4 +1,4 @@
-﻿@model List<UdlånsWeb.Models.ItemModel>
+﻿@model List<UdlånsWeb.Models.Item>
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewData["Title"] = "AdminSite";
@@ -31,7 +31,7 @@
     }
 </style>
 
-@foreach (var item in Model.Items)
+@foreach (var item in Model)
 {
     <!-- Collapsible for more information on the host-->
     <button name="CollapButton" type="button" class="collapsible" value="">@item.HostName <div style="background-color: forestgreen; width:20px; height:20px;"></div></button>
