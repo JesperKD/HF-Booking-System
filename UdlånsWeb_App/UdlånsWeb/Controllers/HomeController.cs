@@ -89,14 +89,15 @@ namespace UdlånsWeb.Controllers
 
             for (int i = 0; i < rawUser.Length; i++)
             {
+                string[] userData = rawUser[i].Split(',');
                 User user = new User();
-                user.Name = rawUser[i];
-                i++;
-                user.Initials = rawUser[i];
-                i++;
-                user.Email = rawUser[i];
-                i++;
-                user.Admin = Convert.ToBoolean(rawUser[i]);
+                user.Name = userData[0];
+
+                user.Initials = userData[1];
+
+                user.Email = userData[2];
+
+                user.Admin = Convert.ToBoolean(userData[3]);
                 UserModel.Users.Add(user);
             }
 
@@ -145,7 +146,7 @@ namespace UdlånsWeb.Controllers
             return View(SelectedUserForEdit);
         }
         [HttpPost]
-        public IActionResult EditUser(int? id)
+        public IActionResult EditUser(User user)
         {
             //Logic for Edit User
 
