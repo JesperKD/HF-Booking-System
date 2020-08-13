@@ -1,0 +1,99 @@
+﻿@model ItemViewModel
+@{
+    ViewData["Title"] = "InfoPage";
+}
+<style>
+    .collapsible {
+        background-color: #eee;
+        color: #444;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+    }
+
+        .active, .collapsible:hover {
+            background-color: #ccc;
+        }
+
+    .content {
+        padding: 0 18px;
+        display: none;
+        overflow: hidden;
+        background-color: #f1f1f1;
+    }
+
+    .RentColorGreen {
+        background-color: forestgreen;
+        width: 20px;
+        height: 20px;
+        border-radius: 20px 20px;
+    }
+
+    .RentColorRed {
+        background-color: red;
+        width: 20px;
+        height: 20px;
+        border-radius: 20px 20px;
+    }
+</style>
+
+@for (int i = 0; i < Model.Items.Count; i++)
+{
+
+
+
+    <!-- Collapsible for more information on the host-->
+    <button name="CollapButton" type="button" class="collapsible" value="">@Model.Items[i].HostName</button>
+    <div class="content">
+        <div style="border : solid 2px black">
+            @if (Model.Items[i].Rented == false)
+            {
+                <button class="RentColorGreen"></button>
+            }
+            else
+            {
+                <button class="RentColorRed"></button>
+            }
+            <dl>
+                <dt>
+                    Brugernavn:
+                </dt>
+                <dd>
+                    @Model.Items[i].UserName
+                </dd>
+                <dt>
+                    Ip:
+                </dt>
+                <dd>
+                    @Model.Items[i].HostIp<br />
+                </dd>
+                <dt>
+                    Adgangskode:
+                </dt>
+                <dd>
+                    @Model.Items[i].HostPassword<br />
+                </dd>
+                <dt>
+                    VmWare version:
+                </dt>
+                <dd>
+                    @Model.Items[i].VmWareVersion<br />
+                </dd>
+            </dl>
+        </div>
+        @using (Html.BeginForm())
+        {
+            @Html.ValidationSummary(true)
+            
+            <p hidden>@Html.EditorFor(m => m.Items)</p>
+            <input asp-for="Id" type="number" value="@i" hidden/>
+            
+            <input type="submit" value="Lån"/>
+        }
+    </div>
+}
+

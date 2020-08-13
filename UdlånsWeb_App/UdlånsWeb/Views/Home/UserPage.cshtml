@@ -1,0 +1,34 @@
+﻿@model UserViewModel
+@{
+    ViewData["Title"] = "UserPage";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@for (int i = 0; i < Model.Users.Count; i++)
+{
+    <div style="border-bottom:solid 2px black;">
+        <dl>
+            <dt>
+                Navn:
+            </dt>
+            <dd>
+                @Model.Users[i].Name
+                <br />
+                @using (Html.BeginForm())
+                {
+                    @Html.ValidationSummary(true)
+                    <input asp-for="Id" type="number" value="@i" hidden />
+
+                    <p hidden>@Html.EditorFor(m => m.Users)</p>
+                    <input class="submitButton" type="submit" value="Rediger" />
+                }
+            </dd>
+        </dl>
+
+    </div>
+    <br />
+}
+
+
+
+
+
