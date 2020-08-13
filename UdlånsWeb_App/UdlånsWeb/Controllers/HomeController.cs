@@ -83,26 +83,11 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult UserPage()
         {
-            var UserModel = new UserViewModel();
+            var userModel = new UserViewModel();
 
             string[] rawUser = FromTxt.StringsFromTxt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\user.txt");
-
-            for (int i = 0; i < rawUser.Length; i++)
-            {
-                string[] userData = rawUser[i].Split(',');
-                User user = new User();
-                user.Name = userData[0];
-
-                user.Initials = userData[1];
-
-                user.Email = userData[2];
-
-                user.Admin = Convert.ToBoolean(userData[3]);
-                UserModel.Users.Add(user);
-            }
-
-
-            return View(UserModel);
+            userModel.Users = ConvertData.ConverDataToUser(rawUser);
+            return View(userModel);
         }
         public static User SelectedUserForEdit { get; set; }
         [HttpPost]
