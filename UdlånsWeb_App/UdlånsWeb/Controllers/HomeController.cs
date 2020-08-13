@@ -83,43 +83,45 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult UserPage()
         {
-            var UserModel = new List<User>();
+            var UserModel = new UserViewModel();
 
-
-            //rewrite to handle decryption
             string[] rawUser = FromTxt.StringsFromTxt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\user.txt");
-            foreach (string rUser in rawUser)
+
+            for (int i = 0; i < rawUser.Length; i++)
             {
-                string[] splits = rUser.Split(',');
                 User user = new User();
-                user.Name = splits[0];
-                user.Initials = splits[1];
-                user.Email = splits[2];
-                user.Admin = Convert.ToBoolean(splits[3]);
-                UserModel.Add(user);
+                user.Name = rawUser[i];
+                i++;
+                user.Initials = rawUser[i];
+                i++;
+                user.Email = rawUser[i];
+                i++;
+                user.Admin = Convert.ToBoolean(rawUser[i]);
+                UserModel.Users.Add(user);
             }
+
+
             return View(UserModel);
         }
-
+        public static User SelectedUserForEdit { get; set; }
         [HttpPost]
-        public IActionResult UserPage(User user)
+        public IActionResult UserPage(UserViewModel user, int id)
         {
-            return View();
+            SelectedUserForEdit = user.Users[id];
+            return Redirect("EditUser");
         }
         #endregion
 
         //This is for adding users
         #region UserControl
-        private User createdUser;
+
         [HttpPost]
         public IActionResult AddUser(User user)
         {
             //Save the user to file/database
 
-            // rewrite to handle encryption
-            createdUser = user;
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append(createdUser.Name + "," + createdUser.Initials + "," + createdUser.Email + "," + createdUser.Admin);
+            stringBuilder.Append(user.Name + "," + user.Initials + "," + user.Email + "," + user.Admin);
 
             // change to correct path for file saving
             ToTxt.AppendStringToTxt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\user.txt", stringBuilder.ToString() + Environment.NewLine);
@@ -136,13 +138,19 @@ namespace UdlånsWeb.Controllers
         #endregion
 
         #region Edit User
-        public IActionResult EditUser()
+
+        [HttpGet]
+        public IActionResult EditUser(UserViewModel userList, int id)
         {
-            return View();
+            return View(SelectedUserForEdit);
         }
+        [HttpPost]
         public IActionResult EditUser(int? id)
         {
-            return View();
+            //Logic for Edit User
+
+
+            return Redirect("UserPage");
         }
         #endregion
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

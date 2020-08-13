@@ -19,7 +19,7 @@ namespace UdlånsWeb
             try
             {
                 string[] result = File.ReadAllLines(path);
-                return result;
+                return result[0].Split(',');
             }
             catch (Exception e)
             {
