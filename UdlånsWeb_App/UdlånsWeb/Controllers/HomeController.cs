@@ -85,6 +85,8 @@ namespace UdlånsWeb.Controllers
         {
             var UserModel = new List<User>();
 
+
+            //rewrite to handle decryption
             string[] rawUser = FromTxt.StringsFromTxt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\user.txt");
             foreach (string rUser in rawUser)
             {
@@ -113,6 +115,8 @@ namespace UdlånsWeb.Controllers
         public IActionResult AddUser(User user)
         {
             //Save the user to file/database
+
+            // rewrite to handle encryption
             createdUser = user;
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append(createdUser.Name + "," + createdUser.Initials + "," + createdUser.Email + "," + createdUser.Admin);
