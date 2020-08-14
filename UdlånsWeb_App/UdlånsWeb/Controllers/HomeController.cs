@@ -198,6 +198,12 @@ namespace UdlånsWeb.Controllers
             return Redirect("UserPage");
         }
         #endregion
+        #region Delete User
+        public IActionResult DeleteUser()
+        {
+            return View();
+        }
+        #endregion
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
