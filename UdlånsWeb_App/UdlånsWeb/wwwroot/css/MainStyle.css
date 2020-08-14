@@ -1,0 +1,35 @@
+﻿.collapsible {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+}
+
+    .active, .collapsible:hover {
+        background-color: #ccc;
+    }
+
+.content {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: #f1f1f1;
+}
+.RentColorGreen {
+    background-color: forestgreen;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px 20px;
+}
+
+.RentColorRed {
+    background-color: red;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px 20px;
+}

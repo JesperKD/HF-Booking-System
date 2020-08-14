@@ -89,7 +89,10 @@ namespace UdlånsWeb.Controllers
             userModel.Users = ConvertData.ConverDataToUser(rawUser);
             return View(userModel);
         }
+        
+        //Need to find a way around this
         public static User SelectedUserForEdit { get; set; }
+        
         [HttpPost]
         public IActionResult UserPage(UserViewModel user, int id)
         {
