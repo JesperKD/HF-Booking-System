@@ -199,10 +199,18 @@ namespace UdlånsWeb.Controllers
         }
         #endregion
         #region Delete User
+        [HttpGet]
         public IActionResult DeleteUser()
         {
             return View();
         }
+        [HttpPost]
+        public IActionResult DeleteUser(UserViewModel user, int id)
+        {
+            SelectedUserForEdit = user.Users[id];
+            return View(SelectedUserForEdit);
+        }
+
         #endregion
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
