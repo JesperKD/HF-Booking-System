@@ -200,15 +200,19 @@ namespace UdlånsWeb.Controllers
         #endregion
         #region Delete User
         [HttpGet]
-        public IActionResult DeleteUser()
-        {
-            return View();
-        }
-        [HttpPost]
         public IActionResult DeleteUser(UserViewModel user, int id)
         {
+            //Sends the right user to the delete view
             SelectedUserForEdit = user.Users[id];
             return View(SelectedUserForEdit);
+        }
+        [HttpPost]
+        public IActionResult DeleteUser(User user)
+        {
+            // Code input user that has to be deleted 
+
+
+            return Redirect("UserPage");
         }
 
         #endregion

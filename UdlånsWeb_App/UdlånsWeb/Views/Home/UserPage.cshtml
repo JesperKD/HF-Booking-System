@@ -21,7 +21,7 @@
                     <p hidden>@Html.EditorFor(m => m.Users)</p>
                     <input class="submitButton" type="submit" value="Rediger" />
                 }
-                @using (Html.BeginForm("DeleteUser", "Home", FormMethod.Post))
+                @using (Html.BeginForm("DeleteUser", "Home", FormMethod.Get))
                 {
                     @Html.ValidationSummary(true)
                     <input asp-for="Id" type="number" value="@i" hidden/>
