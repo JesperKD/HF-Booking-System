@@ -52,17 +52,6 @@ namespace UdlånsWeb.Controllers
         {
             var ItemModel = new List<Item>();
             ItemModel = TestData.GetItems();
-
-            ////testing
-            //User u = new User();
-            //u.Name = "Kage Mand";
-            //u.Initials = "KM";
-            //u.Email = "kage@testing.dk";
-            //u.Admin = false;
-            //u.Id = 1;
-            //AddUser(u);
-            ////testing
-
             return View(ItemModel);
         }
         [HttpGet]
@@ -104,10 +93,10 @@ namespace UdlånsWeb.Controllers
 
             return View(userModel);
         }
-        
+
         //Need to find a way around this
         public static User SelectedUserForEdit { get; set; }
-        
+
         [HttpPost]
         public IActionResult UserPage(UserViewModel user, int id)
         {
@@ -211,6 +200,40 @@ namespace UdlånsWeb.Controllers
         {
             // Code input user that has to be deleted 
 
+            var userModel = new UserViewModel();
+
+            // gets all users from file
+            string[] rawUser = FromTxt.StringsFromTxt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\user.txt");
+
+            foreach (string userLine in rawUser)
+            {
+                string[] userData = userLine.Split(',');
+                Models.User oUser = new User();
+                oUser.Name = userData[0];
+                oUser.Initials = userData[1];
+                oUser.Email = userData[2];
+                oUser.Admin = Convert.ToBoolean(userData[3]);
+                oUser.Id = int.Parse(userData[4]);
+                userModel.Users.Add(oUser);
+            }
+
+            // finds the old user and removes it
+            User removeUser = userModel.Users.Where(x => x.Name == user.Name && x.Initials == user.Initials && x.Email == user.Email).First();
+            userModel.Users.Remove(removeUser);
+
+            // creates correct user string
+            List<string> usersTosave = new List<string>();
+
+            foreach (User Item in userModel.Users)
+            {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.Append(Item.Name + "," + Item.Initials + "," + Item.Email + "," + Item.Admin + "," + Item.Id);
+
+                usersTosave.Add(stringBuilder.ToString());
+                // change to correct path for file saving
+            }
+            // overrides file with new strings
+            ToTxt.StringsToTxt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\user.txt", usersTosave.ToArray());
 
             return Redirect("UserPage");
         }
