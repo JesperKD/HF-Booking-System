@@ -89,6 +89,7 @@ namespace UdlånsWeb.Controllers
             // rewrite to handle decryption
             string[] rawUser = FromTxt.StringsFromTxt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\user.txt");
 
+            // splits the raw user string and creates users
             foreach (string userLine in rawUser)
             {
                 string[] userData = userLine.Split(',');
