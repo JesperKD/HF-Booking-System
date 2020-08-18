@@ -20,6 +20,7 @@ namespace UdlånsWeb.Controllers
         private readonly ILogger<HomeController> _logger;
         private ToTxt ToTxt = new ToTxt();
         private FromTxt FromTxt = new FromTxt();
+        private ConvertData ConvertData = new ConvertData();
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -73,23 +74,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult UserPage()
         {
-            var userModel = new UserViewModel();
-
-            // rewrite to handle decryption
-            string[] rawUser = FromTxt.StringsFromTxt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\user.txt");
-
-            // splits the raw user string and creates users
-            foreach (string userLine in rawUser)
-            {
-                string[] userData = userLine.Split(',');
-                Models.User user = new User();
-                user.Name = userData[0];
-                user.Initials = userData[1];
-                user.Email = userData[2];
-                user.Admin = Convert.ToBoolean(userData[3]);
-                user.Id = int.Parse(userData[4]);
-                userModel.Users.Add(user);
-            }
+            UserViewModel userModel = ConvertData.GetUsers();
 
             return View(userModel);
         }
@@ -111,15 +96,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult AddUser(User user)
         {
-            //Save the user to file/database
-
-            // rewrite to handle encryption
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append(user.Name + "," + user.Initials + "," + user.Email + "," + user.Admin + "," + user.Id);
-
-            // change to correct path for file saving
-            ToTxt.AppendStringToTxt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\user.txt", stringBuilder.ToString() + Environment.NewLine);
-            //When the user clicks sava they will be returned to the userpage
+            ConvertData.AddUser(user);
             return Redirect("/Home/UserPage");
         }
 
@@ -141,49 +118,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult EditUser(User user)
         {
-            //Logic for Edit User
-
-            var userModelOld = new UserViewModel();
-
-            // gets all users from file
-            string[] rawUser = FromTxt.StringsFromTxt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\user.txt");
-
-            foreach (string userLine in rawUser)
-            {
-                string[] userData = userLine.Split(',');
-                Models.User oUser = new User();
-                oUser.Name = userData[0];
-                oUser.Initials = userData[1];
-                oUser.Email = userData[2];
-                oUser.Admin = Convert.ToBoolean(userData[3]);
-                oUser.Id = int.Parse(userData[4]);
-                userModelOld.Users.Add(oUser);
-            }
-
-            // finds the old user and removes it
-            User OldUser = userModelOld.Users.Where(x => x.Id == user.Id).FirstOrDefault();
-            userModelOld.Users.Remove(OldUser);
-
-            // creates new list from old, and inserts edited user at index Id
-            UserViewModel userModelNew = new UserViewModel();
-            userModelNew = userModelOld;
-            userModelNew.Users.Insert(user.Id, user);
-
-            // creates correct user string
-            List<string> usersTosave = new List<string>();
-
-            // makes each user into a new string
-            foreach (User Item in userModelNew.Users)
-            {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(Item.Name + "," + Item.Initials + "," + Item.Email + "," + Item.Admin + "," + Item.Id);
-
-                usersTosave.Add(stringBuilder.ToString());
-                // change to correct path for file saving
-            }
-            // overrides file with new strings
-            ToTxt.StringsToTxt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\user.txt", usersTosave.ToArray());
-
+            ConvertData.EditUser(user);
             return Redirect("UserPage");
         }
         #endregion
@@ -198,43 +133,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult DeleteUser(User user)
         {
-            // Code input user that has to be deleted 
-
-            var userModel = new UserViewModel();
-
-            // gets all users from file
-            string[] rawUser = FromTxt.StringsFromTxt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\user.txt");
-
-            foreach (string userLine in rawUser)
-            {
-                string[] userData = userLine.Split(',');
-                Models.User oUser = new User();
-                oUser.Name = userData[0];
-                oUser.Initials = userData[1];
-                oUser.Email = userData[2];
-                oUser.Admin = Convert.ToBoolean(userData[3]);
-                oUser.Id = int.Parse(userData[4]);
-                userModel.Users.Add(oUser);
-            }
-
-            // finds the old user and removes it
-            User removeUser = userModel.Users.Where(x => x.Name == user.Name && x.Initials == user.Initials && x.Email == user.Email).First();
-            userModel.Users.Remove(removeUser);
-
-            // creates correct user string
-            List<string> usersTosave = new List<string>();
-
-            foreach (User Item in userModel.Users)
-            {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(Item.Name + "," + Item.Initials + "," + Item.Email + "," + Item.Admin + "," + Item.Id);
-
-                usersTosave.Add(stringBuilder.ToString());
-                // change to correct path for file saving
-            }
-            // overrides file with new strings
-            ToTxt.StringsToTxt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\user.txt", usersTosave.ToArray());
-
+            ConvertData.DeleteUser(user);
             return Redirect("UserPage");
         }
 
