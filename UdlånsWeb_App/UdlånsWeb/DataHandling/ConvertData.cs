@@ -28,7 +28,7 @@ namespace UdlånsWeb.DataHandling
             // change to correct path for file saving
             ToTxt.AppendStringToTxt(FILE_PATH + FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5) + Environment.NewLine);
         }
-        
+
         public UserViewModel GetUsers()
         {
             try
@@ -114,22 +114,29 @@ namespace UdlånsWeb.DataHandling
             // Code input user that has to be deleted 
 
             var userModel = new UserViewModel();
-
-            // gets all users from file
-            string[] rawUser = FromTxt.StringsFromTxt(FILE_PATH + FILE_NAME);
-
-            foreach (string userLine in rawUser)
+            try
             {
-                Decrypt = new Decrypt();
-                string raw = Decrypt.DecryptString(userLine, "SkPRingsted", 5);
-                string[] userData = raw.Split(',');
-                Models.User oUser = new User();
-                oUser.Name = userData[0];
-                oUser.Initials = userData[1];
-                oUser.Email = userData[2];
-                oUser.Admin = Convert.ToBoolean(userData[3]);
-                oUser.Id = int.Parse(userData[4]);
-                userModel.Users.Add(oUser);
+                // gets all users from file
+                string[] rawUser = FromTxt.StringsFromTxt(FILE_PATH + FILE_NAME);
+
+                foreach (string userLine in rawUser)
+                {
+                    Decrypt = new Decrypt();
+                    string raw = Decrypt.DecryptString(userLine, "SkPRingsted", 5);
+                    string[] userData = raw.Split(',');
+                    Models.User oUser = new User();
+                    oUser.Name = userData[0];
+                    oUser.Initials = userData[1];
+                    oUser.Email = userData[2];
+                    oUser.Admin = Convert.ToBoolean(userData[3]);
+                    oUser.Id = int.Parse(userData[4]);
+                    userModel.Users.Add(oUser);
+                }
+
+            }
+            catch (Exception)
+            {
+
             }
 
             // finds the old user and removes it
