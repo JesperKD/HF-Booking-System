@@ -14,8 +14,8 @@ namespace UdlånsWeb.DataHandling
         FromTxt FromTxt = new FromTxt();
         Encrypt Encrypt;
         Decrypt Decrypt;
-        string fileName { get; set; } = "\\user.txt";
-        string path { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        const string FILE_NAME = "\\user.txt";
+        const string FILE_PATH = "C:\\TestSite";
         public void AddUser(User user)
         {
             Encrypt = new Encrypt();
@@ -26,42 +26,38 @@ namespace UdlånsWeb.DataHandling
             stringBuilder.Append(user.Name + "," + user.Initials + "," + user.Email + "," + user.Admin + "," + 0);
 
             // change to correct path for file saving
-            ToTxt.AppendStringToTxt(path + fileName, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5) + Environment.NewLine);
+            ToTxt.AppendStringToTxt(FILE_PATH + FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5) + Environment.NewLine);
         }
-        string[] rawUser { get; set; } = new string[1];
-
+        
         public UserViewModel GetUsers()
         {
-            var userModel = new UserViewModel();
             try
             {
-                // rewrite to handle decryption
-                rawUser = FromTxt.StringsFromTxt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\user.txt");
-                Console.WriteLine(rawUser.Length);
+                var userModel = new UserViewModel();
 
+                // rewrite to handle decryption
+                string[] rawUser = FromTxt.StringsFromTxt(FILE_PATH + FILE_NAME);
+
+                foreach (string line in rawUser)
+                {
+                    Decrypt = new Decrypt();
+                    string raw = Decrypt.DecryptString(line, "SkPRingsted", 5);
+                    string[] userData = raw.Split(',');
+                    User user = new User();
+                    user.Name = userData[0];
+                    user.Initials = userData[1];
+                    user.Email = userData[2];
+                    user.Admin = Convert.ToBoolean(userData[3]);
+                    user.Id = int.Parse(userData[4]);
+                    userModel.Users.Add(user);
+
+                }
+                return userModel;
             }
             catch (Exception)
             {
-                Console.WriteLine(rawUser.Length);
+                return null;
             }
-
-            if (string.IsNullOrEmpty(rawUser[0])) return userModel;
-
-            foreach (string line in rawUser)
-            {
-
-                Decrypt = new Decrypt();
-                string raw = Decrypt.DecryptString(line, "SkPRingsted", 5);
-                string[] userData = raw.Split(',');
-                User user = new User();
-                user.Name = userData[0];
-                user.Initials = userData[1];
-                user.Email = userData[2];
-                user.Admin = Convert.ToBoolean(userData[3]);
-                user.Id = int.Parse(userData[4]);
-                userModel.Users.Add(user);
-            }
-            return userModel;
         }
 
         public void EditUser(User user)
@@ -71,7 +67,7 @@ namespace UdlånsWeb.DataHandling
             var userModelOld = new UserViewModel();
 
             // gets all users from file
-            string[] rawUser = FromTxt.StringsFromTxt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\user.txt");
+            string[] rawUser = FromTxt.StringsFromTxt(FILE_PATH + FILE_NAME);
 
             foreach (string userLine in rawUser)
             {
@@ -110,7 +106,7 @@ namespace UdlånsWeb.DataHandling
                 // change to correct path for file saving
             }
             // overrides file with new strings
-            ToTxt.StringsToTxt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\user.txt", usersTosave.ToArray());
+            ToTxt.StringsToTxt(FILE_PATH + FILE_NAME, usersTosave.ToArray());
         }
 
         public void DeleteUser(User user)
@@ -120,7 +116,7 @@ namespace UdlånsWeb.DataHandling
             var userModel = new UserViewModel();
 
             // gets all users from file
-            string[] rawUser = FromTxt.StringsFromTxt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\user.txt");
+            string[] rawUser = FromTxt.StringsFromTxt(FILE_PATH + FILE_NAME);
 
             foreach (string userLine in rawUser)
             {
@@ -152,7 +148,7 @@ namespace UdlånsWeb.DataHandling
                 // change to correct path for file saving
             }
             // overrides file with new strings
-            ToTxt.StringsToTxt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\user.txt", usersTosave.ToArray());
+            ToTxt.StringsToTxt(FILE_PATH + FILE_NAME, usersTosave.ToArray());
         }
     }
 }

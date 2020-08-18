@@ -49,18 +49,16 @@ namespace UdlånsWeb.Controllers
 
         public IActionResult Privacy()
         {
-            //Test fremvisning af filepath på privacy page (slet efter test)
-            ViewData["filepath"] = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-
-
             return View();
         }
+
         public IActionResult AdminSite()
         {
             var ItemModel = new List<Item>();
             ItemModel = TestData.GetItems();
             return View(ItemModel);
         }
+
         [HttpGet]
         public IActionResult InfoPage()
         {
@@ -68,6 +66,7 @@ namespace UdlånsWeb.Controllers
             model.Items = TestData.GetItems();
             return View(model);
         }
+
         [HttpPost]
         public IActionResult InfoPage(ItemViewModel item, int? id)
         {
@@ -80,7 +79,11 @@ namespace UdlånsWeb.Controllers
         public IActionResult UserPage()
         {
             UserViewModel userModel = ConvertData.GetUsers();
-            if (userModel.Users.Count() == 0) return NotFound(StatusCodes.Status404NotFound);
+            if (userModel == null)
+            {
+                userModel = new UserViewModel();
+            }
+
             return View(userModel);
         }
 
