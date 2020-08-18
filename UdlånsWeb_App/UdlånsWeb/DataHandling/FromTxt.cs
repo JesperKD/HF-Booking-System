@@ -16,15 +16,17 @@ namespace UdlånsWeb
         /// <returns></returns>
         public string[] StringsFromTxt(string path)
         {
+            string[] result = new string[1];
             try
             {
-                string[] result = File.ReadAllLines(path);
+                result = File.ReadAllLines(path);
                 return result;
             }
             catch (Exception e)
             {
-                return null;
+                result[0] = null;
             }
+            return result;
         }
     }
 }

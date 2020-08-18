@@ -54,6 +54,8 @@ namespace UdlånsWeb
 
         public string DecryptString(string input, string password, int itterations)
         {
+            if (string.IsNullOrEmpty(input)) return "";
+
             // derived bytes to make key and vector
             Rfc2898DeriveBytes rfc = new Rfc2898DeriveBytes(password, salt, itterations);
 

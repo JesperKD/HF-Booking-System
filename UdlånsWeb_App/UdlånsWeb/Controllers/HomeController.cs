@@ -5,9 +5,11 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures.Buffers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using UdlånsWeb.DataHandling;
@@ -47,6 +49,10 @@ namespace UdlånsWeb.Controllers
 
         public IActionResult Privacy()
         {
+            //Test fremvisning af filepath på privacy page (slet efter test)
+            ViewData["filepath"] = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+
             return View();
         }
         public IActionResult AdminSite()
@@ -65,7 +71,6 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult InfoPage(ItemViewModel item, int? id)
         {
-
             return Redirect("/Home");
         }
 
@@ -75,7 +80,7 @@ namespace UdlånsWeb.Controllers
         public IActionResult UserPage()
         {
             UserViewModel userModel = ConvertData.GetUsers();
-
+            if (userModel.Users.Count() == 0) return NotFound(StatusCodes.Status404NotFound);
             return View(userModel);
         }
 

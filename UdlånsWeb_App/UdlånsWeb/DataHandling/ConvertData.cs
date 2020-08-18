@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,8 @@ namespace UdlånsWeb.DataHandling
         FromTxt FromTxt = new FromTxt();
         Encrypt Encrypt;
         Decrypt Decrypt;
+        string fileName { get; set; } = "\\user.txt";
+        string path { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         public void AddUser(User user)
         {
             Encrypt = new Encrypt();
@@ -23,18 +26,30 @@ namespace UdlånsWeb.DataHandling
             stringBuilder.Append(user.Name + "," + user.Initials + "," + user.Email + "," + user.Admin + "," + 0);
 
             // change to correct path for file saving
-            ToTxt.AppendStringToTxt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\user.txt", Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5) + Environment.NewLine);
+            ToTxt.AppendStringToTxt(path + fileName, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5) + Environment.NewLine);
         }
+        string[] rawUser { get; set; } = new string[1];
 
         public UserViewModel GetUsers()
         {
             var userModel = new UserViewModel();
+            try
+            {
+                // rewrite to handle decryption
+                rawUser = FromTxt.StringsFromTxt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\user.txt");
+                Console.WriteLine(rawUser.Length);
 
-            // rewrite to handle decryption
-            string[] rawUser = FromTxt.StringsFromTxt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\user.txt");
+            }
+            catch (Exception)
+            {
+                Console.WriteLine(rawUser.Length);
+            }
+
+            if (string.IsNullOrEmpty(rawUser[0])) return userModel;
 
             foreach (string line in rawUser)
             {
+
                 Decrypt = new Decrypt();
                 string raw = Decrypt.DecryptString(line, "SkPRingsted", 5);
                 string[] userData = raw.Split(',');
