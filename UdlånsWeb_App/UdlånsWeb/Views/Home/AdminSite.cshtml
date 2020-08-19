@@ -48,7 +48,27 @@
                     @Model.Items[i].VmWareVersion<br />
                 </dd>
             </dl>
-            <button type="submit">Rediger</button>
+            
+            <ul style="display: inline-block; list-style-type:none;">
+                <li style="margin-left: 10px; display: inline-block; list-style-type: none;">
+                    @using (Html.BeginForm("EditItem", "Home", FormMethod.Get))
+                    {
+                        @Html.ValidationSummary(true)
+                        <input asp-for="Id" type="number" value="@i" hidden/>
+                        <p hidden>@Html.EditorFor(m => m.Items)</p>
+                        <button type="submit">Rediger</button>
+                    }
+
+                </li>
+                <li style="margin-left: 10px; display: inline-block; list-style-type: none;">
+                    @using (Html.BeginForm("DeleteItem", "Home", FormMethod.Get))
+                    {
+                        <button type="submit">Fjern</button>
+                        <p hidden>@Html.EditorFor(m => m.Items)</p>
+                    }
+
+                </li>
+            </ul>
         </div>
     </div>
 }

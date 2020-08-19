@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Buffers;
+using Microsoft.AspNetCore.Razor.Language.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using UdlånsWeb.DataHandling;
@@ -23,12 +24,14 @@ namespace UdlånsWeb.Controllers
         private ToTxt ToTxt = new ToTxt();
         private FromTxt FromTxt = new FromTxt();
         private ConvertData ConvertData = new ConvertData();
+        private static User SelectedUser{ get; set; }
+        private static Item SelectedItem { get; set; }
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
 
-        #region HomePage
+        #region HomePage - Login page
         [HttpGet]
         public IActionResult HomePage()
         {
@@ -36,10 +39,11 @@ namespace UdlånsWeb.Controllers
             ItemModel = TestData.GetItems();
             return View();
         }
+        
         [HttpPost]
         public IActionResult HomePage(string initials)
         {
-            //Add logic for login 
+            //Add logic for login
 
 
             //Redirect to InfoPage
@@ -47,11 +51,13 @@ namespace UdlånsWeb.Controllers
         }
         #endregion
 
+
         public IActionResult Privacy()
         {
             return View();
         }
-
+        //All pages with a itemview
+        #region Item Pages
         public IActionResult AdminSite()
         {
             var ItemModel = new ItemViewModel();
@@ -73,7 +79,48 @@ namespace UdlånsWeb.Controllers
             return Redirect("/Home");
         }
 
-        //Used to see the users
+        [HttpGet]
+        public IActionResult AddItem()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddItem(Item item)
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult EditItem(ItemViewModel item, int id)
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public IActionResult EditItem()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult DeleteItem(ItemViewModel item, int id)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult DeleteItem(Item item)
+        {
+            return View();
+        }
+        #endregion
+
+
+        //Overview over all user pages
+        #region User Pages
+
         #region UserPage
         [HttpGet]
         public IActionResult UserPage()
@@ -88,12 +135,10 @@ namespace UdlånsWeb.Controllers
         }
 
         //Need to find a way around this
-        public static User SelectedUserForEdit { get; set; }
-
         [HttpPost]
         public IActionResult UserPage(UserViewModel user, int id)
         {
-            SelectedUserForEdit = user.Users[id];
+            SelectedUser = user.Users[id];
             return Redirect("EditUser");
         }
         #endregion
@@ -121,7 +166,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult EditUser(UserViewModel userList, int id)
         {
-            return View(SelectedUserForEdit);
+            return View(SelectedUser);
         }
         [HttpPost]
         public IActionResult EditUser(User user)
@@ -130,13 +175,14 @@ namespace UdlånsWeb.Controllers
             return Redirect("UserPage");
         }
         #endregion
+
         #region Delete User
         [HttpGet]
         public IActionResult DeleteUser(UserViewModel user, int id)
         {
             //Sends the right user to the delete view
-            SelectedUserForEdit = user.Users[id];
-            return View(SelectedUserForEdit);
+            SelectedUser = user.Users[id];
+            return View(SelectedUser);
         }
         [HttpPost]
         public IActionResult DeleteUser(User user)
@@ -146,6 +192,10 @@ namespace UdlånsWeb.Controllers
         }
 
         #endregion
+        #endregion
+
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
