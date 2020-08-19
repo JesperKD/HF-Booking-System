@@ -151,6 +151,7 @@ namespace UdlånsWeb.DataHandling
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.Append(Item.Name + "," + Item.Initials + "," + Item.Email + "," + Item.Admin + "," + Item.Id);
 
+                Encrypt = new Encrypt();
                 usersTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
                 // change to correct path for file saving
             }
