@@ -54,8 +54,8 @@ namespace UdlånsWeb.Controllers
 
         public IActionResult AdminSite()
         {
-            var ItemModel = new List<Item>();
-            ItemModel = TestData.GetItems();
+            var ItemModel = new ItemViewModel();
+            ItemModel.Items = TestData.GetItems();
             return View(ItemModel);
         }
 

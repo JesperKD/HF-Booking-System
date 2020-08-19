@@ -1,4 +1,4 @@
-﻿@model List<UdlånsWeb.Models.Item>
+﻿@model ItemViewModel
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewData["Title"] = "AdminSite";
@@ -7,40 +7,52 @@
 
 
 
-@foreach (var item in Model)
+@for (int i = 0; i < Model.Items.Count; i++)
 {
     <!-- Collapsible for more information on the host-->
-    <button name="CollapButton" type="button" class="collapsible" value="">@item.HostName <div style="background-color: forestgreen; width:20px; height:20px;"></div></button>
+
+    <button name="CollapButton" type="button" class="collapsible" value="">@Model.Items[i].HostName</button>
     <div class="content">
         <div class="container-fluid" style="border : solid 2px black;">
+            @if (Model.Items[i].Rented == false)
+            {
+                <button class="RentColorGreen"></button>
+            }
+            else
+            {
+                <button class="RentColorRed"></button>
+            }
             <dl style="margin: 0px 10px 0px 0px;">
                 <dt>
                     Brugernavn:
                 </dt>
                 <dd>
-                    @item.UserName
+                    @Model.Items[i].UserName
                 </dd>
                 <dt>
                     Ip:
                 </dt>
                 <dd>
-                    @item.HostIp<br />
+                    @Model.Items[i].HostIp<br />
                 </dd>
                 <dt>
                     Adgangskode:
                 </dt>
                 <dd>
-                    @item.HostPassword<br />
+                    @Model.Items[i].HostPassword<br />
                 </dd>
                 <dt>
                     VmWare version:
                 </dt>
                 <dd>
-                    @item.VmWareVersion<br />
+                    @Model.Items[i].VmWareVersion<br />
                 </dd>
             </dl>
             <button type="submit">Rediger</button>
         </div>
     </div>
 }
+
+
+
 
