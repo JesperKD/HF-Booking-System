@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace UdlånsWeb
 {
-    class Decrypt
+    public class Decrypt
     {
         // salt byte array
         byte[] salt = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 };
@@ -54,6 +54,8 @@ namespace UdlånsWeb
 
         public string DecryptString(string input, string password, int itterations)
         {
+            if (string.IsNullOrEmpty(input)) return "";
+
             // derived bytes to make key and vector
             Rfc2898DeriveBytes rfc = new Rfc2898DeriveBytes(password, salt, itterations);
 
