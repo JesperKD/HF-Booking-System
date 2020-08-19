@@ -60,6 +60,40 @@ namespace UdlånsWeb.DataHandling
             }
         }
 
+        public User GetCurrentUser(string initials)
+        {
+            User currentUser = new User();
+
+            try
+            {
+                var userModel = new UserViewModel();
+                string[] rawUser = FromTxt.StringsFromTxt(FILE_PATH + FILE_NAME);
+
+                foreach (string line in rawUser)
+                {
+                    Decrypt = new Decrypt();
+                    string raw = Decrypt.DecryptString(line, "SkPRingsted", 5);
+                    string[] userData = raw.Split(',');
+                    User user = new User();
+                    user.Name = userData[0];
+                    user.Initials = userData[1];
+                    user.Email = userData[2];
+                    user.Admin = Convert.ToBoolean(userData[3]);
+                    user.Id = int.Parse(userData[4]);
+                    userModel.Users.Add(user);
+
+                }
+
+                currentUser = userModel.Users.Where(x => x.Initials.ToUpper() == initials).FirstOrDefault();
+
+                return currentUser;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         public void EditUser(User user)
         {
             //Logic for Edit User

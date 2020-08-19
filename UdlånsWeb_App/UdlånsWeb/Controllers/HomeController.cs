@@ -21,10 +21,9 @@ namespace UdlånsWeb.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private ToTxt ToTxt = new ToTxt();
-        private FromTxt FromTxt = new FromTxt();
         private ConvertData ConvertData = new ConvertData();
-        private static User SelectedUser{ get; set; }
+        private static User SelectedUser { get; set; }
+        private static User CurrentUser { get; set; }
         private static Item SelectedItem { get; set; }
         public HomeController(ILogger<HomeController> logger)
         {
@@ -39,15 +38,23 @@ namespace UdlånsWeb.Controllers
             ItemModel = TestData.GetItems();
             return View();
         }
-        
+
         [HttpPost]
         public IActionResult HomePage(string initials)
         {
             //Add logic for login
+            CurrentUser = ConvertData.GetCurrentUser(initials.ToUpper());
 
-
-            //Redirect to InfoPage
-            return Redirect("/Home/InfoPage");
+            if (CurrentUser != null)
+            {
+                //Redirect to InfoPage
+                return Redirect("/Home/InfoPage");
+            }
+            else
+            {
+                // Need a page to andle not found user
+                return Redirect("/Home/Privacy");
+            }
         }
         #endregion
 
