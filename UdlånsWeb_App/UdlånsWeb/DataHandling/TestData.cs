@@ -58,7 +58,8 @@ namespace UdlånsWeb.DataHandling
                 new Item(){HostName = "Host43", HostPassword = "kode1234!", UserName = "root", VmWareVersion = "2.14.1", HostIp = "101.0.0.1", Rented = true},
                 new Item(){HostName = "Host44", HostPassword = "kode1234!", UserName = "root", VmWareVersion = "2.14.1", HostIp = "101.0.0.1", Rented = false},
                 new Item(){HostName = "Host45", HostPassword = "kode1234!", UserName = "root", VmWareVersion = "2.14.1", HostIp = "101.0.0.1", Rented = true},
-                new Item(){HostName = "Host46", HostPassword = "kode1234!", UserName = "root", VmWareVersion = "2.14.1", HostIp = "101.0.0.1", Rented = false}
+                new Item(){HostName = "Host46", HostPassword = "kode1234!", UserName = "root", VmWareVersion = "2.14.1", HostIp = "101.0.0.1", Rented = false},
+                new Item(){HostName = "Host47", HostPassword = "kode1234!", UserName = "root", VmWareVersion = "2.14.1", HostIp = "101.0.0.1", Rented = false}
             };
             return items;
         }
