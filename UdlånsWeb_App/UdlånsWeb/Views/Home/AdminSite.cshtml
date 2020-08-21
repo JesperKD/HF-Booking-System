@@ -9,127 +9,126 @@
     <div class="row">
         @for (int i = 0; i < Model.Items.Count; i++)
         {
-        @if (Model.Items[i].Rented == false)
+            @if (Model.Items[i].Rented == false)
             {
-        <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 py-2">
-            <button name="CollapButton" type="button" class="collapsible bg-success text-white" value="">@Model.Items[i].HostName</button>
-            <div class="content" style="border : solid 2px black;">
-                <div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 py-2">
+                    <button name="CollapButton" type="button" class="collapsible bg-success text-white" value="">@Model.Items[i].HostName</button>
+                    <div class="content" style="border : solid 2px black;">
+                        <div>
+                            <button class="RentColorGreen"></button>
+                            <p>Status: Ledig</p>
 
-                    <button class="RentColorGreen"></button>
-                    <p>Status: Ledig</p>
+                            <dl style="margin: 0px 10px 0px 0px;">
+                                <dt>
+                                    Brugernavn:
+                                </dt>
+                                <dd>
+                                    @Model.Items[i].UserName
+                                </dd>
+                                <dt>
+                                    Ip:
+                                </dt>
+                                <dd>
+                                    @Model.Items[i].HostIp<br />
+                                </dd>
+                                <dt>
+                                    Adgangskode:
+                                </dt>
+                                <dd>
+                                    @Model.Items[i].HostPassword<br />
+                                </dd>
+                                <dt>
+                                    VmWare version:
+                                </dt>
+                                <dd>
+                                    @Model.Items[i].VmWareVersion<br />
+                                </dd>
+                            </dl>
 
-                    <dl style="margin: 0px 10px 0px 0px;">
-                        <dt>
-                            Brugernavn:
-                        </dt>
-                        <dd>
-                            @Model.Items[i].UserName
-                        </dd>
-                        <dt>
-                            Ip:
-                        </dt>
-                        <dd>
-                            @Model.Items[i].HostIp<br />
-                        </dd>
-                        <dt>
-                            Adgangskode:
-                        </dt>
-                        <dd>
-                            @Model.Items[i].HostPassword<br />
-                        </dd>
-                        <dt>
-                            VmWare version:
-                        </dt>
-                        <dd>
-                            @Model.Items[i].VmWareVersion<br />
-                        </dd>
-                    </dl>
-
-                    <ul style="display: inline-block; list-style-type:none;">
-                        <li style="margin-left: 10px; display: inline-block; list-style-type: none;">
-                            @using (Html.BeginForm("EditItem", "Home", FormMethod.Get))
+                            <ul style="display: inline-block; list-style-type:none;">
+                                <li style="margin-left: 10px; display: inline-block; list-style-type: none;">
+                                    @using (Html.BeginForm("EditItem", "Home", FormMethod.Get))
                                     {
-                            @Html.ValidationSummary(true)
-                            <input asp-for="Id" type="number" value="@i" hidden />
-                            <p hidden>@Html.EditorFor(m => m.Items)</p>
-                            <button type="submit">Rediger</button>
+                                        @Html.ValidationSummary(true)
+                                        <input asp-for="Id" type="number" value="@i" hidden />
+                                        <p hidden>@Html.EditorFor(m => m.Items)</p>
+                                        <button type="submit">Rediger</button>
                                     }
 
-                        </li>
-                        <li style="margin-left: 10px; display: inline-block; list-style-type: none;">
-                            @using (Html.BeginForm("DeleteItem", "Home", FormMethod.Get))
+                                </li>
+                                <li style="margin-left: 10px; display: inline-block; list-style-type: none;">
+                                    @using (Html.BeginForm("DeleteItem", "Home", FormMethod.Get))
                                     {
-                            <button type="submit">Fjern</button>
-                            <p hidden>@Html.EditorFor(m => m.Items)</p>
+                                        <button type="submit">Fjern</button>
+                                        <p hidden>@Html.EditorFor(m => m.Items)</p>
                                     }
 
-                        </li>
-                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
             }
             else
             {
-        <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 py-2">
-            <button name="CollapButton" type="button" class="collapsible bg-danger text-white" value="">@Model.Items[i].HostName</button>
-            <div class="content" style="border : solid 2px black;">
-                <div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 py-2">
+                    <button name="CollapButton" type="button" class="collapsible bg-danger text-white" value="">@Model.Items[i].HostName</button>
+                    <div class="content" style="border : solid 2px black;">
+                        <div>
 
-                    <button class="RentColorRed"></button>
-                    <p>Status: Udlånt</p>
+                            <button class="RentColorRed"></button>
+                            <p>Status: Udlånt</p>
 
-                    <dl style="margin: 0px 10px 0px 0px;">
-                        <dt>
-                            Brugernavn:
-                        </dt>
-                        <dd>
-                            @Model.Items[i].UserName
-                        </dd>
-                        <dt>
-                            Ip:
-                        </dt>
-                        <dd>
-                            @Model.Items[i].HostIp<br />
-                        </dd>
-                        <dt>
-                            Adgangskode:
-                        </dt>
-                        <dd>
-                            @Model.Items[i].HostPassword<br />
-                        </dd>
-                        <dt>
-                            VmWare version:
-                        </dt>
-                        <dd>
-                            @Model.Items[i].VmWareVersion<br />
-                        </dd>
-                    </dl>
+                            <dl style="margin: 0px 10px 0px 0px;">
+                                <dt>
+                                    Brugernavn:
+                                </dt>
+                                <dd>
+                                    @Model.Items[i].UserName
+                                </dd>
+                                <dt>
+                                    Ip:
+                                </dt>
+                                <dd>
+                                    @Model.Items[i].HostIp<br />
+                                </dd>
+                                <dt>
+                                    Adgangskode:
+                                </dt>
+                                <dd>
+                                    @Model.Items[i].HostPassword<br />
+                                </dd>
+                                <dt>
+                                    VmWare version:
+                                </dt>
+                                <dd>
+                                    @Model.Items[i].VmWareVersion<br />
+                                </dd>
+                            </dl>
 
-                    <ul style="display: inline-block; list-style-type:none;">
-                        <li style="margin-left: 10px; display: inline-block; list-style-type: none;">
-                            @using (Html.BeginForm("EditItem", "Home", FormMethod.Get))
+                            <ul style="display: inline-block; list-style-type:none;">
+                                <li style="margin-left: 10px; display: inline-block; list-style-type: none;">
+                                    @using (Html.BeginForm("EditItem", "Home", FormMethod.Get))
                                     {
-                            @Html.ValidationSummary(true)
-                            <input asp-for="Id" type="number" value="@i" hidden />
-                            <p hidden>@Html.EditorFor(m => m.Items)</p>
-                            <button type="submit">Rediger</button>
+                                        @Html.ValidationSummary(true)
+                                        <input asp-for="Id" type="number" value="@i" hidden />
+                                        <p hidden>@Html.EditorFor(m => m.Items)</p>
+                                        <button type="submit">Rediger</button>
                                     }
 
-                        </li>
-                        <li style="margin-left: 10px; display: inline-block; list-style-type: none;">
-                            @using (Html.BeginForm("DeleteItem", "Home", FormMethod.Get))
+                                </li>
+                                <li style="margin-left: 10px; display: inline-block; list-style-type: none;">
+                                    @using (Html.BeginForm("DeleteItem", "Home", FormMethod.Get))
                                     {
-                            <button type="submit">Fjern</button>
-                            <p hidden>@Html.EditorFor(m => m.Items)</p>
+                                        <button type="submit">Fjern</button>
+                                        <p hidden>@Html.EditorFor(m => m.Items)</p>
                                     }
 
-                        </li>
-                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
             }
         }
     </div>
