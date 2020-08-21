@@ -90,7 +90,6 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult AdminSite(string searchInput)
         {
-            // make some logic to filter out hosts from list
             return View();
         }
 
@@ -130,7 +129,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult EditItem(ItemViewModel item, int id)
         {
-            return View();
+            return View(SelectedItem);
         }
 
         [HttpPost]
@@ -145,7 +144,8 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult DeleteItem(ItemViewModel item, int id)
         {
-            return View();
+            SelectedItem = item.Items[id];
+            return View(SelectedItem);
         }
 
         [HttpPost]

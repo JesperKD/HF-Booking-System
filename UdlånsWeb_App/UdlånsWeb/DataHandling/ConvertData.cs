@@ -200,7 +200,7 @@ namespace UdlånsWeb.DataHandling
             Encrypt = new Encrypt();
 
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append(item.HostName + "," + item.HostPassword + "," + item.UserName + "," + item.VmWareVersion + "," + item.HostIp + "," + item.NumberOfPeoplePerHost + "," + item.Rented + "," + 0);
+            stringBuilder.Append(item.HostName + "," + item.HostPassword + "," + item.UserName + "," + item.VmWareVersion + "," + item.HostIp + "," + item.NumberOfPeoplePerHost + "," + item.Rented);
 
             ToTxt.AppendStringToTxt(FILE_PATH + ITEM_FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5) + Environment.NewLine);
         }
@@ -232,8 +232,9 @@ namespace UdlånsWeb.DataHandling
                 }
                 return itemModel;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 return null;
             }
         }
@@ -278,7 +279,7 @@ namespace UdlånsWeb.DataHandling
             foreach (Item Item in ItemModelNew.Items)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(item.HostName + "," + item.HostPassword + "," + item.UserName + "," + item.VmWareVersion + "," + item.HostIp + "," + item.NumberOfPeoplePerHost + "," + item.Id);
+                stringBuilder.Append(item.HostName + "," + item.HostPassword + "," + item.UserName + "," + item.VmWareVersion + "," + item.HostIp + "," + item.NumberOfPeoplePerHost + "," + item.Rented + "," + item.Id);
 
                 Encrypt = new Encrypt();
                 itemsTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
@@ -302,13 +303,13 @@ namespace UdlånsWeb.DataHandling
                     string raw = Decrypt.DecryptString(itemLine, "SkPRingsted", 5);
                     string[] itemData = raw.Split(',');
                     Models.Item oItem = new Item();
-                    item.HostName = itemData[0];
-                    item.HostPassword = itemData[1];
-                    item.UserName = itemData[2];
-                    item.VmWareVersion = itemData[3];
-                    item.HostIp = itemData[4];
-                    item.NumberOfPeoplePerHost = int.Parse(itemData[5]);
-                    item.Rented = Convert.ToBoolean(itemData[6]);
+                    oItem.HostName = itemData[0];
+                    oItem.HostPassword = itemData[1];
+                    oItem.UserName = itemData[2];
+                    oItem.VmWareVersion = itemData[3];
+                    oItem.HostIp = itemData[4];
+                    oItem.NumberOfPeoplePerHost = int.Parse(itemData[5]);
+                    oItem.Rented = Convert.ToBoolean(itemData[6]);
                     itemModel.Items.Add(oItem);
                 }
 
