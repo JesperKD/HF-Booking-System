@@ -130,7 +130,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult EditItem(ItemViewModel item, int id)
         {
-            return View();
+            return View(item.Items[id]);
         }
 
         [HttpPost]
