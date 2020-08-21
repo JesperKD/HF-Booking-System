@@ -21,9 +21,11 @@ namespace UdlånsWeb.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private ToTxt ToTxt = new ToTxt();
+        private FromTxt FromTxt = new FromTxt();
         private ConvertData ConvertData = new ConvertData();
-        private static User SelectedUser { get; set; }
-        private static User CurrentUser { get; set; }
+        private static Course Course { get; set; } 
+        private static User SelectedUser{ get; set; }
         private static Item SelectedItem { get; set; }
         public HomeController(ILogger<HomeController> logger)
         {
@@ -38,34 +40,40 @@ namespace UdlånsWeb.Controllers
             ItemModel = TestData.GetItems();
             return View();
         }
-
+        
         [HttpPost]
         public IActionResult HomePage(string initials)
         {
             //Add logic for login
-            CurrentUser = ConvertData.GetCurrentUser(initials.ToUpper());
 
-            if (CurrentUser != null)
-            {
-                //Redirect to InfoPage
-                return Redirect("/Home/InfoPage");
-            }
-            else
-            {
-                // Need a page to andle not found user
-                return Redirect("/Home/Privacy");
-            }
+
+            //Redirect to InfoPage
+            return Redirect("/Home/InfoPage");
         }
         #endregion
-
-
-        public IActionResult Privacy()
+        [HttpGet]
+        public IActionResult Booking()
         {
             return View();
         }
-        //All pages with a itemview
-        #region Item Pages
-        public IActionResult AdminSite()
+
+        [HttpPost]
+        public IActionResult Booking(Course course)
+        {
+            Course = course;
+            //this will return a booking view with a start date and end date
+            if (course.Difined == true)
+            {
+                return Redirect("InfoPage");
+            }
+            //This will only have a start date
+            else
+            {
+                return InfoPage();
+            }
+        }
+
+        public IActionResult Privacy()
         {
             var ItemModel = new ItemViewModel();
             ItemModel.Items = TestData.GetItems();
@@ -73,15 +81,31 @@ namespace UdlånsWeb.Controllers
         }
 
         [HttpGet]
-        public IActionResult InfoPage()
+        public IActionResult AdminSite()
         {
-            var model = new ItemViewModel();
-            model.Items = TestData.GetItems();
-            return View(model);
+            var ItemModel = new ItemViewModel();
+            ItemModel.Items = TestData.GetItems();
+            return View(ItemModel);
         }
 
         [HttpPost]
-        public IActionResult InfoPage(ItemViewModel item, int? id)
+        public IActionResult AdminSite(string searchInput)
+        {
+            // make some logic to filter out hosts from list
+            return View();
+        }
+
+        //All pages with a itemview
+        #region Item Pages
+
+        [HttpGet]
+        public IActionResult InfoPage()
+        {
+            return View(new Course());
+        }
+
+        [HttpPost]
+        public IActionResult InfoPage(Course course, int? id)
         {
             return Redirect("/Home");
         }
@@ -95,7 +119,8 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult AddItem(Item item)
         {
-            return View();
+            SelectedItem = item;
+            return Redirect("AdminSite");
         }
 
         [HttpGet]
@@ -103,7 +128,6 @@ namespace UdlånsWeb.Controllers
         {
             return View();
         }
-
 
         [HttpPost]
         public IActionResult EditItem()
@@ -137,7 +161,6 @@ namespace UdlånsWeb.Controllers
             {
                 userModel = new UserViewModel();
             }
-
             return View(userModel);
         }
 
@@ -200,8 +223,6 @@ namespace UdlånsWeb.Controllers
 
         #endregion
         #endregion
-
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
