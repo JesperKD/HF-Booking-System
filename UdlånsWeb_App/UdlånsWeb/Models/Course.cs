@@ -13,9 +13,18 @@ namespace UdlånsWeb.Models
         [DisplayName("Start Dato")]
         public DateTime StartDate { get; set; }
         [DisplayName("Slut Dato")]
-        public DateTime EndData { get; set; }
+        public DateTime EndDate { get; set; }
         [DisplayName("Antal elever")]
         public int NumberOfStudents { get; set; }
         public bool Difined { get; set; }
+
+
+        public Course()
+        {
+            var time = DateTime.UtcNow;
+            var timenow = new DateTime(time.Year, time.Month, time.Day, time.Hour, time.Minute, 0);
+            StartDate = timenow;
+            EndDate = timenow;
+        }
     }
 }

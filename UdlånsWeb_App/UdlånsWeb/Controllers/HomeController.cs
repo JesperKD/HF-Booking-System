@@ -36,9 +36,14 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult HomePage()
         {
-            var ItemModel = new List<Item>();
-            ItemModel = TestData.GetItems();
-            return View();
+            if (SelectedUser == null)
+                SelectedUser = new User();
+
+            if (SelectedUser.Admin == true)
+                return Redirect("HomePage");
+
+            else
+                return Redirect("Home/Booking");
         }
         
         [HttpPost]
@@ -61,16 +66,7 @@ namespace UdlånsWeb.Controllers
         public IActionResult Booking(Course course)
         {
             Course = course;
-            //this will return a booking view with a start date and end date
-            if (course.Difined == true)
-            {
-                return Redirect("InfoPage");
-            }
-            //This will only have a start date
-            else
-            {
-                return InfoPage();
-            }
+            return Redirect("InfoPage");
         }
 
         public IActionResult Privacy()
@@ -102,11 +98,11 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult InfoPage()
         {
-            return View(new Course());
+            return View(Course);
         }
 
         [HttpPost]
-        public IActionResult InfoPage(Course course, int? id)
+        public IActionResult InfoPage(Course course)
         {
             return Redirect("/Home");
         }
