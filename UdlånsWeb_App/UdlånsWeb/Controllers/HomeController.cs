@@ -32,6 +32,24 @@ namespace UdlånsWeb.Controllers
             _logger = logger;
         }
 
+        #region Course Pages
+
+        public IActionResult AddCourse()
+        {
+            return View();
+        }
+
+        public IActionResult EditCourse()
+        {
+            return View();
+        }
+
+        public IActionResult DeleteCourse()
+        {
+            return View();
+        }
+        #endregion
+
         #region HomePage - Login page
         [HttpGet]
         public IActionResult HomePage()

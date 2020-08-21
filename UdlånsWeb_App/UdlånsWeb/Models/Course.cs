@@ -16,8 +16,9 @@ namespace UdlånsWeb.Models
         public DateTime EndDate { get; set; }
         [DisplayName("Antal elever")]
         public int NumberOfStudents { get; set; }
+        [DisplayName("Fagets varighed")]
+        public int Duration { get; set; }
         public bool Difined { get; set; }
-
 
         public Course()
         {
