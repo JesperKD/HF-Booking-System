@@ -83,9 +83,12 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult AdminSite()
         {
-            var ItemModel = new ItemViewModel();
-            ItemModel.Items = TestData.GetItems();
-            return View(ItemModel);
+            ItemViewModel itemModel = ConvertData.GetItems();
+            if (itemModel == null)
+            {
+                itemModel = new ItemViewModel();
+            }
+            return View(itemModel);
         }
 
         [HttpPost]
@@ -95,9 +98,7 @@ namespace UdlånsWeb.Controllers
             return View();
         }
 
-        //All pages with a itemview
-        #region Item Pages
-
+        
         [HttpGet]
         public IActionResult InfoPage()
         {
@@ -110,6 +111,11 @@ namespace UdlånsWeb.Controllers
             return Redirect("/Home");
         }
 
+
+        //Overview over all item pages
+        #region Item Pages
+
+        #region Add Item
         [HttpGet]
         public IActionResult AddItem()
         {
@@ -119,10 +125,12 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult AddItem(Item item)
         {
-            SelectedItem = item;
+            ConvertData.AddItem(item);
             return Redirect("AdminSite");
         }
+        #endregion
 
+        #region Edit Item
         [HttpGet]
         public IActionResult EditItem(ItemViewModel item, int id)
         {
@@ -130,11 +138,14 @@ namespace UdlånsWeb.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditItem()
+        public IActionResult EditItem(Item item)
         {
-            return View();
+            ConvertData.EditItem(item);
+            return Redirect("AdminSite");
         }
+        #endregion
 
+        #region Delete Item 
         [HttpGet]
         public IActionResult DeleteItem(ItemViewModel item, int id)
         {
@@ -144,8 +155,10 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult DeleteItem(Item item)
         {
+            ConvertData.DeleteItem(item);
             return View();
         }
+        #endregion
         #endregion
 
 
