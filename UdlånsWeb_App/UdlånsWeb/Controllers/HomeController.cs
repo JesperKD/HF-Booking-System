@@ -26,6 +26,7 @@ namespace UdlånsWeb.Controllers
         private ConvertCourseData convertCourseData = new ConvertCourseData();
         private ConvertItemData convertItemData = new ConvertItemData();
         private ConvertUserData convertUserData = new ConvertUserData();
+        private ConvertLoginData convertlogindata = new ConvertLoginData();
         private static Course Course { get; set; } 
         private static User SelectedUser{ get; set; }
         private static Item SelectedItem { get; set; }
@@ -53,7 +54,7 @@ namespace UdlånsWeb.Controllers
         public IActionResult HomePage(string initials)
         {
             //Add logic for login
-
+            convertlogindata.CheckLogin(initials);
 
             //Redirect to InfoPage
             return Redirect("/Home/InfoPage");
