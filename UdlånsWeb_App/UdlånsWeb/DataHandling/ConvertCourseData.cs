@@ -44,9 +44,9 @@ namespace UdlånsWeb.DataHandling
                     string[] courseData = raw.Split(',');
                     Course course = new Course();
                     course.Name = courseData[0];
-                    course.NumberOfStudents = int.Parse(courseData[3]);
-                    course.Duration = int.Parse(courseData[4]);
-                    course.Defined = Convert.ToBoolean(courseData[5]);
+                    course.NumberOfStudents = int.Parse(courseData[1]);
+                    course.Duration = int.Parse(courseData[2]);
+                    course.Defined = Convert.ToBoolean(courseData[2]);
 
                     courseModel.Courses.Add(course);
 
@@ -75,12 +75,10 @@ namespace UdlånsWeb.DataHandling
                 string[] courseData = raw.Split(',');
                 Course oCourse = new Course();
                 oCourse.Name = courseData[0];
-
-                if(courseData[3] != null)
-                oCourse.NumberOfStudents = int.Parse(courseData[3]);
-
-                oCourse.Duration = int.Parse(courseData[4]);
-                oCourse.Defined = Convert.ToBoolean(courseData[5]);
+                oCourse.NumberOfStudents = int.Parse(courseData[1]);
+                oCourse.Duration = int.Parse(courseData[2]);
+                oCourse.Defined = Convert.ToBoolean(courseData[3]);
+                
                 courseModelOld.Courses.Add(oCourse);
             }
 
@@ -126,9 +124,9 @@ namespace UdlånsWeb.DataHandling
                     string[] courseData = raw.Split(',');
                     Models.Course oCourse = new Course();
                     oCourse.Name = courseData[0];           
-                    oCourse.NumberOfStudents = int.Parse(courseData[3]);
-                    oCourse.Duration = int.Parse(courseData[4]);
-                    oCourse.Defined = Convert.ToBoolean(courseData[5]);
+                    oCourse.NumberOfStudents = int.Parse(courseData[1]);
+                    oCourse.Duration = int.Parse(courseData[2]);
+                    oCourse.Defined = Convert.ToBoolean(courseData[3]);
                     courseModel.Courses.Add(oCourse);
                 }
 
