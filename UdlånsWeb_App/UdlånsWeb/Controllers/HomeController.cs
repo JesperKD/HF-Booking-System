@@ -249,7 +249,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult AddCourse(Course course)
         {
-            ConvertData.AddCourse(course);
+            convertCourseData.AddCourse(course);
             return Redirect("CourseSite");
         }
         #endregion
