@@ -67,14 +67,24 @@ namespace UdlånsWeb.Controllers
         {
             return View();
         }
-
-        [HttpPost]
         public IActionResult Booking(Course course)
         {
-            bookingViewModel = new BookingViewModel { 
-            
-                CourseModel = course
+            bookingViewModel = new BookingViewModel {
+
+                CourseModel = new Course()
+                {
+                    Defined = course.Defined
+                },
+
+                HostRentedForCourse = new Item()
+                {
+                    TurnInDate = DateTime.Now.Date,
+                    RentedDate = DateTime.Now.Date
+                },
+                
+                CoursesForSelection = convertCourseData.GetCourses().Courses
             };
+         
             return Redirect("InfoPage");
         }
 
@@ -106,7 +116,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult InfoPage()
         {
-            return View();
+            return View(bookingViewModel);
         }
 
         [HttpPost]
@@ -121,7 +131,7 @@ namespace UdlånsWeb.Controllers
         //Overview over all user pages
         #region User Pages
 
-        #region UserPage
+        
         [HttpGet]
         public IActionResult UserPage()
         {
@@ -140,10 +150,10 @@ namespace UdlånsWeb.Controllers
             SelectedUser = user.Users[id];
             return Redirect("EditUser");
         }
-        #endregion
+        
 
         //This is for adding users
-        #region UserControl
+      
 
         [HttpPost]
         public IActionResult AddUser(User user)
@@ -158,10 +168,7 @@ namespace UdlånsWeb.Controllers
             //returns the AddUser page 
             return View();
         }
-        #endregion
-
-        #region Edit User
-
+        
         [HttpGet]
         public IActionResult EditUser(UserViewModel userList, int id)
         {
@@ -173,9 +180,8 @@ namespace UdlånsWeb.Controllers
             convertUserData.EditUser(user);
             return Redirect("UserPage");
         }
-        #endregion
+        
 
-        #region Delete User
         [HttpGet]
         public IActionResult DeleteUser(UserViewModel user, int id)
         {
@@ -190,7 +196,7 @@ namespace UdlånsWeb.Controllers
             return Redirect("UserPage");
         }
 
-        #endregion
+        
         #endregion
 
         //Overview over all item pages

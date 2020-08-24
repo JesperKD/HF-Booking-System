@@ -46,7 +46,7 @@ namespace UdlånsWeb.DataHandling
                     course.Name = courseData[0];
                     course.NumberOfStudents = int.Parse(courseData[1]);
                     course.Duration = int.Parse(courseData[2]);
-                    course.Defined = Convert.ToBoolean(courseData[2]);
+                    course.Defined = Convert.ToBoolean(courseData[3]);
 
                     courseModel.Courses.Add(course);
 
