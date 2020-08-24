@@ -323,14 +323,6 @@ namespace UdlånsWeb.DataHandling
             // finds the old item and removes it
             Item removeUser = itemModel.Items.Where(x => x.HostName == item.HostName && x.HostIp == item.HostIp && x.Id == item.Id).First();
             itemModel.Items.Remove(removeUser);
-            
-            //foreach(Item itemx in itemModel.Items)
-            //{
-            //    if(itemx.HostName == item.HostName && itemx.HostIp == item.HostIp)
-            //    {
-            //        itemModel.Items.Remove(itemx);
-            //    }
-            //}
 
             // creates correct user string
             List<string> itemsTosave = new List<string>();
