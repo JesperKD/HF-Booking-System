@@ -24,8 +24,8 @@ namespace UdlånsWeb.Controllers
         private ToTxt ToTxt = new ToTxt();
         private FromTxt FromTxt = new FromTxt();
         private ConvertData ConvertData = new ConvertData();
-        private static Course Course { get; set; } 
-        private static User SelectedUser{ get; set; }
+        private static Course Course { get; set; }
+        private static User SelectedUser { get; set; }
         private static Item SelectedItem { get; set; }
         public HomeController(ILogger<HomeController> logger)
         {
@@ -44,10 +44,13 @@ namespace UdlånsWeb.Controllers
             return View();
         }
 
-        public IActionResult DeleteCourse()
+        [HttpGet]
+        public IActionResult DeleteCourse(Course course)
         {
-            return View();
+            return View(course);
         }
+
+
         #endregion
 
         #region HomePage - Login page
