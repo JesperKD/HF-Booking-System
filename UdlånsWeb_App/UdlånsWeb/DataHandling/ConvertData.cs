@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using UdlånsWeb.Models;
@@ -322,6 +323,14 @@ namespace UdlånsWeb.DataHandling
             // finds the old item and removes it
             Item removeUser = itemModel.Items.Where(x => x.HostName == item.HostName && x.HostIp == item.HostIp && x.Id == item.Id).First();
             itemModel.Items.Remove(removeUser);
+            
+            //foreach(Item itemx in itemModel.Items)
+            //{
+            //    if(itemx.HostName == item.HostName && itemx.HostIp == item.HostIp)
+            //    {
+            //        itemModel.Items.Remove(itemx);
+            //    }
+            //}
 
             // creates correct user string
             List<string> itemsTosave = new List<string>();
@@ -336,7 +345,7 @@ namespace UdlånsWeb.DataHandling
             }
             
             // overrides file with new strings
-            ToTxt.StringsToTxt(FILE_PATH + USER_FILE_NAME, itemsTosave.ToArray());
+            ToTxt.StringsToTxt(FILE_PATH + ITEM_FILE_NAME, itemsTosave.ToArray());
         }
     }
 }
