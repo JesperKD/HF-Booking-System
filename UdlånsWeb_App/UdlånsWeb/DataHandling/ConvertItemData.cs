@@ -160,7 +160,5 @@ namespace UdlånsWeb.DataHandling
             // overrides file with new strings
             ToTxt.StringsToTxt(FILE_PATH + ITEM_FILE_NAME, itemsTosave.ToArray());
         }
-
-
     }
 }
