@@ -25,8 +25,7 @@ namespace UdlånsWeb.DataHandling
             Encrypt = new Encrypt();
 
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append(course.Name + "," + course.StartDate.ToString(CultureInfo.GetCultureInfo("en-US")) + "," + course.EndDate.ToString(CultureInfo.GetCultureInfo("en-US")) + "," + course.NumberOfStudents + "," + course.Duration + "," + course.Defined);
-
+            stringBuilder.Append(course.Name + "," + course.NumberOfStudents + "," + course.Duration + "," + course.Defined);
             ToTxt.AppendStringToTxt(FILE_PATH + FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5) + Environment.NewLine);
         }
 
@@ -45,18 +44,8 @@ namespace UdlånsWeb.DataHandling
                     string[] courseData = raw.Split(',');
                     Course course = new Course();
                     course.Name = courseData[0];
-                    if(courseData[1] != null || courseData[1] != string.Empty)
-                    course.StartDate = DateTime.Parse(courseData[1], CultureInfo.GetCultureInfo("en-US"));
-                    
-                    if(courseData[2] != null || courseData[2] != string.Empty)
-                    course.EndDate = DateTime.Parse(courseData[2], CultureInfo.GetCultureInfo("en-US"));
-                    
-                    if(courseData[3] != null || courseData[3] != string.Empty)
                     course.NumberOfStudents = int.Parse(courseData[3]);
-                    
                     course.Duration = int.Parse(courseData[4]);
-                    
-                    if(courseData[5] != null || courseData[5] != string.Empty)
                     course.Defined = Convert.ToBoolean(courseData[5]);
 
                     courseModel.Courses.Add(course);
@@ -87,9 +76,6 @@ namespace UdlånsWeb.DataHandling
                 Course oCourse = new Course();
                 oCourse.Name = courseData[0];
 
-                oCourse.StartDate = DateTime.Parse(courseData[1], CultureInfo.GetCultureInfo("en-US"));
-                oCourse.EndDate = DateTime.Parse(courseData[2], CultureInfo.GetCultureInfo("en-US"));
-                
                 if(courseData[3] != null)
                 oCourse.NumberOfStudents = int.Parse(courseData[3]);
 
@@ -115,7 +101,7 @@ namespace UdlånsWeb.DataHandling
             foreach (Course xcourse in CourseModelNew.Courses)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(course.Name + "," + course.StartDate + "," + course.EndDate + "," + course.NumberOfStudents + "," + course.Duration + "," + course.Defined);
+                stringBuilder.Append(course.Name + "," + course.NumberOfStudents + "," + course.Duration + "," + course.Defined);
 
                 Encrypt = new Encrypt();
                 coursesTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
@@ -139,9 +125,7 @@ namespace UdlånsWeb.DataHandling
                     string raw = Decrypt.DecryptString(Line, "SkPRingsted", 5);
                     string[] courseData = raw.Split(',');
                     Models.Course oCourse = new Course();
-                    oCourse.Name = courseData[0];
-                    oCourse.StartDate = Convert.ToDateTime(courseData[1]);
-                    oCourse.EndDate = Convert.ToDateTime(courseData[2]);
+                    oCourse.Name = courseData[0];           
                     oCourse.NumberOfStudents = int.Parse(courseData[3]);
                     oCourse.Duration = int.Parse(courseData[4]);
                     oCourse.Defined = Convert.ToBoolean(courseData[5]);
@@ -164,7 +148,7 @@ namespace UdlånsWeb.DataHandling
             foreach (Course coursex in courseModel.Courses)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(course.Name + "," + course.StartDate + "," + course.EndDate + "," + course.NumberOfStudents + "," + course.Duration + "," + course.Defined);
+                stringBuilder.Append(course.Name + "," + course.NumberOfStudents + "," + course.Duration + "," + course.Defined);
 
                 Encrypt = new Encrypt();
                 coursesTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
