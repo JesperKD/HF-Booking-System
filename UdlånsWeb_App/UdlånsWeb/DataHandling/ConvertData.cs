@@ -19,6 +19,8 @@ namespace UdlånsWeb.DataHandling
         const string USER_FILE_NAME = "\\user.txt";
         const string ITEM_FILE_NAME = "\\item.txt";
         const string FILE_PATH = "C:\\TestSite";
+
+        #region User Methods
         public void AddUser(User user)
         {
             Encrypt = new Encrypt();
@@ -195,7 +197,9 @@ namespace UdlånsWeb.DataHandling
             // overrides file with new strings
             ToTxt.StringsToTxt(FILE_PATH + USER_FILE_NAME, usersTosave.ToArray());
         }
+        #endregion
 
+        #region Item Methods
         public void AddItem(Item item)
         {
             Encrypt = new Encrypt();
@@ -339,5 +343,10 @@ namespace UdlånsWeb.DataHandling
             // overrides file with new strings
             ToTxt.StringsToTxt(FILE_PATH + ITEM_FILE_NAME, itemsTosave.ToArray());
         }
+        #endregion
+
+        #region Course Methods
+
+        #endregion
     }
 }
