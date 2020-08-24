@@ -15,7 +15,6 @@ namespace UdlånsWeb.DataHandling
         Encrypt Encrypt;
         Decrypt Decrypt;
         const string ITEM_FILE_NAME = "\\item.txt";
-        const string USER_FILE_NAME = "\\user.txt";
         const string FILE_PATH = "C:\\TestSite";
 
         public void AddItem(Item item)
