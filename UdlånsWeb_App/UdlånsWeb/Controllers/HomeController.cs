@@ -27,10 +27,12 @@ namespace UdlånsWeb.Controllers
         private ConvertItemData convertItemData = new ConvertItemData();
         private ConvertUserData convertUserData = new ConvertUserData();
         private ConvertLoginData convertlogindata = new ConvertLoginData();
-        private static Course Course { get; set; } 
+        
+
         private static User SelectedUser{ get; set; }
         private static Item SelectedItem { get; set; }
-        private static Course SelectedCourse { get; set; }
+        private static BookingViewModel bookingViewModel { get; set; }
+
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -69,7 +71,10 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult Booking(Course course)
         {
-            Course = course;
+            bookingViewModel = new BookingViewModel { 
+            
+                CourseModel = course
+            };
             return Redirect("InfoPage");
         }
 
@@ -101,7 +106,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult InfoPage()
         {
-            return View(Course);
+            return View();
         }
 
         [HttpPost]
@@ -288,8 +293,8 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult DeleteCourse(CourseViewModel course, int id)
         {
-            SelectedCourse = course.Courses[id];
-            return View(SelectedCourse);
+            bookingViewModel.CourseModel = course.Courses[id];
+            return View(course.Courses[id]);
         }
 
         [HttpPost]
