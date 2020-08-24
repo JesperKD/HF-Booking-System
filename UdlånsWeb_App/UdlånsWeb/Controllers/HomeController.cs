@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Buffers;
+using Microsoft.AspNetCore.Razor.Language.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using UdlånsWeb.DataHandling;
@@ -23,57 +24,161 @@ namespace UdlånsWeb.Controllers
         private ToTxt ToTxt = new ToTxt();
         private FromTxt FromTxt = new FromTxt();
         private ConvertData ConvertData = new ConvertData();
+        private static Course Course { get; set; } 
+        private static User SelectedUser{ get; set; }
+        private static Item SelectedItem { get; set; }
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
 
-        #region HomePage
+        #region Course Pages
+
+        public IActionResult AddCourse()
+        {
+            return View();
+        }
+
+        public IActionResult EditCourse()
+        {
+            return View();
+        }
+
+        public IActionResult DeleteCourse()
+        {
+            return View();
+        }
+        #endregion
+
+        #region HomePage - Login page
         [HttpGet]
         public IActionResult HomePage()
         {
-            var ItemModel = new List<Item>();
-            ItemModel = TestData.GetItems();
-            return View();
+            if (SelectedUser == null)
+                SelectedUser = new User();
+
+            if (SelectedUser.Admin == true)
+                return Redirect("HomePage");
+
+            else
+                return Redirect("Home/Booking");
         }
+        
         [HttpPost]
         public IActionResult HomePage(string initials)
         {
-            //Add logic for login 
+            //Add logic for login
 
 
             //Redirect to InfoPage
             return Redirect("/Home/InfoPage");
         }
         #endregion
-
-        public IActionResult Privacy()
+        [HttpGet]
+        public IActionResult Booking()
         {
             return View();
         }
 
-        public IActionResult AdminSite()
+        [HttpPost]
+        public IActionResult Booking(Course course)
         {
-            var ItemModel = new List<Item>();
-            ItemModel = TestData.GetItems();
+            Course = course;
+            return Redirect("InfoPage");
+        }
+
+        public IActionResult Privacy()
+        {
+            var ItemModel = new ItemViewModel();
+            ItemModel.Items = TestData.GetItems();
             return View(ItemModel);
         }
 
         [HttpGet]
-        public IActionResult InfoPage()
+        public IActionResult AdminSite()
         {
-            var model = new ItemViewModel();
-            model.Items = TestData.GetItems();
-            return View(model);
+            ItemViewModel itemModel = ConvertData.GetItems();
+            if (itemModel == null)
+            {
+                itemModel = new ItemViewModel();
+            }
+            return View(itemModel);
         }
 
         [HttpPost]
-        public IActionResult InfoPage(ItemViewModel item, int? id)
+        public IActionResult AdminSite(string searchInput)
+        {
+            return View();
+        }
+
+        
+        [HttpGet]
+        public IActionResult InfoPage()
+        {
+            return View(Course);
+        }
+
+        [HttpPost]
+        public IActionResult InfoPage(Course course)
         {
             return Redirect("/Home");
         }
 
-        //Used to see the users
+
+        //Overview over all item pages
+        #region Item Pages
+
+        #region Add Item
+        [HttpGet]
+        public IActionResult AddItem()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddItem(Item item)
+        {
+            ConvertData.AddItem(item);
+            return Redirect("AdminSite");
+        }
+        #endregion
+
+        #region Edit Item
+        [HttpGet]
+        public IActionResult EditItem(ItemViewModel item, int id)
+        {
+            return View(item.Items[id]);
+        }
+
+        [HttpPost]
+        public IActionResult EditItem(Item item)
+        {
+            ConvertData.EditItem(item);
+            return Redirect("AdminSite");
+        }
+        #endregion
+
+        #region Delete Item 
+        [HttpGet]
+        public IActionResult DeleteItem(ItemViewModel item, int id)
+        {
+            SelectedItem = item.Items[id];
+            return View(SelectedItem);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteItem(Item item)
+        {
+            ConvertData.DeleteItem(SelectedItem);
+            return Redirect("AdminSite");
+        }
+        #endregion
+        #endregion
+
+
+        //Overview over all user pages
+        #region User Pages
+
         #region UserPage
         [HttpGet]
         public IActionResult UserPage()
@@ -83,17 +188,14 @@ namespace UdlånsWeb.Controllers
             {
                 userModel = new UserViewModel();
             }
-
             return View(userModel);
         }
 
         //Need to find a way around this
-        public static User SelectedUserForEdit { get; set; }
-
         [HttpPost]
         public IActionResult UserPage(UserViewModel user, int id)
         {
-            SelectedUserForEdit = user.Users[id];
+            SelectedUser = user.Users[id];
             return Redirect("EditUser");
         }
         #endregion
@@ -121,7 +223,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult EditUser(UserViewModel userList, int id)
         {
-            return View(SelectedUserForEdit);
+            return View(SelectedUser);
         }
         [HttpPost]
         public IActionResult EditUser(User user)
@@ -130,13 +232,14 @@ namespace UdlånsWeb.Controllers
             return Redirect("UserPage");
         }
         #endregion
+
         #region Delete User
         [HttpGet]
         public IActionResult DeleteUser(UserViewModel user, int id)
         {
             //Sends the right user to the delete view
-            SelectedUserForEdit = user.Users[id];
-            return View(SelectedUserForEdit);
+            SelectedUser = user.Users[id];
+            return View(SelectedUser);
         }
         [HttpPost]
         public IActionResult DeleteUser(User user)
@@ -146,6 +249,8 @@ namespace UdlånsWeb.Controllers
         }
 
         #endregion
+        #endregion
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

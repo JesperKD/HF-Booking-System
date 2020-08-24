@@ -1,0 +1,11 @@
+﻿@model UdlånsWeb.Models.Course
+
+@using (Html.BeginForm("Booking", "Home", FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+    @Html.CheckBoxFor(m => m.Difined)
+    <label>Afkryds denne hvis du vil sætte en slut dato</label>
+    <br />
+    <button type="submit">Fortsæt</button>
+
+}
