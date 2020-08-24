@@ -24,34 +24,14 @@ namespace UdlånsWeb.Controllers
         private ToTxt ToTxt = new ToTxt();
         private FromTxt FromTxt = new FromTxt();
         private ConvertData ConvertData = new ConvertData();
-        private static Course Course { get; set; }
-        private static User SelectedUser { get; set; }
+        private static Course Course { get; set; } 
+        private static User SelectedUser{ get; set; }
         private static Item SelectedItem { get; set; }
+        private static Course SelectedCourse { get; set; }
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
-
-        #region Course Pages
-
-        public IActionResult AddCourse()
-        {
-            return View();
-        }
-
-        public IActionResult EditCourse()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public IActionResult DeleteCourse(Course course)
-        {
-            return View(course);
-        }
-
-
-        #endregion
 
         #region HomePage - Login page
         [HttpGet]
@@ -127,60 +107,6 @@ namespace UdlånsWeb.Controllers
             return Redirect("/Home");
         }
 
-
-        //Overview over all item pages
-        #region Item Pages
-
-        #region Add Item
-        [HttpGet]
-        public IActionResult AddItem()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult AddItem(Item item)
-        {
-            ConvertData.AddItem(item);
-            return Redirect("AdminSite");
-        }
-        #endregion
-
-        #region Edit Item
-        [HttpGet]
-        public IActionResult EditItem(ItemViewModel item, int id)
-        {
-
-
-            return View(item.Items[id]);
-        }
-
-        [HttpPost]
-        public IActionResult EditItem(Item item)
-        {
-            ConvertData.EditItem(item);
-            return Redirect("AdminSite");
-        }
-        #endregion
-
-        #region Delete Item 
-        [HttpGet]
-        public IActionResult DeleteItem(ItemViewModel item, int id)
-        {
-            SelectedItem = item.Items[id];
-            return View(SelectedItem);
-        }
-
-        [HttpPost]
-        public IActionResult DeleteItem(Item item)
-        {
-            ConvertData.DeleteItem(item);
-            return Redirect("AdminSite");
-        }
-        #endregion
-        #endregion
-
-
         //Overview over all user pages
         #region User Pages
 
@@ -254,6 +180,110 @@ namespace UdlånsWeb.Controllers
         }
 
         #endregion
+        #endregion
+
+        //Overview over all item pages
+        #region Item Pages
+
+        #region Add Item
+        [HttpGet]
+        public IActionResult AddItem()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddItem(Item item)
+        {
+            ConvertData.AddItem(item);
+            return Redirect("AdminSite");
+        }
+        #endregion
+
+        #region Edit Item
+        [HttpGet]
+        public IActionResult EditItem(ItemViewModel item, int id)
+        {
+
+
+            return View(item.Items[id]);
+        }
+
+        [HttpPost]
+        public IActionResult EditItem(Item item)
+        {
+            ConvertData.EditItem(item);
+            return Redirect("AdminSite");
+        }
+        #endregion
+
+        #region Delete Item 
+        [HttpGet]
+        public IActionResult DeleteItem(ItemViewModel item, int id)
+        {
+            SelectedItem = item.Items[id];
+            return View(SelectedItem);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteItem(Item item)
+        {
+            ConvertData.DeleteItem(item);
+            return Redirect("AdminSite");
+        }
+        #endregion
+        #endregion
+
+        //Overview over all course pages
+        #region Course Pages
+        
+        #region Add Course
+        [HttpGet]
+        public IActionResult AddCourse()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddCourse(Course course)
+        {
+            ConvertData.AddCourse(course);
+            return Redirect("CourseSite");
+        }
+        #endregion
+
+        #region Edit Course
+        [HttpGet]
+        public IActionResult EditCourse(CourseViewModel course, int id)
+        {
+            return View(course.Courses[id]);
+        }
+
+        [HttpPost]
+        public IActionResult EditCourse(Course course)
+        {
+            ConvertData.EditCourse(course);
+            return Redirect("CourseSite");
+        }
+        #endregion
+
+        #region Delete Course
+        [HttpGet]
+        public IActionResult DeleteCourse(CourseViewModel course, int id)
+        {
+            SelectedCourse = course.Courses[id];
+            return View(SelectedCourse);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteCourse(Course course)
+        {
+            ConvertData.DeleteCourse(course);
+            return Redirect("CourseSite");
+        }
+        #endregion
+
+
         #endregion
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
