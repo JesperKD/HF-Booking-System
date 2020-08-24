@@ -107,6 +107,9 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult InfoPage(Course course)
         {
+            //Use this property to save the host via item Name, id ect.
+            SelectedItem.RentedDate = course.StartDate;
+
             return Redirect("/Home");
         }
 

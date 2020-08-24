@@ -7,7 +7,13 @@
     <div style="width:250px">
         <label asp-for="Name" class="control-label"></label>
         <br />
+        <select>
+            @foreach (var item in Model)
+            {
 
+                <option></option>
+            }
+        </select>
         <input asp-for="Name" class="form-control" />
         <span asp-validation-for="Name" class="text-danger"></span>
         <br />
