@@ -23,7 +23,9 @@ namespace UdlånsWeb.Controllers
         private readonly ILogger<HomeController> _logger;
         private ToTxt ToTxt = new ToTxt();
         private FromTxt FromTxt = new FromTxt();
-        private ConvertData ConvertData = new ConvertData();
+        private ConvertCourseData convertCourseData = new ConvertCourseData();
+        private ConvertItemData convertItemData = new ConvertItemData();
+        private ConvertUserData convertUserData = new ConvertUserData();
         private static Course Course { get; set; } 
         private static User SelectedUser{ get; set; }
         private static Item SelectedItem { get; set; }
@@ -80,7 +82,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult AdminSite()
         {
-            ItemViewModel itemModel = ConvertData.GetItems();
+            ItemViewModel itemModel = convertItemData.GetItems();
             if (itemModel == null)
             {
                 itemModel = new ItemViewModel();
@@ -114,7 +116,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult UserPage()
         {
-            UserViewModel userModel = ConvertData.GetUsers();
+            UserViewModel userModel = convertUserData.GetUsers();
             if (userModel == null)
             {
                 userModel = new UserViewModel();
@@ -137,7 +139,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult AddUser(User user)
         {
-            ConvertData.AddUser(user);
+            convertUserData.AddUser(user);
             return Redirect("/Home/UserPage");
         }
 
@@ -159,7 +161,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult EditUser(User user)
         {
-            ConvertData.EditUser(user);
+            convertUserData.EditUser(user);
             return Redirect("UserPage");
         }
         #endregion
@@ -175,7 +177,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult DeleteUser(User user)
         {
-            ConvertData.DeleteUser(user);
+            convertUserData.DeleteUser(user);
             return Redirect("UserPage");
         }
 
@@ -195,7 +197,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult AddItem(Item item)
         {
-            ConvertData.AddItem(item);
+            convertItemData.AddItem(item);
             return Redirect("AdminSite");
         }
         #endregion
@@ -212,7 +214,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult EditItem(Item item)
         {
-            ConvertData.EditItem(item);
+            convertItemData.EditItem(item);
             return Redirect("AdminSite");
         }
         #endregion
@@ -228,7 +230,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult DeleteItem(Item item)
         {
-            ConvertData.DeleteItem(item);
+            convertItemData.DeleteItem(item);
             return Redirect("AdminSite");
         }
         #endregion
@@ -262,7 +264,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult EditCourse(Course course)
         {
-            ConvertData.EditCourse(course);
+            convertCourseData.EditCourse(course);
             return Redirect("CourseSite");
         }
         #endregion
@@ -278,7 +280,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult DeleteCourse(Course course)
         {
-            ConvertData.DeleteCourse(course);
+            convertCourseData.DeleteCourse(course);
             return Redirect("CourseSite");
         }
         #endregion

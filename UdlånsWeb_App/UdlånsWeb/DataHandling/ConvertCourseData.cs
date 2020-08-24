@@ -9,7 +9,7 @@ using UdlånsWeb.Models;
 
 namespace UdlånsWeb.DataHandling
 {
-    public class ConvertData
+    public class ConvertCourseData
     {
         ToTxt ToTxt = new ToTxt();
         FromTxt FromTxt = new FromTxt();
