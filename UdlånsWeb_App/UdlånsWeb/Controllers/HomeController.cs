@@ -105,10 +105,10 @@ namespace UdlånsWeb.Controllers
         }
 
         [HttpPost]
-        public IActionResult InfoPage(Course course)
+        public IActionResult InfoPage(BookingViewModel booking)
         {
-            //Use this property to save the host via item Name, id ect.
-            SelectedItem.RentedDate = course.StartDate;
+            //Make a booking save file
+            
 
             return Redirect("/Home");
         }

@@ -10,7 +10,8 @@ namespace UdlånsWeb.Models
 {
     public class BookingViewModel
     {
-        public Course Course { get; set; }
+        public Item HostRentedForCourse { get; set; }
+        public Course CourseModel { get; set; }
         [DisplayName("Alle fag")]
         public List<Course> CoursesForSelection { get; set; } = new List<Course>();
     }
