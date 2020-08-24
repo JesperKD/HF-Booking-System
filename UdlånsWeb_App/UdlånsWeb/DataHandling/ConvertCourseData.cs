@@ -86,9 +86,13 @@ namespace UdlånsWeb.DataHandling
                 string[] courseData = raw.Split(',');
                 Course oCourse = new Course();
                 oCourse.Name = courseData[0];
-                oCourse.StartDate = Convert.ToDateTime(courseData[1]);
-                oCourse.EndDate = Convert.ToDateTime(courseData[2]);
+
+                oCourse.StartDate = DateTime.Parse(courseData[1], CultureInfo.GetCultureInfo("en-US"));
+                oCourse.EndDate = DateTime.Parse(courseData[2], CultureInfo.GetCultureInfo("en-US"));
+                
+                if(courseData[3] != null)
                 oCourse.NumberOfStudents = int.Parse(courseData[3]);
+
                 oCourse.Duration = int.Parse(courseData[4]);
                 oCourse.Defined = Convert.ToBoolean(courseData[5]);
                 courseModelOld.Courses.Add(oCourse);
@@ -101,7 +105,7 @@ namespace UdlånsWeb.DataHandling
             // creates new list from old, and inserts edited item at index Id
             CourseViewModel CourseModelNew = new CourseViewModel();
             CourseModelNew = courseModelOld;
-            CourseModelNew.Courses.Insert(int.Parse(course.Name), course);
+            CourseModelNew.Courses.Insert(course.Id, course);
 
 
             // creates correct item string

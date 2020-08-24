@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,6 +11,7 @@ namespace UdlånsWeb.Models
     {
         [DisplayName("Fag")]
         public string Name { get; set; }
+        public string DisplayDate { get; set; }
         [DisplayName("Start Dato")]
         public DateTime StartDate { get; set; }
         [DisplayName("Slut Dato")]
@@ -19,13 +21,15 @@ namespace UdlånsWeb.Models
         [DisplayName("Fagets varighed")]
         public int Duration { get; set; }
         public bool Defined { get; set; }
-
+        public int Id { get; set; }
         public Course()
         {
-            var time = DateTime.UtcNow;
-            var timenow = new DateTime(time.Year, time.Month, time.Day, time.Hour, time.Minute, 0);
-            StartDate = timenow;
-            EndDate = timenow;
+            //var time = DateTime.Now;
+            //var timenow = new DateTime(time .Year, time.Day, time.Month, time.Hour, time.Minute, 0);
+
+            DisplayDate = DateTime.Now.ToString("MM DD YY");
+            StartDate = new DateTime();
+            EndDate = new DateTime();
         }
     }
 }

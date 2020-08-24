@@ -243,8 +243,12 @@ namespace UdlånsWeb.Controllers
         {
             CourseViewModel viewModel = new CourseViewModel();
             viewModel = convertCourseData.GetCourses();
+            if(viewModel == null)
+            return View(new CourseViewModel());
+            else
             return View(viewModel);
         }
+
 
         #region Add Course
         [HttpGet]

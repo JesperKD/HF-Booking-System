@@ -16,26 +16,12 @@
                     <div>
                         <dl style="margin: 0px 10px 0px 0px;">
                             <dt>
-                                @Html.DisplayNameFor(m => m.Courses[i].StartDate)
-                            </dt>
-                            <dd>
-                                @Model.Courses[i].StartDate
-                            </dd>
-                            
-                            <dt>
-                                @Html.DisplayNameFor(m => m.Courses[i].EndDate)
-                            </dt>
-                            <dd>
-                                @Model.Courses[i].EndDate
-                            </dd>
-
-                            <dt>
                                 @Html.DisplayNameFor(m => m.Courses[i].Duration)
                             </dt>
                             <dd>
                                 @Model.Courses[i].Duration
                             </dd>
-
+                            @Model.Courses[i].DisplayDate
                         </dl>
 
                         <ul style="display: inline-block; list-style-type:none;">
