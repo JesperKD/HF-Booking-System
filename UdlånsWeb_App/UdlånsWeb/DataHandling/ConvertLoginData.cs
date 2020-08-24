@@ -34,7 +34,5 @@ namespace UdlånsWeb.DataHandling
                 Console.WriteLine("Login method failed");
             }
         }
-
-
     }
 }

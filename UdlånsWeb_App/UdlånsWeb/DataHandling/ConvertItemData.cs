@@ -9,7 +9,6 @@ namespace UdlånsWeb.DataHandling
 {
     public class ConvertItemData
     {
-
         ToTxt ToTxt = new ToTxt();
         FromTxt FromTxt = new FromTxt();
         Encrypt Encrypt;

@@ -29,7 +29,6 @@ namespace UdlånsWeb.DataHandling
             ToTxt.AppendStringToTxt(FILE_PATH + USER_FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5) + Environment.NewLine);
         }
 
-
         public UserViewModel GetUsers()
         {
             try
