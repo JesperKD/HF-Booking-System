@@ -147,8 +147,6 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult EditItem(ItemViewModel item, int id)
         {
-
-
             return View(item.Items[id]);
         }
 
@@ -171,8 +169,8 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult DeleteItem(Item item)
         {
-            ConvertData.DeleteItem(item);
-            return View();
+            ConvertData.DeleteItem(SelectedItem);
+            return Redirect("AdminSite");
         }
         #endregion
         #endregion

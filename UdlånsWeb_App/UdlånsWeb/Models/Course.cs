@@ -18,7 +18,7 @@ namespace UdlånsWeb.Models
         public int NumberOfStudents { get; set; }
         [DisplayName("Fagets varighed")]
         public int Duration { get; set; }
-        public bool Difined { get; set; }
+        public bool Defined { get; set; }
 
         public Course()
         {
