@@ -239,6 +239,13 @@ namespace UdlånsWeb.Controllers
         //Overview over all course pages
         #region Course Pages
         
+        public IActionResult CourseSite()
+        {
+            CourseViewModel viewModel = new CourseViewModel();
+            viewModel = convertCourseData.GetCourses();
+            return View(viewModel);
+        }
+
         #region Add Course
         [HttpGet]
         public IActionResult AddCourse()
