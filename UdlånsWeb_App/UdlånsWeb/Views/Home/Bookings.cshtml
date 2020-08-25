@@ -13,18 +13,25 @@
         @foreach (var item in Model)
         {
             <dt class="col-sm-2">
+                Host:
+            </dt>
+            <dd class="col-sm-10">
+                @item.HostRentedForCourse.HostName
+            </dd>
+
+            <dt class="col-sm-2">
                 Udlånt til:
             </dt>
             <dd class="col-sm-10">
                 @item.RentedClient
             </dd>
+
             <dt class="col-sm-2">
                 Udlejning udløber: 
             </dt>
             <dd class="col-sm-10">
                 @item.HostRentedForCourse.TurnInDate
             </dd>
-            
         }
 
     </dl>
