@@ -41,7 +41,7 @@ namespace UdlånsWeb.DataHandling
 
             }
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append(item.HostName + "," + item.HostPassword + "," + item.UserName + "," + item.VmWareVersion + "," + item.HostIp + "," + item.NumberOfPeoplePerHost + "," + item.Rented + "," + itemID);
+            stringBuilder.Append(item.HostName + "," + item.HostPassword + "," + item.UserName + "," + item.VmWareVersion + "," + item.HostIp + "," + item.NumberOfPeoplePerHost + "," + item.Rented + "," + itemID + "," + item.TurnInDate);
 
             ToTxt.AppendStringToTxt(FILE_PATH + ITEM_FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5) + Environment.NewLine);
         }
@@ -68,6 +68,7 @@ namespace UdlånsWeb.DataHandling
                     item.NumberOfPeoplePerHost = int.Parse(itemData[5]);
                     item.Rented = Convert.ToBoolean(itemData[6]);
                     item.Id = int.Parse(itemData[7]);
+                    if (itemData[8] != null) item.TurnInDate = DateTime.Parse(itemData[8]);
 
                     itemModel.Items.Add(item);
 
@@ -103,6 +104,8 @@ namespace UdlånsWeb.DataHandling
                 oItem.NumberOfPeoplePerHost = int.Parse(itemData[5]);
                 oItem.Rented = Convert.ToBoolean(itemData[6]);
                 item.Id = int.Parse(itemData[7]);
+                if (itemData[8] != null) item.TurnInDate = DateTime.Parse(itemData[8]);
+
                 itemModelOld.Items.Add(oItem);
             }
 
@@ -122,7 +125,7 @@ namespace UdlånsWeb.DataHandling
             foreach (Item Item in ItemModelNew.Items)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(item.HostName + "," + item.HostPassword + "," + item.UserName + "," + item.VmWareVersion + "," + item.HostIp + "," + item.NumberOfPeoplePerHost + "," + item.Rented + "," + item.Id);
+                stringBuilder.Append(item.HostName + "," + item.HostPassword + "," + item.UserName + "," + item.VmWareVersion + "," + item.HostIp + "," + item.NumberOfPeoplePerHost + "," + item.Rented + "," + item.Id + "," + item.TurnInDate);
 
                 Encrypt = new Encrypt();
                 itemsTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
