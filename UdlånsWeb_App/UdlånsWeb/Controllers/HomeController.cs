@@ -113,7 +113,7 @@ namespace UdlånsWeb.Controllers
         public IActionResult AdminSite()
         {
             ItemViewModel itemModel = convertItemData.GetItems();
-            itemModel.Bookings = convertBookingData.GetBookings();
+            if(convertBookingData.GetBookings() != null)itemModel.Bookings = convertBookingData.GetBookings();
             if (itemModel == null)
             {
                 itemModel = new ItemViewModel();

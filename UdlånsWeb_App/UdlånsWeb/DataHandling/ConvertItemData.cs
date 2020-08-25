@@ -21,20 +21,25 @@ namespace UdlånsWeb.DataHandling
             Encrypt = new Encrypt();
 
             int itemID = 0;
-
-            if (GetItems().Items.Count > 0)
+            try
             {
-                for (int i = 0; i < GetItems().Items.Count; i++)
+                if (GetItems().Items.Count > 0)
+                {
+                    for (int i = 0; i < GetItems().Items.Count; i++)
+                    {
+                        itemID++;
+                    }
+                }
+
+                if (itemID == GetItems().Items.LastOrDefault().Id)
                 {
                     itemID++;
                 }
             }
-
-            if (itemID == GetItems().Items.LastOrDefault().Id)
+            catch(Exception)
             {
-                itemID++;
-            }
 
+            }
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append(item.HostName + "," + item.HostPassword + "," + item.UserName + "," + item.VmWareVersion + "," + item.HostIp + "," + item.NumberOfPeoplePerHost + "," + item.Rented + "," + itemID);
 
