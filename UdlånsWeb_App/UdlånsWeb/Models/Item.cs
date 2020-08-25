@@ -20,7 +20,7 @@ namespace UdlånsWeb.Models
         public string HostIp { get; set; }
         [DisplayName("Antal enheder per host")]
         public int NumberOfPeoplePerHost { get; set; }
-        [DisplayName("Udlejnings dato")]
+        [DisplayName("Lånes fra")]
         public DateTime RentedDate { get; set; }
         public DateTime TurnInDate { get; set; }
         public bool Rented { get; set; }
