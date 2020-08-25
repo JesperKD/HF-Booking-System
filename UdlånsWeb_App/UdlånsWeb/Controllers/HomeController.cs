@@ -42,10 +42,6 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult HomePage()
         {
-            SelectedUser = convertlogindata.LoginTest();
-
-            // remove to prevent any logins
-            // insert a user not found message
             if (SelectedUser == null)
                 SelectedUser = new User();
 
@@ -87,8 +83,21 @@ namespace UdlånsWeb.Controllers
                     RentedDate = DateTime.Now.Date
                 },
 
-                CoursesForSelection = convertCourseData.GetCourses().Courses
+
             };
+            try
+            {
+                bookingViewModel.CoursesForSelection = convertCourseData.GetCourses().Courses;
+            }
+            catch (Exception e)
+            {
+
+
+            }
+            finally
+            {
+                bookingViewModel.CoursesForSelection = new List<Course>();
+            }
 
             return Redirect("InfoPage");
         }
