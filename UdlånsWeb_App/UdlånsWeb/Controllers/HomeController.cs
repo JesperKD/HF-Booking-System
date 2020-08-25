@@ -156,6 +156,7 @@ namespace UdlånsWeb.Controllers
                         {
                             item.TurnInDate = booking.RentDate.AddDays(course.Duration);
                             booking.Id = item.Id;
+                            convertItemData.EditItem(item);
                         }
                     }
 
