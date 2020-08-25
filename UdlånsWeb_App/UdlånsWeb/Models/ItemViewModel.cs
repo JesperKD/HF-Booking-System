@@ -10,6 +10,7 @@ namespace UdlånsWeb.Models
     {
         public int Id { get; set; }
         public List<Item> Items { get; set; }
+        public List<BookingViewModel> Bookings { get; set; }
         public ItemViewModel()
         {
             Items = new List<Item>();

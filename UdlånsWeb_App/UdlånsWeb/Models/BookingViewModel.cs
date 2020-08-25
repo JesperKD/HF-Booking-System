@@ -12,6 +12,7 @@ namespace UdlånsWeb.Models
     {
         public int Id { get; set; }
         public string RentedClient { get; set; }
+        public DateTime RentDate { get; set; }
         public Item HostRentedForCourse { get; set; } = new Item();
         public Course CourseModel { get; set; } = new Course();
         [DisplayName("Alle fag")]

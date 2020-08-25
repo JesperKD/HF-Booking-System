@@ -10,25 +10,26 @@
             <label asp-for="@Model.CourseModel.Name" class="control-label"></label>
             <br />
             <select asp-for="@Model.CourseModel.Name">
-                @foreach (var item in Model.CoursesForSelection)
+                @for (int i = 0; i < Model.CoursesForSelection.Count; i++)
                 {
-                    <option>@item.Name</option>
+                    <option>@Model.CoursesForSelection[i].Name</option>
                 }
+                
             </select>
-
+            <span asp-validation-for="@Model.CourseModel.Name"></span>
             <br />
 
-            <label asp-for="@Model.HostRentedForCourse.RentedDate" class="control-label"></label>
+            <label asp-for="@Model.RentDate" class="control-label"></label>
             <br />
 
-            <input asp-for="@DateTime.Now.Date" class="form-control" />
-            <span asp-validation-for="@Model.HostRentedForCourse.RentedDate" class="text-danger"></span>
+            <input asp-for="@Model.RentDate" class="form-control" />
+            <span asp-validation-for="@Model.RentDate" class="text-danger"></span>
             <br />
             @if (Model.CourseModel.Defined == true)
             {
                 <label asp-for="@Model.HostRentedForCourse.TurnInDate" class="control-label"></label>
                 <br />
-                <input asp-for="@DateTime.Now.Date" class="form-control" />
+                <input asp-for="@Model.HostRentedForCourse.TurnInDate" class="form-control" />
                 <span asp-validation-for="@Model.HostRentedForCourse.TurnInDate" class="text-danger"></span>
                 <br />
             }

@@ -25,7 +25,7 @@ namespace UdlånsWeb.Controllers
         private ConvertItemData convertItemData = new ConvertItemData();
         private ConvertUserData convertUserData = new ConvertUserData();
         private ConvertLoginData convertlogindata = new ConvertLoginData();
-
+        private ConvertBookingData convertBookingData = new ConvertBookingData();
         private static User SelectedUser { get; set; }
         private static Item SelectedItem { get; set; }
         private static BookingViewModel bookingViewModel { get; set; }
@@ -72,7 +72,6 @@ namespace UdlånsWeb.Controllers
         {
             bookingViewModel = new BookingViewModel
             {
-
                 CourseModel = new Course()
                 {
                     Defined = course.Defined
@@ -83,8 +82,7 @@ namespace UdlånsWeb.Controllers
                     TurnInDate = DateTime.Now.Date,
                     RentedDate = DateTime.Now.Date
                 },
-
-
+                RentDate = DateTime.Now.Date,
             };
             try
             {
@@ -97,6 +95,7 @@ namespace UdlånsWeb.Controllers
             }
             finally
             {
+                if(bookingViewModel == null)
                 bookingViewModel.CoursesForSelection = new List<Course>();
             }
 
@@ -114,6 +113,7 @@ namespace UdlånsWeb.Controllers
         public IActionResult AdminSite()
         {
             ItemViewModel itemModel = convertItemData.GetItems();
+            itemModel.Bookings = convertBookingData.GetBookings();
             if (itemModel == null)
             {
                 itemModel = new ItemViewModel();
@@ -139,6 +139,7 @@ namespace UdlånsWeb.Controllers
         {
             //Make a booking save file
             List<Item> hosts = convertItemData.GetItems().Items;
+            List<Course> courses = convertCourseData.GetCourses().Courses;
 
             foreach (var item in hosts)
             {
@@ -147,13 +148,19 @@ namespace UdlånsWeb.Controllers
                     //sets the host to rented
                     item.Rented = true;
                     //sets the hosts renteddate to the day it was rented
-                    item.RentedDate = booking.HostRentedForCourse.RentedDate;
+                    item.RentedDate = booking.RentDate;
                     //sets turnindate to day it was rented plus days its rented for aka turnindate
-                    item.TurnInDate.AddDays(booking.CourseModel.Duration);
+                    foreach (var course in courses)
+                    {
+                        if (booking.CourseModel.Name == course.Name)
+                        {
+                            item.TurnInDate = booking.RentDate.AddDays(course.Duration);
+                        }
+                    }
 
                     booking.HostRentedForCourse = item;
                     booking.RentedClient = convertlogindata.AutoLogin().Initials;
-
+                    convertBookingData.SaveBooking(booking);
                 }
             }
             return Redirect("/Home");
