@@ -42,7 +42,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult HomePage()
         {
-            SelectedUser = convertlogindata.LoginTest();
+            SelectedUser = convertlogindata.AutoLogin();
 
             // remove to prevent any logins
             // insert a user not found message

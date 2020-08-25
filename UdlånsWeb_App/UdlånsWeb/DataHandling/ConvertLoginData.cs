@@ -35,7 +35,8 @@ namespace UdlånsWeb.DataHandling
                 Console.WriteLine("Login method failed");
             }
         }
-        public User LoginTest()
+        
+        public User AutoLogin()
         {
             User user = new User();
             string name = Environment.UserName;
