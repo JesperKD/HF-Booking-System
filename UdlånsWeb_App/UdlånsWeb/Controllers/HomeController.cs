@@ -155,6 +155,7 @@ namespace UdlånsWeb.Controllers
                         if (booking.CourseModel.Name == course.Name)
                         {
                             item.TurnInDate = booking.RentDate.AddDays(course.Duration);
+                            booking.Id = item.Id;
                         }
                     }
 
