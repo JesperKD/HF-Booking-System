@@ -20,8 +20,23 @@ namespace UdlånsWeb.DataHandling
         {
             Encrypt = new Encrypt();
 
+            int itemID = 0;
+
+            if (GetItems().Items.Count > 0)
+            {
+                for (int i = 0; i < GetItems().Items.Count; i++)
+                {
+                    itemID++;
+                }
+            }
+
+            if (itemID == GetItems().Items.LastOrDefault().Id)
+            {
+                itemID++;
+            }
+
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append(item.HostName + "," + item.HostPassword + "," + item.UserName + "," + item.VmWareVersion + "," + item.HostIp + "," + item.NumberOfPeoplePerHost + "," + item.Rented);
+            stringBuilder.Append(item.HostName + "," + item.HostPassword + "," + item.UserName + "," + item.VmWareVersion + "," + item.HostIp + "," + item.NumberOfPeoplePerHost + "," + item.Rented + "," + itemID);
 
             ToTxt.AppendStringToTxt(FILE_PATH + ITEM_FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5) + Environment.NewLine);
         }
@@ -47,6 +62,7 @@ namespace UdlånsWeb.DataHandling
                     item.HostIp = itemData[4];
                     item.NumberOfPeoplePerHost = int.Parse(itemData[5]);
                     item.Rented = Convert.ToBoolean(itemData[6]);
+                    item.Id = int.Parse(itemData[7]);
 
                     itemModel.Items.Add(item);
 
@@ -81,6 +97,7 @@ namespace UdlånsWeb.DataHandling
                 oItem.HostIp = itemData[4];
                 oItem.NumberOfPeoplePerHost = int.Parse(itemData[5]);
                 oItem.Rented = Convert.ToBoolean(itemData[6]);
+                item.Id = int.Parse(itemData[7]);
                 itemModelOld.Items.Add(oItem);
             }
 
@@ -131,6 +148,7 @@ namespace UdlånsWeb.DataHandling
                     oItem.HostIp = itemData[4];
                     oItem.NumberOfPeoplePerHost = int.Parse(itemData[5]);
                     oItem.Rented = Convert.ToBoolean(itemData[6]);
+                    item.Id = int.Parse(itemData[7]);
                     itemModel.Items.Add(oItem);
                 }
 
