@@ -95,8 +95,8 @@ namespace UdlånsWeb.Controllers
             }
             finally
             {
-                if(bookingViewModel == null)
-                bookingViewModel.CoursesForSelection = new List<Course>();
+                if (bookingViewModel == null)
+                    bookingViewModel.CoursesForSelection = new List<Course>();
             }
 
             return Redirect("InfoPage");
@@ -113,7 +113,7 @@ namespace UdlånsWeb.Controllers
         public IActionResult AdminSite()
         {
             ItemViewModel itemModel = convertItemData.GetItems();
-            if(convertBookingData.GetBookings() != null)itemModel.Bookings = convertBookingData.GetBookings();
+            if (convertBookingData.GetBookings() != null) itemModel.Bookings = convertBookingData.GetBookings();
             if (itemModel == null)
             {
                 itemModel = new ItemViewModel();
@@ -163,7 +163,7 @@ namespace UdlånsWeb.Controllers
                     booking.HostRentedForCourse = item;
                     booking.RentedClient = convertlogindata.AutoLogin().Initials;
                     convertBookingData.SaveBooking(booking);
-                    
+
                 }
             }
             return Redirect("/Home");
@@ -282,6 +282,15 @@ namespace UdlånsWeb.Controllers
         public IActionResult DeleteItem(Item item)
         {
             convertItemData.DeleteItem(item);
+            //Checks after a booking on the host and delete it aswell
+            List<BookingViewModel> bookings = convertBookingData.GetBookings();
+            foreach (var booking in bookings)
+            {
+                if (item.Id == booking.Id)
+                {
+                    convertBookingData.DeleteBooking(booking);
+                }
+            }
             return Redirect("AdminSite");
         }
         #endregion

@@ -43,7 +43,7 @@
                                 <dd>
                                     @Model.Items[i].VmWareVersion<br />
                                 </dd>
-                                @if (Model.Bookings != null)
+                                @if (Model.Bookings != null ||Model.Items[i].Rented == false)
                                 {
                                     <dt>
                                         Lånt til:
