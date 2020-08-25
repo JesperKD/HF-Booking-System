@@ -1,0 +1,29 @@
+﻿@model UdlånsWeb.Models.Item
+
+@{
+    ViewData["Title"] = "ConfirmBooking";
+}
+
+<h1>Confirm Booking</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.HostName)
+        </dt>
+        
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RentedDate)
+        </dt>
+        
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TurnInDate)
+        </dt>
+        
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Go Back</a>
+</div>
