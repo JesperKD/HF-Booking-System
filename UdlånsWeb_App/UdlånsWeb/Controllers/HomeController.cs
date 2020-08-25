@@ -21,13 +21,10 @@ namespace UdlånsWeb.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private ToTxt ToTxt = new ToTxt();
-        private FromTxt FromTxt = new FromTxt();
         private ConvertCourseData convertCourseData = new ConvertCourseData();
         private ConvertItemData convertItemData = new ConvertItemData();
         private ConvertUserData convertUserData = new ConvertUserData();
         private ConvertLoginData convertlogindata = new ConvertLoginData();
-
 
         private static User SelectedUser { get; set; }
         private static Item SelectedItem { get; set; }
@@ -137,8 +134,22 @@ namespace UdlånsWeb.Controllers
         public IActionResult InfoPage(BookingViewModel booking)
         {
             //Make a booking save file
+            List<Item> hosts = convertItemData.GetItems().Items;
 
+            foreach (var item in hosts)
+            {
+                if (item.NumberOfPeoplePerHost >= booking.CourseModel.NumberOfStudents && item.Rented == false)
+                {
+                    //sets the host to rented
+                    item.Rented = true;
+                    //sets the hosts renteddate to the day it was rented
+                    item.RentedDate = booking.HostRentedForCourse.RentedDate;
+                    //sets turnindate to day it was rented plus days its rented for aka turnindate
+                    item.TurnInDate.AddDays(booking.CourseModel.Duration);
 
+                    booking.HostRentedForCourse = item;
+                }
+            }
             return Redirect("/Home");
         }
 
