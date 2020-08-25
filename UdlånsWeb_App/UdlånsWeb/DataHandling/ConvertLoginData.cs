@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Diagnostics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,9 +16,9 @@ namespace UdlånsWeb.DataHandling
         {
             try
             {
-                foreach(User user in convertuserdata.GetUsers().Users)
+                foreach (User user in convertuserdata.GetUsers().Users)
                 {
-                    if(user.Initials == input)
+                    if (user.Initials == input)
                     {
                         Console.WriteLine("Access granted");
                         loginConfirmed = true;
@@ -33,6 +34,30 @@ namespace UdlånsWeb.DataHandling
             {
                 Console.WriteLine("Login method failed");
             }
+        }
+        
+        public User AutoLogin()
+        {
+            User user = new User();
+            string name = Environment.UserName;
+            char[] chars = name.ToCharArray();
+            string initials = string.Empty;
+            foreach (char c in chars)
+            {
+                if (char.IsUpper(c))
+                {
+                    initials += c;
+                }
+            }
+
+            UserViewModel userModel = convertuserdata.GetUsers();
+
+            if (userModel.Users.Any(x => x.Initials == initials))
+            {
+                user = userModel.Users.Where(x => x.Initials == initials).FirstOrDefault();
+            }
+
+            return user;
         }
     }
 }

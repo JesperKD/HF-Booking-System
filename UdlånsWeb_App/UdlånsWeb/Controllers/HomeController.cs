@@ -39,11 +39,15 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult HomePage()
         {
+            SelectedUser = convertlogindata.AutoLogin();
+
+            // remove to prevent any logins
+            // insert a user not found message
             if (SelectedUser == null)
                 SelectedUser = new User();
 
             if (SelectedUser.Admin == true)
-                return Redirect("HomePage");
+                return Redirect("/Home/AdminSite");
 
             else
                 return Redirect("Home/Booking");
