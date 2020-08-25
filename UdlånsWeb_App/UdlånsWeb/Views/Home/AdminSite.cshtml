@@ -43,18 +43,21 @@
                                 <dd>
                                     @Model.Items[i].VmWareVersion<br />
                                 </dd>
-                               <dt>
-                                   Lånt til:
-                               </dt>
-                               <dd>
-                                   @Model.Bookings.Where(x => x.Id == Model.Items[i].Id).Select(x => x.RentedClient)
-                               </dd>
-                                <dt>
-                                    Lejning udløber:
-                                </dt>
-                                <dd>
-                                    @Model.Bookings.Where(x => x.Id == Model.Items[i].Id).Select(x => x.HostRentedForCourse.TurnInDate)
-                                </dd>
+                                @if (Model.Bookings != null)
+                                {
+                                    <dt>
+                                        Lånt til:
+                                    </dt>
+                                    <dd>
+                                        @Model.Bookings.Where(x => x.Id == Model.Items[i].Id).Select(x => x.RentedClient)
+                                    </dd>
+                                    <dt>
+                                        Lejning udløber:
+                                    </dt>
+                                    <dd>
+                                        @Model.Bookings.Where(x => x.Id == Model.Items[i].Id).Select(x => x.HostRentedForCourse.TurnInDate)
+                                    </dd>
+                                }
                             </dl>
 
                             <ul style="display: inline-block; list-style-type:none;">
@@ -119,15 +122,21 @@
                                 <dt>
                                     Lånt til:
                                 </dt>
-                                <dd>
-                                    @Model.Bookings.Where(x => x.Id == Model.Items[i].Id).Select(x => x.RentedClient)
-                                </dd>
-                                <dt>
-                                    Lejning udløber:
-                                </dt>
-                                <dd>
-                                    @Model.Bookings.Where(x => x.Id == Model.Items[i].Id).Select(x => x.HostRentedForCourse.TurnInDate)
-                                </dd>
+                                @if (Model.Bookings != null)
+                                {
+                                    <dt>
+                                        Lånt til:
+                                    </dt>
+                                    <dd>
+                                        @Model.Bookings.Where(x => x.Id == Model.Items[i].Id).Select(x => x.RentedClient)
+                                    </dd>
+                                    <dt>
+                                        Lejning udløber:
+                                    </dt>
+                                    <dd>
+                                        @Model.Bookings.Where(x => x.Id == Model.Items[i].Id).Select(x => x.HostRentedForCourse.TurnInDate)
+                                    </dd>
+                                }
                             </dl>
 
                             <ul style="display: inline-block; list-style-type:none;">
@@ -156,5 +165,4 @@
             }
         }
     </div>
-
 </div>

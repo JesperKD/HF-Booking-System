@@ -187,10 +187,7 @@ namespace UdlånsWeb.Controllers
             return Redirect("EditUser");
         }
 
-
         //This is for adding users
-
-
         [HttpPost]
         public IActionResult AddUser(User user)
         {
