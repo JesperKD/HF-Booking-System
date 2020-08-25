@@ -137,13 +137,25 @@
                                         Lånt til:
                                     </dt>
                                     <dd>
-                                        @Model.Bookings.Where(x => x.Id == Model.Items[i].Id).Select(x => x.RentedClient)
+                                        @for (int j = 0; j < Model.Bookings.Count; j++)
+                                        {
+                                            if (Model.Bookings[j].Id == Model.Items[i].Id)
+                                            {
+                                                @Model.Bookings[j].RentedClient
+                                            }
+                                        }
                                     </dd>
                                     <dt>
                                         Lejning udløber:
                                     </dt>
                                     <dd>
-                                        @Model.Bookings.Where(x => x.Id == Model.Items[i].Id).Select(x => x.HostRentedForCourse.TurnInDate)
+                                        @for (int j = 0; j < Model.Bookings.Count; j++)
+                                        {
+                                            if (Model.Bookings[j].Id == Model.Items[i].Id)
+                                            {
+                                                @Model.Bookings[j].HostRentedForCourse.TurnInDate
+                                            }
+                                        }
                                     </dd>
                                 }
                             </dl>
