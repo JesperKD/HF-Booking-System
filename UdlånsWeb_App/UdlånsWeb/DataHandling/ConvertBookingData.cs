@@ -23,7 +23,7 @@ namespace UdlånsWeb.DataHandling
             Encrypt = new Encrypt();
 
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append(booking.RentedClient + "," + booking.HostRentedForCourse.HostName + "," + booking.Id);
+            stringBuilder.Append(booking.RentedClient + "," + booking.HostRentedForCourse.HostName + "," + booking.Id + "," + booking.HostRentedForCourse.TurnInDate);
             ToTxt.AppendStringToTxt(FILE_PATH + FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5) + Environment.NewLine);
         }
 
@@ -44,6 +44,7 @@ namespace UdlånsWeb.DataHandling
                     booking.RentedClient = courseData[0];
                     booking.HostRentedForCourse.HostName = courseData[1];
                     booking.Id = int.Parse(courseData[2]);
+                    booking.HostRentedForCourse.TurnInDate = DateTime.Parse(courseData[3]);
                     courseModel.Add(booking);
 
                 }

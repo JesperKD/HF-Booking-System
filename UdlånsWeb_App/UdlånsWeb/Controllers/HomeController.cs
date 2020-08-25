@@ -112,13 +112,40 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult AdminSite()
         {
+
             ItemViewModel itemModel = convertItemData.GetItems();
             if (convertBookingData.GetBookings() != null) itemModel.Bookings = convertBookingData.GetBookings();
             if (itemModel == null)
             {
                 itemModel = new ItemViewModel();
             }
+            foreach (var item in itemModel.Items)
+            {
+                //if host is rented 
+                if(item.Rented == true)
+                {
+                    //check bookings for a turn in date 
+                    foreach (var booking in itemModel.Bookings)
+                    {
+                        //checks if turn in date has run out and if the booking id macth the item/host id
+                        if(booking.HostRentedForCourse.TurnInDate == DateTime.Now.Date && booking.Id == item.Id)
+                        {
+                            //reset rented so the view model updates
+                            //Used by admin to show if host is used or not
+                            item.Rented = false;
+                        }
+                    }
+                }
+
+            }
             return View(itemModel);
+        }
+
+        public IActionResult Bookings()
+        {
+            List<BookingViewModel> model = new List<BookingViewModel>();
+            model = convertBookingData.GetBookings();
+            return View(model);
         }
 
         [HttpPost]
