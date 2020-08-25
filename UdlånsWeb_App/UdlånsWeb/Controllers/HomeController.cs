@@ -70,23 +70,27 @@ namespace UdlånsWeb.Controllers
         }
         public IActionResult Booking(Course course)
         {
-            bookingViewModel = new BookingViewModel
+            if (bookingViewModel == null)
             {
-                CourseModel = new Course()
+                bookingViewModel = new BookingViewModel
                 {
-                    Defined = course.Defined
-                },
+                    CourseModel = new Course()
+                    {
+                        Defined = course.Defined
+                    },
 
-                HostRentedForCourse = new Item()
-                {
-                    TurnInDate = DateTime.Now.Date,
-                    RentedDate = DateTime.Now.Date
-                },
-                RentDate = DateTime.Now.Date,
-            };
+                    HostRentedForCourse = new Item()
+                    {
+                        TurnInDate = DateTime.Now.Date,
+                        RentedDate = DateTime.Now.Date
+                    },
+                    RentDate = DateTime.Now.Date,
+                };
+            }
             try
             {
                 bookingViewModel.CoursesForSelection = convertCourseData.GetCourses().Courses;
+                
             }
             catch (Exception e)
             {
@@ -122,13 +126,13 @@ namespace UdlånsWeb.Controllers
             foreach (var item in itemModel.Items)
             {
                 //if host is rented 
-                if(item.Rented == true)
+                if (item.Rented == true)
                 {
                     //check bookings for a turn in date 
                     foreach (var booking in itemModel.Bookings)
                     {
                         //checks if turn in date has run out and if the booking id macth the item/host id
-                        if(booking.HostRentedForCourse.TurnInDate == DateTime.Now.Date && booking.Id == item.Id)
+                        if (booking.HostRentedForCourse.TurnInDate == DateTime.Now.Date && booking.Id == item.Id)
                         {
                             //reset rented so the view model updates
                             //Used by admin to show if host is used or not
@@ -190,7 +194,7 @@ namespace UdlånsWeb.Controllers
                     booking.HostRentedForCourse = item;
                     booking.RentedClient = convertlogindata.AutoLogin().Initials;
                     convertBookingData.SaveBooking(booking);
-                    
+                    break;
                 }
             }
             return Redirect("/Home");

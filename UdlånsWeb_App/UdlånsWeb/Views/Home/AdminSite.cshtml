@@ -43,7 +43,7 @@
                                 <dd>
                                     @Model.Items[i].VmWareVersion<br />
                                 </dd>
-                                @if (Model.Bookings.Count != 0)
+                                @if (Model.Bookings.Count != 0 && Model.Items[i].Rented == true)
                                 {
                                     <dt>
                                         Lånt til:
@@ -131,7 +131,7 @@
                                 <dd>
                                     @Model.Items[i].VmWareVersion<br />
                                 </dd>
-                                @if (Model.Bookings.Count != 0)
+                                @if (Model.Bookings.Count != 0 && Model.Items[i].Rented == true)
                                 {
                                     <dt>
                                         Lånt til:

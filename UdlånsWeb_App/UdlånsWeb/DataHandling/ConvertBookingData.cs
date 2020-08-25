@@ -57,7 +57,7 @@ namespace UdlånsWeb.DataHandling
             }
         }
 
-        public void EditCourse(BookingViewModel booking)
+        public void EditBooking(BookingViewModel booking)
         {
             //Logic for Edit Item
             var courseModelOld = new List<BookingViewModel>();
@@ -94,7 +94,7 @@ namespace UdlånsWeb.DataHandling
             foreach (var xbooking in bookingModelNew)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(booking.RentedClient + "," + booking.HostRentedForCourse.HostName + "," + booking.Id);
+                stringBuilder.Append(booking.RentedClient + "," + booking.HostRentedForCourse.HostName + "," + booking.Id + "," + booking.HostRentedForCourse.TurnInDate);
 
                 Encrypt = new Encrypt();
                 coursesTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
