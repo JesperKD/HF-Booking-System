@@ -163,6 +163,7 @@ namespace UdlånsWeb.Controllers
                     booking.HostRentedForCourse = item;
                     booking.RentedClient = convertlogindata.AutoLogin().Initials;
                     convertBookingData.SaveBooking(booking);
+                    
                 }
             }
             return Redirect("/Home");
@@ -264,6 +265,15 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult EditItem(Item item)
         {
+            //Checks after a booking on the host and delete it aswell
+            List<BookingViewModel> bookings = convertBookingData.GetBookings();
+            foreach (var booking in bookings)
+            {
+                if (item.Id == booking.Id)
+                {
+                    convertBookingData.DeleteBooking(booking);
+                }
+            }
             convertItemData.EditItem(item);
             return Redirect("AdminSite");
         }

@@ -103,8 +103,8 @@ namespace UdlånsWeb.DataHandling
                 oItem.HostIp = itemData[4];
                 oItem.NumberOfPeoplePerHost = int.Parse(itemData[5]);
                 oItem.Rented = Convert.ToBoolean(itemData[6]);
-                item.Id = int.Parse(itemData[7]);
-                if (itemData[8] != null) item.TurnInDate = DateTime.Parse(itemData[8]);
+                oItem.Id = int.Parse(itemData[7]);
+                if (itemData[8] != null) oItem.TurnInDate = DateTime.Parse(itemData[8]);
 
                 itemModelOld.Items.Add(oItem);
             }
@@ -125,7 +125,7 @@ namespace UdlånsWeb.DataHandling
             foreach (Item Item in ItemModelNew.Items)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(item.HostName + "," + item.HostPassword + "," + item.UserName + "," + item.VmWareVersion + "," + item.HostIp + "," + item.NumberOfPeoplePerHost + "," + item.Rented + "," + item.Id + "," + item.TurnInDate);
+                stringBuilder.Append(Item.HostName + "," + Item.HostPassword + "," + Item.UserName + "," + Item.VmWareVersion + "," + Item.HostIp + "," + Item.NumberOfPeoplePerHost + "," + Item.Rented + "," + Item.Id + "," + Item.TurnInDate);
 
                 Encrypt = new Encrypt();
                 itemsTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
