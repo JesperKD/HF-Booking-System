@@ -43,7 +43,7 @@ namespace UdlånsWeb.DataHandling
 
             UserViewModel userModel = convertuserdata.GetUsers();
 
-            if (userModel.Users.Any(x => x.Initials == initials))
+            if (userModel.Users.Any(x => x.Initials == initials.ToUpper()))
             {
                 user = userModel.Users.Where(x => x.Initials == initials).FirstOrDefault();
             }
