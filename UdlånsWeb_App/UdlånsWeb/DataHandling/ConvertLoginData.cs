@@ -40,12 +40,13 @@ namespace UdlånsWeb.DataHandling
         {
             User user = new User();
             string initials = Environment.UserName;
+            string[] iniSplit = initials.Split('.');
 
             UserViewModel userModel = convertuserdata.GetUsers();
 
-            if (userModel.Users.Any(x => x.Initials == initials.ToUpper()))
+            if (userModel.Users.Any(x => x.Initials == iniSplit[0].ToUpper()))
             {
-                user = userModel.Users.Where(x => x.Initials == initials).FirstOrDefault();
+                user = userModel.Users.Where(x => x.Initials == iniSplit[0].ToUpper()).FirstOrDefault();
             }
 
             return user;
