@@ -85,13 +85,18 @@ namespace UdlånsWeb.Controllers
 
 
             };
-            if (convertCourseData.GetCourses().Courses == null)
+            try
+            {
+                bookingViewModel.CoursesForSelection = convertCourseData.GetCourses().Courses;
+            }
+            catch (Exception e)
+            {
+
+
+            }
+            finally
             {
                 bookingViewModel.CoursesForSelection = new List<Course>();
-            }
-            else
-            {
-                bookingViewModel.CoursesForSelection = convertCourseData.GetCourses().Courses
             }
 
             return Redirect("InfoPage");
