@@ -27,9 +27,9 @@ namespace UdlånsWeb.Controllers
         private ConvertItemData convertItemData = new ConvertItemData();
         private ConvertUserData convertUserData = new ConvertUserData();
         private ConvertLoginData convertlogindata = new ConvertLoginData();
-        
 
-        private static User SelectedUser{ get; set; }
+
+        private static User SelectedUser { get; set; }
         private static Item SelectedItem { get; set; }
         private static BookingViewModel bookingViewModel { get; set; }
 
@@ -42,6 +42,10 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult HomePage()
         {
+            SelectedUser = convertlogindata.LoginTest();
+
+            // remove to prevent any logins
+            // insert a user not found message
             if (SelectedUser == null)
                 SelectedUser = new User();
 
@@ -51,7 +55,7 @@ namespace UdlånsWeb.Controllers
             else
                 return Redirect("Home/Booking");
         }
-        
+
         [HttpPost]
         public IActionResult HomePage(string initials)
         {
@@ -69,7 +73,8 @@ namespace UdlånsWeb.Controllers
         }
         public IActionResult Booking(Course course)
         {
-            bookingViewModel = new BookingViewModel {
+            bookingViewModel = new BookingViewModel
+            {
 
                 CourseModel = new Course()
                 {
@@ -81,10 +86,10 @@ namespace UdlånsWeb.Controllers
                     TurnInDate = DateTime.Now.Date,
                     RentedDate = DateTime.Now.Date
                 },
-                
+
                 CoursesForSelection = convertCourseData.GetCourses().Courses
             };
-         
+
             return Redirect("InfoPage");
         }
 
@@ -112,7 +117,7 @@ namespace UdlånsWeb.Controllers
             return View();
         }
 
-        
+
         [HttpGet]
         public IActionResult InfoPage()
         {
@@ -123,7 +128,7 @@ namespace UdlånsWeb.Controllers
         public IActionResult InfoPage(BookingViewModel booking)
         {
             //Make a booking save file
-            
+
 
             return Redirect("/Home");
         }
@@ -131,7 +136,7 @@ namespace UdlånsWeb.Controllers
         //Overview over all user pages
         #region User Pages
 
-        
+
         [HttpGet]
         public IActionResult UserPage()
         {
@@ -150,10 +155,10 @@ namespace UdlånsWeb.Controllers
             SelectedUser = user.Users[id];
             return Redirect("EditUser");
         }
-        
+
 
         //This is for adding users
-      
+
 
         [HttpPost]
         public IActionResult AddUser(User user)
@@ -168,7 +173,7 @@ namespace UdlånsWeb.Controllers
             //returns the AddUser page 
             return View();
         }
-        
+
         [HttpGet]
         public IActionResult EditUser(UserViewModel userList, int id)
         {
@@ -180,7 +185,7 @@ namespace UdlånsWeb.Controllers
             convertUserData.EditUser(user);
             return Redirect("UserPage");
         }
-        
+
 
         [HttpGet]
         public IActionResult DeleteUser(UserViewModel user, int id)
@@ -196,7 +201,7 @@ namespace UdlånsWeb.Controllers
             return Redirect("UserPage");
         }
 
-        
+
         #endregion
 
         //Overview over all item pages
@@ -253,15 +258,15 @@ namespace UdlånsWeb.Controllers
 
         //Overview over all course pages
         #region Course Pages
-        
+
         public IActionResult CourseSite()
         {
             CourseViewModel viewModel = new CourseViewModel();
             viewModel = convertCourseData.GetCourses();
-            if(viewModel == null)
-            return View(new CourseViewModel());
+            if (viewModel == null)
+                return View(new CourseViewModel());
             else
-            return View(viewModel);
+                return View(viewModel);
         }
 
 
