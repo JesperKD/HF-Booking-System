@@ -50,7 +50,7 @@ namespace UdlånsWeb.Controllers
                 SelectedUser = new User();
 
             if (SelectedUser.Admin == true)
-                return Redirect("HomePage");
+                return Redirect("/Home/AdminSite");
 
             else
                 return Redirect("Home/Booking");
