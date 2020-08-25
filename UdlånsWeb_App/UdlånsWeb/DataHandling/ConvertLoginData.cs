@@ -35,20 +35,11 @@ namespace UdlånsWeb.DataHandling
                 Console.WriteLine("Login method failed");
             }
         }
-        
+
         public User AutoLogin()
         {
             User user = new User();
-            string name = Environment.UserName;
-            char[] chars = name.ToCharArray();
-            string initials = string.Empty;
-            foreach (char c in chars)
-            {
-                if (char.IsUpper(c))
-                {
-                    initials += c;
-                }
-            }
+            string initials = Environment.UserName;
 
             UserViewModel userModel = convertuserdata.GetUsers();
 
