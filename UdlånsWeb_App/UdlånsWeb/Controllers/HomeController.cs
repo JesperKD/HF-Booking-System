@@ -152,6 +152,8 @@ namespace UdlånsWeb.Controllers
                     item.TurnInDate.AddDays(booking.CourseModel.Duration);
 
                     booking.HostRentedForCourse = item;
+                    booking.RentedClient = convertlogindata.AutoLogin().Initials;
+
                 }
             }
             return Redirect("/Home");
@@ -159,8 +161,6 @@ namespace UdlånsWeb.Controllers
 
         //Overview over all user pages
         #region User Pages
-
-
         [HttpGet]
         public IActionResult UserPage()
         {
