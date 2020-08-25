@@ -162,6 +162,7 @@ namespace UdlånsWeb.Controllers
                     booking.HostRentedForCourse = item;
                     booking.RentedClient = convertlogindata.AutoLogin().Initials;
                     convertBookingData.SaveBooking(booking);
+                    
                 }
             }
             return Redirect("/Home");
