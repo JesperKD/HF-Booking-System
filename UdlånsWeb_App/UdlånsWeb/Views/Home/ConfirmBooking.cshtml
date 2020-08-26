@@ -6,7 +6,7 @@
 
 <h1>Er du sikker på at du vil Book denne host</h1>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("BookingSucces", "Home", FormMethod.Get))
 {
     <dl>
         <dt>
@@ -30,9 +30,12 @@
             @Html.DisplayFor(x => x.HostRentedForCourse.TurnInDate)
         </dd>
     </dl>
-
+    <button type="submit">Godkend</button>
 }
-
+@using (Html.BeginForm("Booking", "Home", FormMethod.Get))
+{
+    <button type="submit">Afvis</button>
+}
 <div>
     <a asp-action="Index">Go Back</a>
 </div>

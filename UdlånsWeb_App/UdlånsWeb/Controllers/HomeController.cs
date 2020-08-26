@@ -82,28 +82,23 @@ namespace UdlånsWeb.Controllers
             {
                 if (item.NumberOfPeoplePerHost >= booking.CourseModel.NumberOfStudents && item.Rented == false)
                 {
-                    //sets the host to rented
-                    item.Rented = true;
-                    //sets the hosts renteddate to the day it was rented
-                    item.RentedDate = booking.RentDate;
+
                     //sets turnindate to day it was rented plus days its rented for aka turnindate
                     foreach (var course in courses)
                     {
                         if (booking.CourseModel.Name == course.Name)
                         {
-                            item.TurnInDate = booking.RentDate.AddDays(course.Duration);
                             booking.Id = item.Id;
-                            convertItemData.EditItem(item);
                         }
                     }
 
                     booking.HostRentedForCourse = item;
-                    userBooking = booking;
                     //booking.RentedClient = convertlogindata.AutoLogin().Initials;
-                    
+
                     break;
                 }
             }
+            userBooking = booking;
             return Redirect("ConfirmBooking");
         }
         [HttpGet]
@@ -148,13 +143,62 @@ namespace UdlånsWeb.Controllers
 
             return Redirect("InfoPage");
         }
-        
-        [HttpPost]
+
+
         public IActionResult ConfirmBooking(BookingViewModel booking)
         {
-           // model is null
-            //convertBookingData.SaveBooking();
-            return View(booking);
+            foreach (var item in convertCourseData.GetCourses().Courses)
+            {
+                if (item.Name == userBooking.CourseModel.Name)
+                {
+                    userBooking.HostRentedForCourse.TurnInDate = userBooking.RentDate.AddDays(item.Duration);
+                }
+            }
+            return View(userBooking);
+        }
+
+        public IActionResult BookingSucces()
+        {
+            //Send mail to user
+
+            //Make a booking save file
+            List<Item> hosts = convertItemData.GetItems().Items;
+            List<Course> courses = convertCourseData.GetCourses().Courses;
+            User user = new User();
+
+            foreach (var item in hosts)
+            {
+                if (item.NumberOfPeoplePerHost >= userBooking.CourseModel.NumberOfStudents && item.Rented == false)
+                {
+                    //sets the host to rented
+                    item.Rented = true;
+                    //sets the hosts renteddate to the day it was rented
+                    item.RentedDate = userBooking.RentDate;
+                    //sets turnindate to day it was rented plus days its rented for aka turnindate
+                    foreach (var course in courses)
+                    {
+                        if (userBooking.CourseModel.Name == course.Name)
+                        {
+                            item.TurnInDate = userBooking.RentDate.AddDays(course.Duration);
+                            convertItemData.EditItem(item);
+                        }
+                    }
+
+                    userBooking.HostRentedForCourse = item;
+                    //booking.RentedClient = convertlogindata.AutoLogin().Initials;
+                    convertBookingData.SaveBooking(userBooking);
+                    break;
+                }
+            }
+            foreach (var item in convertUserData.GetUsers().Users)
+            {
+                if (userBooking.RentedClient == item.Initials)
+                {
+                    user.Email = item.Email;
+                    return View(user);
+                }
+            }
+            return View(new User());
         }
         #endregion
         #endregion
@@ -212,6 +256,12 @@ namespace UdlånsWeb.Controllers
             model = convertBookingData.GetBookings();
             return View(model);
         }
+
+
+
+
+        //Overview over all user pages
+        #region User Pages
         [HttpGet]
         public IActionResult UserPage()
         {
@@ -222,12 +272,6 @@ namespace UdlånsWeb.Controllers
             }
             return View(userModel);
         }
-
-        
-
-
-        //Overview over all user pages
-        #region User Pages
 
         //Need to find a way around this
         [HttpPost]
