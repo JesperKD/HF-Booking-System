@@ -22,6 +22,7 @@ namespace UdlånsWeb.Models
         public int NumberOfPeoplePerHost { get; set; }
         [DisplayName("Lånes fra")]
         public DateTime RentedDate { get; set; }
+        [DisplayName("Lånes til")]
         public DateTime TurnInDate { get; set; }
         public bool Rented { get; set; }
         public int Id { get; set; }

@@ -62,7 +62,48 @@ namespace UdlånsWeb.Controllers
             //Redirect to InfoPage
             return Redirect("/Home/InfoPage");
         }
-        #endregion
+        #region Booking
+        [HttpGet]
+        public IActionResult InfoPage()
+        {
+            return View(bookingViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult InfoPage(BookingViewModel booking)
+        {
+            //Make a booking save file
+            List<Item> hosts = convertItemData.GetItems().Items;
+            List<Course> courses = convertCourseData.GetCourses().Courses;
+
+            foreach (var item in hosts)
+            {
+                if (item.NumberOfPeoplePerHost >= booking.CourseModel.NumberOfStudents && item.Rented == false)
+                {
+                    //sets the host to rented
+                    item.Rented = true;
+                    //sets the hosts renteddate to the day it was rented
+                    item.RentedDate = booking.RentDate;
+                    //sets turnindate to day it was rented plus days its rented for aka turnindate
+                    foreach (var course in courses)
+                    {
+                        if (booking.CourseModel.Name == course.Name)
+                        {
+                            item.TurnInDate = booking.RentDate.AddDays(course.Duration);
+                            booking.Id = item.Id;
+                            convertItemData.EditItem(item);
+                        }
+                    }
+
+                    booking.HostRentedForCourse = item;
+                    User user = convertlogindata.AutoLogin();
+                    //booking.RentedClient = convertlogindata.AutoLogin().Initials;
+                    convertBookingData.SaveBooking(booking);
+                    break;
+                }
+            }
+            return Redirect("/Home");
+        }
         [HttpGet]
         public IActionResult Booking()
         {
@@ -105,6 +146,9 @@ namespace UdlånsWeb.Controllers
 
             return Redirect("InfoPage");
         }
+        #endregion
+        #endregion
+
 
         public IActionResult Privacy()
         {
@@ -158,58 +202,6 @@ namespace UdlånsWeb.Controllers
             model = convertBookingData.GetBookings();
             return View(model);
         }
-
-        [HttpPost]
-        public IActionResult AdminSite(string searchInput)
-        {
-            return View();
-        }
-
-
-        [HttpGet]
-        public IActionResult InfoPage()
-        {
-            return View(bookingViewModel);
-        }
-
-        [HttpPost]
-        public IActionResult InfoPage(BookingViewModel booking)
-        {
-            //Make a booking save file
-            List<Item> hosts = convertItemData.GetItems().Items;
-            List<Course> courses = convertCourseData.GetCourses().Courses;
-
-            foreach (var item in hosts)
-            {
-                if (item.NumberOfPeoplePerHost >= booking.CourseModel.NumberOfStudents && item.Rented == false)
-                {
-                    //sets the host to rented
-                    item.Rented = true;
-                    //sets the hosts renteddate to the day it was rented
-                    item.RentedDate = booking.RentDate;
-                    //sets turnindate to day it was rented plus days its rented for aka turnindate
-                    foreach (var course in courses)
-                    {
-                        if (booking.CourseModel.Name == course.Name)
-                        {
-                            item.TurnInDate = booking.RentDate.AddDays(course.Duration);
-                            booking.Id = item.Id;
-                            convertItemData.EditItem(item);
-                        }
-                    }
-
-                    booking.HostRentedForCourse = item;
-                    User user = convertlogindata.AutoLogin();
-                    //booking.RentedClient = convertlogindata.AutoLogin().Initials;
-                    convertBookingData.SaveBooking(booking);
-                    break;
-                }
-            }
-            return Redirect("/Home");
-        }
-
-        //Overview over all user pages
-        #region User Pages
         [HttpGet]
         public IActionResult UserPage()
         {
@@ -220,6 +212,12 @@ namespace UdlånsWeb.Controllers
             }
             return View(userModel);
         }
+
+
+
+
+        //Overview over all user pages
+        #region User Pages
 
         //Need to find a way around this
         [HttpPost]
