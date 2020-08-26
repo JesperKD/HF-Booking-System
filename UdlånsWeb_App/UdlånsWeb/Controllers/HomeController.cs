@@ -29,6 +29,8 @@ namespace UdlånsWeb.Controllers
         private static User SelectedUser { get; set; }
         private static Item SelectedItem { get; set; }
         private static BookingViewModel bookingViewModel { get; set; }
+        private static BookingViewModel userBooking { get; set; }
+
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -96,13 +98,13 @@ namespace UdlånsWeb.Controllers
                     }
 
                     booking.HostRentedForCourse = item;
-                    User user = convertlogindata.AutoLogin();
+                    userBooking = booking;
                     //booking.RentedClient = convertlogindata.AutoLogin().Initials;
-                    convertBookingData.SaveBooking(booking);
+                    
                     break;
                 }
             }
-            return Redirect("/Home");
+            return Redirect("ConfirmBooking");
         }
         [HttpGet]
         public IActionResult Booking()
@@ -145,6 +147,14 @@ namespace UdlånsWeb.Controllers
             }
 
             return Redirect("InfoPage");
+        }
+        
+        [HttpPost]
+        public IActionResult ConfirmBooking(BookingViewModel booking)
+        {
+           // model is null
+            //convertBookingData.SaveBooking();
+            return View(booking);
         }
         #endregion
         #endregion
@@ -213,7 +223,7 @@ namespace UdlånsWeb.Controllers
             return View(userModel);
         }
 
-
+        
 
 
         //Overview over all user pages
