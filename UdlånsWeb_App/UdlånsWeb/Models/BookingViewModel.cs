@@ -11,6 +11,7 @@ namespace UdlånsWeb.Models
     public class BookingViewModel
     {
         public int Id { get; set; }
+        public User CurrentUser { get; set; }
         public string RentedClient { get; set; }
         [DisplayName("Lånes fra")]
         public DateTime RentDate { get; set; }

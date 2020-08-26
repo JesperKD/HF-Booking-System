@@ -170,6 +170,7 @@ namespace UdlånsWeb.Controllers
             {
                 if (item.NumberOfPeoplePerHost >= userBooking.CourseModel.NumberOfStudents && item.Rented == false)
                 {
+                    userBooking.CurrentUser = convertlogindata.AutoLogin();
                     //sets the host to rented
                     item.Rented = true;
                     //sets the hosts renteddate to the day it was rented
