@@ -44,12 +44,20 @@ namespace UdlånsWeb.DataHandling
 
             UserViewModel userModel = convertuserdata.GetUsers();
 
-            if (userModel.Users.Any(x => x.Initials == iniSplit[0].ToUpper()))
+            try
             {
-                user = userModel.Users.Where(x => x.Initials == iniSplit[0].ToUpper()).FirstOrDefault();
+                if (userModel.Users.Any(x => x.Initials == iniSplit[0].ToUpper()))
+                {
+                    user = userModel.Users.Where(x => x.Initials == iniSplit[0].ToUpper()).FirstOrDefault();
+                    return user;
+                }
             }
+            catch (Exception)
+            {
 
-            return user;
+            }
+            return null;
+
         }
     }
 }
