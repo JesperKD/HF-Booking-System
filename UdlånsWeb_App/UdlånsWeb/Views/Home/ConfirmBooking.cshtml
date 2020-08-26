@@ -1,29 +1,38 @@
-﻿@model UdlånsWeb.Models.Item
+﻿@model UdlånsWeb.Models.BookingViewModel
 
 @{
     ViewData["Title"] = "ConfirmBooking";
 }
 
-<h1>Confirm Booking</h1>
+<h1>Er du sikker på at du vil Book denne host</h1>
 
-<div>
-    <hr />
-    <dl class="row">
+@using (Html.BeginForm())
+{
+    <dl>
+        <dt>
+            Dine initialer:
+        </dt>
+        <dd>
+            @Html.DisplayFor(x => x.RentedClient)
+        </dd>
 
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.HostName)
+        <dt>
+            Navn på host:
         </dt>
-        
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RentedDate)
+        <dd>
+            @Html.DisplayFor(x => x.HostRentedForCourse.HostName)
+        </dd>
+
+        <dt>
+            Indleverings dato:
         </dt>
-        
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TurnInDate)
-        </dt>
-        
+        <dd>
+            @Html.DisplayFor(x => x.HostRentedForCourse.TurnInDate)
+        </dd>
     </dl>
-</div>
+
+}
+
 <div>
     <a asp-action="Index">Go Back</a>
 </div>
