@@ -90,7 +90,7 @@ namespace UdlånsWeb.Controllers
             try
             {
                 bookingViewModel.CoursesForSelection = convertCourseData.GetCourses().Courses;
-                
+
             }
             catch (Exception e)
             {
@@ -118,29 +118,36 @@ namespace UdlånsWeb.Controllers
         {
 
             ItemViewModel itemModel = convertItemData.GetItems();
-            if (convertBookingData.GetBookings() != null) itemModel.Bookings = convertBookingData.GetBookings();
-            if (itemModel == null)
+            try
             {
-                itemModel = new ItemViewModel();
-            }
-            foreach (var item in itemModel.Items)
-            {
-                //if host is rented 
-                if (item.Rented == true)
+                if (convertBookingData.GetBookings() != null) itemModel.Bookings = convertBookingData.GetBookings();
+                if (itemModel == null)
                 {
-                    //check bookings for a turn in date 
-                    foreach (var booking in itemModel.Bookings)
+                    itemModel = new ItemViewModel();
+                }
+                foreach (var item in itemModel.Items)
+                {
+                    //if host is rented 
+                    if (item.Rented == true)
                     {
-                        //checks if turn in date has run out and if the booking id macth the item/host id
-                        if (booking.HostRentedForCourse.TurnInDate == DateTime.Now.Date && booking.Id == item.Id)
+                        //check bookings for a turn in date 
+                        foreach (var booking in itemModel.Bookings)
                         {
-                            //reset rented so the view model updates
-                            //Used by admin to show if host is used or not
-                            item.Rented = false;
+                            //checks if turn in date has run out and if the booking id macth the item/host id
+                            if (booking.HostRentedForCourse.TurnInDate == DateTime.Now.Date && booking.Id == item.Id)
+                            {
+                                //reset rented so the view model updates
+                                //Used by admin to show if host is used or not
+                                item.Rented = false;
+                            }
                         }
                     }
-                }
 
+                }
+            }
+            catch (Exception)
+            {
+                return View(new ItemViewModel());
             }
             return View(itemModel);
         }
