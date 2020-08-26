@@ -45,7 +45,7 @@ namespace UdlånsWeb.DataHandling
                     string[] userData = raw.Split(',');
                     User user = new User();
                     user.Name = userData[0];
-                    user.Initials = userData[1];
+                    user.Initials = userData[1].ToUpper();
                     user.Email = userData[2];
                     user.Admin = Convert.ToBoolean(userData[3]);
                     user.Id = int.Parse(userData[4]);
