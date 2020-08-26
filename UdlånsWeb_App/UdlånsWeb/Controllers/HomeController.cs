@@ -192,7 +192,8 @@ namespace UdlånsWeb.Controllers
                     }
 
                     booking.HostRentedForCourse = item;
-                    booking.RentedClient = convertlogindata.AutoLogin().Initials;
+                    User user = convertlogindata.AutoLogin();
+                    //booking.RentedClient = convertlogindata.AutoLogin().Initials;
                     convertBookingData.SaveBooking(booking);
                     break;
                 }
