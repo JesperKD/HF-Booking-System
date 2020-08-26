@@ -53,7 +53,7 @@ namespace UdlånsWeb.DataHandling
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                return null;
+                return new List<BookingViewModel>();
             }
         }
 

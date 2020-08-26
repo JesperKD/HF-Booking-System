@@ -54,7 +54,7 @@ namespace UdlånsWeb.DataHandling
             }
             catch (Exception)
             {
-
+                return null;
             }
             return null;
 
