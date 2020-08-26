@@ -152,6 +152,8 @@ namespace UdlånsWeb.Controllers
                 if (item.Name == userBooking.CourseModel.Name)
                 {
                     userBooking.HostRentedForCourse.TurnInDate = userBooking.RentDate.AddDays(item.Duration);
+                    userBooking.CurrentUser = convertlogindata.AutoLogin();
+                    userBooking.RentedClient = userBooking.CurrentUser.Initials;
                 }
             }
             return View(userBooking);
@@ -170,7 +172,7 @@ namespace UdlånsWeb.Controllers
             {
                 if (item.NumberOfPeoplePerHost >= userBooking.CourseModel.NumberOfStudents && item.Rented == false)
                 {
-                    userBooking.CurrentUser = convertlogindata.AutoLogin();
+                    
                     //sets the host to rented
                     item.Rented = true;
                     //sets the hosts renteddate to the day it was rented
