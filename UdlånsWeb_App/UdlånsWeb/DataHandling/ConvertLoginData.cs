@@ -4,11 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UdlånsWeb.Models;
+using System.Web;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Razor.Language;
 
 namespace UdlånsWeb.DataHandling
 {
+
     public class ConvertLoginData
     {
+        //private readonly IHttpContextAccessor _httpContextAccessor;
+        
+
         ConvertUserData convertuserdata = new ConvertUserData();
         public bool loginConfirmed = false;
 
@@ -39,6 +47,7 @@ namespace UdlånsWeb.DataHandling
         public User AutoLogin()
         {
             User user = new User();
+            //var initials = _httpContextAccessor.HttpContext.User.Identity.Name;
             string initials = Environment.UserName;
             string[] iniSplit = initials.Split('.');
 
