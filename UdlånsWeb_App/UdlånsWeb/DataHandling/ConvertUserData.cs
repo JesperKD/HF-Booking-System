@@ -176,7 +176,7 @@ namespace UdlånsWeb.DataHandling
             }
 
             // finds the old user and removes it
-            User removeUser = userModel.Users.Where(x => x.Name == user.Name && x.Initials == user.Initials && x.Email == user.Email).First();
+            User removeUser = userModel.Users.Where(x=> x.Name == user.Name && x.Email == user.Email).FirstOrDefault();
             userModel.Users.Remove(removeUser);
 
             // creates correct user string
