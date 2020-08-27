@@ -64,7 +64,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult InfoPage()
         {
-            if (SelectedUser == null)
+            if (CurrentUser == null)
                 return Redirect("ErrorPage");
 
             return View(bookingViewModel);
@@ -103,7 +103,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult Booking()
         {
-            if (SelectedUser == null)
+            if (CurrentUser == null)
                 return Redirect("ErrorPage");
 
             return View();
