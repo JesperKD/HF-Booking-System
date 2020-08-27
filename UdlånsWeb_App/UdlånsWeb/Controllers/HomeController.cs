@@ -150,11 +150,7 @@ namespace UdlånsWeb.Controllers
                 if (item.Name == userBooking.CourseModel.Name)
                 {
                     userBooking.HostRentedForCourse.TurnInDate = userBooking.RentDate.AddDays(item.Duration);
-<<<<<<< Updated upstream
-                    userBooking.CurrentUser = Data.Convertlogindata.AutoLogin();
-=======
                     userBooking.CurrentUser = CurrentUser;
->>>>>>> Stashed changes
                     userBooking.RentedClient = userBooking.CurrentUser.Initials;
                 }
             }
