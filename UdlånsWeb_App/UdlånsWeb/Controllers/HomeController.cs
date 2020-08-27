@@ -21,11 +21,7 @@ namespace UdlånsWeb.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private ConvertCourseData convertCourseData = new ConvertCourseData();
-        private ConvertItemData convertItemData = new ConvertItemData();
-        private ConvertUserData convertUserData = new ConvertUserData();
-        private ConvertLoginData convertlogindata = new ConvertLoginData();
-        private ConvertBookingData convertBookingData = new ConvertBookingData();
+        Data Data = new Data();
         private static User SelectedUser { get; set; }
         private static Item SelectedItem { get; set; }
         private static BookingViewModel bookingViewModel { get; set; }
@@ -41,7 +37,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult HomePage()
         {
-            SelectedUser = convertlogindata.AutoLogin();
+            SelectedUser = Data.Convertlogindata.AutoLogin();
 
 
             // remove to prevent any logins
@@ -60,7 +56,7 @@ namespace UdlånsWeb.Controllers
         public IActionResult HomePage(string initials)
         {
             //Add logic for login
-            convertlogindata.CheckLogin(initials);
+            Data.Convertlogindata.CheckLogin(initials);
 
             //Redirect to InfoPage
             return Redirect("/Home/InfoPage");
@@ -79,8 +75,8 @@ namespace UdlånsWeb.Controllers
         public IActionResult InfoPage(BookingViewModel booking)
         {
             //Make a booking save file
-            List<Item> hosts = convertItemData.GetItems().Items;
-            List<Course> courses = convertCourseData.GetCourses().Courses;
+            List<Item> hosts = Data.ConvertItemData.GetItems().Items;
+            List<Course> courses = Data.ConvertCourseData.GetCourses().Courses;
 
             foreach (var item in hosts)
             {
@@ -134,7 +130,7 @@ namespace UdlånsWeb.Controllers
             }
             try
             {
-                bookingViewModel.CoursesForSelection = convertCourseData.GetCourses().Courses;
+                bookingViewModel.CoursesForSelection = Data.ConvertCourseData.GetCourses().Courses;
 
             }
             catch (Exception e)
@@ -154,12 +150,12 @@ namespace UdlånsWeb.Controllers
 
         public IActionResult ConfirmBooking(BookingViewModel booking)
         {
-            foreach (var item in convertCourseData.GetCourses().Courses)
+            foreach (var item in Data.ConvertCourseData.GetCourses().Courses)
             {
                 if (item.Name == userBooking.CourseModel.Name)
                 {
                     userBooking.HostRentedForCourse.TurnInDate = userBooking.RentDate.AddDays(item.Duration);
-                    userBooking.CurrentUser = convertlogindata.AutoLogin();
+                    userBooking.CurrentUser = Data.Convertlogindata.AutoLogin();
                     userBooking.RentedClient = userBooking.CurrentUser.Initials;
                 }
             }
@@ -171,8 +167,8 @@ namespace UdlånsWeb.Controllers
             //Send mail to user
 
             //Make a booking save file
-            List<Item> hosts = convertItemData.GetItems().Items;
-            List<Course> courses = convertCourseData.GetCourses().Courses;
+            List<Item> hosts = Data.ConvertItemData.GetItems().Items;
+            List<Course> courses = Data.ConvertCourseData.GetCourses().Courses;
             User user = new User();
 
             foreach (var item in hosts)
@@ -190,17 +186,17 @@ namespace UdlånsWeb.Controllers
                         if (userBooking.CourseModel.Name == course.Name)
                         {
                             item.TurnInDate = userBooking.RentDate.AddDays(course.Duration);
-                            convertItemData.EditItem(item);
+                            Data.ConvertItemData.EditItem(item);
                         }
                     }
 
                     userBooking.HostRentedForCourse = item;
                     //booking.RentedClient = convertlogindata.AutoLogin().Initials;
-                    convertBookingData.SaveBooking(userBooking);
+                    Data.ConvertBookingData.SaveBooking(userBooking);
                     break;
                 }
             }
-            foreach (var item in convertUserData.GetUsers().Users)
+            foreach (var item in Data.ConvertUserData.GetUsers().Users)
             {
                 if (userBooking.RentedClient == item.Initials)
                 {
@@ -227,10 +223,10 @@ namespace UdlånsWeb.Controllers
             if (SelectedUser == null)
                 return Redirect("ErrorPage");
 
-            ItemViewModel itemModel = convertItemData.GetItems();
+            ItemViewModel itemModel = Data.ConvertItemData.GetItems();
             try
             {
-                if (convertBookingData.GetBookings() != null) itemModel.Bookings = convertBookingData.GetBookings();
+                if (Data.ConvertBookingData.GetBookings() != null) itemModel.Bookings = Data.ConvertBookingData.GetBookings();
                 if (itemModel == null)
                 {
                     itemModel = new ItemViewModel();
@@ -265,7 +261,7 @@ namespace UdlånsWeb.Controllers
         public IActionResult Bookings()
         {
             List<BookingViewModel> model = new List<BookingViewModel>();
-            model = convertBookingData.GetBookings();
+            model = Data.ConvertBookingData.GetBookings();
             return View(model);
         }
 
@@ -280,7 +276,7 @@ namespace UdlånsWeb.Controllers
             if (SelectedUser == null)
                 return Redirect("Home/ErrorPage");
 
-            UserViewModel userModel = convertUserData.GetUsers();
+            UserViewModel userModel = Data.ConvertUserData.GetUsers();
             if (userModel == null)
             {
                 userModel = new UserViewModel();
@@ -300,7 +296,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult AddUser(User user)
         {
-            convertUserData.AddUser(user);
+            Data.ConvertUserData.AddUser(user);
             return Redirect("/Home/UserPage");
         }
 
@@ -325,7 +321,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult EditUser(User user)
         {
-            convertUserData.EditUser(user);
+            Data.ConvertUserData.EditUser(user);
             return Redirect("UserPage");
         }
 
@@ -343,7 +339,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult DeleteUser(User user)
         {
-            convertUserData.DeleteUser(user);
+            Data.ConvertUserData.DeleteUser(user);
             return Redirect("UserPage");
         }
 
@@ -366,7 +362,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult AddItem(Item item)
         {
-            convertItemData.AddItem(item);
+            Data.ConvertItemData.AddItem(item);
             return Redirect("AdminSite");
         }
         #endregion
@@ -385,15 +381,15 @@ namespace UdlånsWeb.Controllers
         public IActionResult EditItem(Item item)
         {
             //Checks after a booking on the host and delete it aswell
-            List<BookingViewModel> bookings = convertBookingData.GetBookings();
+            List<BookingViewModel> bookings = Data.ConvertBookingData.GetBookings();
             foreach (var booking in bookings)
             {
                 if (item.Id == booking.Id)
                 {
-                    convertBookingData.DeleteBooking(booking);
+                    Data.ConvertBookingData.DeleteBooking(booking);
                 }
             }
-            convertItemData.EditItem(item);
+            Data.ConvertItemData.EditItem(item);
             return Redirect("AdminSite");
         }
         #endregion
@@ -412,14 +408,14 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult DeleteItem(Item item)
         {
-            convertItemData.DeleteItem(item);
+            Data.ConvertItemData.DeleteItem(item);
             //Checks after a booking on the host and delete it aswell
-            List<BookingViewModel> bookings = convertBookingData.GetBookings();
+            List<BookingViewModel> bookings = Data.ConvertBookingData.GetBookings();
             foreach (var booking in bookings)
             {
                 if (item.Id == booking.Id)
                 {
-                    convertBookingData.DeleteBooking(booking);
+                    Data.ConvertBookingData.DeleteBooking(booking);
                 }
             }
             return Redirect("AdminSite");
@@ -436,7 +432,7 @@ namespace UdlånsWeb.Controllers
                 return Redirect("Home/ErrorPage");
 
             CourseViewModel viewModel = new CourseViewModel();
-            viewModel = convertCourseData.GetCourses();
+            viewModel = Data.ConvertCourseData.GetCourses();
             if (viewModel == null)
                 return View(new CourseViewModel());
             else
@@ -457,7 +453,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult AddCourse(Course course)
         {
-            convertCourseData.AddCourse(course);
+            Data.ConvertCourseData.AddCourse(course);
             return Redirect("CourseSite");
         }
         #endregion
@@ -475,7 +471,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult EditCourse(Course course)
         {
-            convertCourseData.EditCourse(course);
+            Data.ConvertCourseData.EditCourse(course);
             return Redirect("CourseSite");
         }
         #endregion
@@ -494,7 +490,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult DeleteCourse(Course course)
         {
-            convertCourseData.DeleteCourse(course);
+            Data.ConvertCourseData.DeleteCourse(course);
             return Redirect("CourseSite");
         }
         #endregion
