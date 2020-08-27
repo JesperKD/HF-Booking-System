@@ -27,14 +27,7 @@ namespace UdlånsWeb.Controllers
         private static BookingViewModel bookingViewModel { get; set; }
         private static BookingViewModel userBooking { get; set; }
 
-        // add all methods with User tag
-        public IActionResult Index()
-        {
-            return View();
-        }
 
-        //Overview over all user pages
-        #region User Pages
         [HttpGet]
         public IActionResult UserPage()
         {
@@ -108,7 +101,5 @@ namespace UdlånsWeb.Controllers
             return Redirect("UserPage");
         }
 
-
-        #endregion
     }
 }

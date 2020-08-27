@@ -27,13 +27,6 @@ namespace UdlånsWeb.Controllers
         private static BookingViewModel bookingViewModel { get; set; }
         private static BookingViewModel userBooking { get; set; }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        #region Course Pages
-
         public IActionResult CourseSite()
         {
             if (CurrentUser == null && CurrentUser.Admin == true)
@@ -48,7 +41,6 @@ namespace UdlånsWeb.Controllers
         }
 
 
-        #region Add Course
         [HttpGet]
         public IActionResult AddCourse()
         {
@@ -64,9 +56,7 @@ namespace UdlånsWeb.Controllers
             Data.ConvertCourseData.AddCourse(course);
             return Redirect("CourseSite");
         }
-        #endregion
-
-        #region Edit Course
+        
         [HttpGet]
         public IActionResult EditCourse(CourseViewModel course, int id)
         {
@@ -82,9 +72,7 @@ namespace UdlånsWeb.Controllers
             Data.ConvertCourseData.EditCourse(course);
             return Redirect("CourseSite");
         }
-        #endregion
 
-        #region Delete Course
         [HttpGet]
         public IActionResult DeleteCourse(CourseViewModel course, int id)
         {
@@ -101,7 +89,5 @@ namespace UdlånsWeb.Controllers
             Data.ConvertCourseData.DeleteCourse(course);
             return Redirect("CourseSite");
         }
-        #endregion
-        #endregion
     }
 }

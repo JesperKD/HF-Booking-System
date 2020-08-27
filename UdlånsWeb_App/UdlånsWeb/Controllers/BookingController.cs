@@ -26,10 +26,6 @@ namespace UdlånsWeb.Controllers
         private static Item SelectedItem { get; set; }
         private static BookingViewModel bookingViewModel { get; set; }
         private static BookingViewModel userBooking { get; set; }
-        public IActionResult Index()
-        {
-            return View();
-        }
 
         [HttpGet]
         public IActionResult InfoPage()

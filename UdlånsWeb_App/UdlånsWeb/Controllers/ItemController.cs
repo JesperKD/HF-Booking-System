@@ -16,66 +16,84 @@ using Microsoft.Extensions.Logging;
 using UdlånsWeb.DataHandling;
 using UdlånsWeb.Models;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace UdlånsWeb.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ItemController : ControllerBase
+    public class ItemController : Controller
     {
-        //ConvertItemData data = new ConvertItemData();
-        //ItemViewModel model = new ItemViewModel();
-        //public itemcontroller()
-        //{
+        Data Data = new Data();
+        private static User SelectedUser { get; set; }
+        private static User CurrentUser { get; set; }
+        private static Item SelectedItem { get; set; }
+        private static BookingViewModel bookingViewModel { get; set; }
+        private static BookingViewModel userBooking { get; set; }
 
-        //    model.items = data.getitems().items;
-        //}
-
-        ConvertUserData ConvertUserData = new ConvertUserData();
-        public User currentUser;
-
-        public ItemController()
-        {
-            currentUser = new User();
-            currentUser.Name = Environment.UserName;
-        }
-
-        // GET: api/<ItemController>
         [HttpGet]
-        public User Get()
+        public IActionResult AddItem()
         {
-            //return model;
-            return currentUser;
+            if (CurrentUser == null && CurrentUser.Admin == true)
+                return Redirect("Home/ErrorPage");
+
+            return View();
         }
 
-        // GET api/<ItemController>/5
-        [HttpGet("{id}")]
-        public Item Get(int id)
-        {
-            //return model.Items.Where(x => x.Id == id).FirstOrDefault();
-            return null;
-        }
-
-        // POST api/<ItemController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult AddItem(Item item)
         {
-            //Remake
+            Data.ConvertItemData.AddItem(item);
+            return Redirect("AdminSite");
         }
 
-        // PUT api/<ItemController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpGet]
+        public IActionResult EditItem(ItemViewModel item, int id)
         {
-            //Remake
+            if (CurrentUser == null && CurrentUser.Admin == true)
+                return Redirect("Home/ErrorPage");
+
+            return View(item.Items[id]);
         }
 
-        // DELETE api/<ItemController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpPost]
+        public IActionResult EditItem(Item item)
         {
-            //Remake
+            //Checks after a booking on the host and delete it aswell
+            List<BookingViewModel> bookings = Data.ConvertBookingData.GetBookings();
+            foreach (var booking in bookings)
+            {
+                if (item.Id == booking.Id)
+                {
+                    Data.ConvertBookingData.DeleteBooking(booking);
+                }
+            }
+            Data.ConvertItemData.EditItem(item);
+            return Redirect("AdminSite");
         }
+
+        [HttpGet]
+        public IActionResult DeleteItem(ItemViewModel item, int id)
+        {
+            if (CurrentUser == null && CurrentUser.Admin == true)
+                return Redirect("Home/ErrorPage");
+
+            SelectedItem = item.Items[id];
+            return View(SelectedItem);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteItem(Item item)
+        {
+            Data.ConvertItemData.DeleteItem(item);
+            //Checks after a booking on the host and delete it aswell
+            List<BookingViewModel> bookings = Data.ConvertBookingData.GetBookings();
+            foreach (var booking in bookings)
+            {
+                if (item.Id == booking.Id)
+                {
+                    Data.ConvertBookingData.DeleteBooking(booking);
+                }
+            }
+            return Redirect("AdminSite");
+        }
+
     }
 }
