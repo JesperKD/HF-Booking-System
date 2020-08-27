@@ -15,7 +15,7 @@ namespace UdlånsWeb.DataHandling
     public class ConvertLoginData
     {
         //private readonly IHttpContextAccessor _httpContextAccessor;
-        
+
 
         ConvertUserData convertuserdata = new ConvertUserData();
         public bool loginConfirmed = false;
@@ -67,6 +67,27 @@ namespace UdlånsWeb.DataHandling
             }
             return null;
 
+        }
+
+        public User WindowsLogin(string WindowsName)
+        {
+            User user = new User();
+
+            UserViewModel userModel = convertuserdata.GetUsers();
+            try
+            {
+                string[] nameSplit = WindowsName.Split('\\');
+                if (userModel.Users.Any(x => x.Initials == nameSplit[1].ToUpper()))
+                {
+                    user = userModel.Users.Where(x => x.Initials == nameSplit[1].ToUpper()).FirstOrDefault();
+                    return user;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            return null;
         }
     }
 }

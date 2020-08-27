@@ -41,7 +41,9 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult HomePage()
         {
-            SelectedUser = convertlogindata.AutoLogin();
+            //SelectedUser = convertlogindata.AutoLogin();
+
+            SelectedUser = convertlogindata.WindowsLogin(User.Identity.Name);
 
             // remove to prevent any logins
             // insert a user not found message
