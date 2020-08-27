@@ -150,7 +150,11 @@ namespace UdlånsWeb.Controllers
                 if (item.Name == userBooking.CourseModel.Name)
                 {
                     userBooking.HostRentedForCourse.TurnInDate = userBooking.RentDate.AddDays(item.Duration);
+<<<<<<< Updated upstream
                     userBooking.CurrentUser = Data.Convertlogindata.AutoLogin();
+=======
+                    userBooking.CurrentUser = CurrentUser;
+>>>>>>> Stashed changes
                     userBooking.RentedClient = userBooking.CurrentUser.Initials;
                 }
             }
@@ -214,7 +218,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult AdminSite()
         {
-            if (CurrentUser == null && CurrentUser.Admin == true)
+            if (CurrentUser == null || CurrentUser.Admin == false)
                 return Redirect("ErrorPage");
 
             ItemViewModel itemModel = Data.ConvertItemData.GetItems();
