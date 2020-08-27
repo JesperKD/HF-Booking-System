@@ -41,14 +41,13 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult HomePage()
         {
-            //SelectedUser = convertlogindata.AutoLogin();
+            SelectedUser = convertlogindata.AutoLogin();
 
-            SelectedUser = convertlogindata.WindowsLogin(User.Identity.Name);
 
             // remove to prevent any logins
             // insert a user not found message
             if (SelectedUser == null)
-                SelectedUser = new User();
+                return Redirect("/Home/ErrorPage");
 
             if (SelectedUser.Admin == true)
                 return Redirect("/Home/AdminSite");
@@ -70,6 +69,9 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult InfoPage()
         {
+            if (SelectedUser == null)
+                return Redirect("ErrorPage");
+
             return View(bookingViewModel);
         }
 
@@ -106,6 +108,9 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult Booking()
         {
+            if (SelectedUser == null)
+                return Redirect("ErrorPage");
+
             return View();
         }
         public IActionResult Booking(Course course)
@@ -174,7 +179,7 @@ namespace UdlånsWeb.Controllers
             {
                 if (item.NumberOfPeoplePerHost >= userBooking.CourseModel.NumberOfStudents && item.Rented == false)
                 {
-                    
+
                     //sets the host to rented
                     item.Rented = true;
                     //sets the hosts renteddate to the day it was rented
@@ -219,6 +224,8 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult AdminSite()
         {
+            if (SelectedUser == null)
+                return Redirect("ErrorPage");
 
             ItemViewModel itemModel = convertItemData.GetItems();
             try
@@ -270,6 +277,9 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult UserPage()
         {
+            if (SelectedUser == null)
+                return Redirect("Home/ErrorPage");
+
             UserViewModel userModel = convertUserData.GetUsers();
             if (userModel == null)
             {
@@ -297,6 +307,9 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult AddUser()
         {
+            if (SelectedUser == null)
+                return Redirect("Home/ErrorPage");
+
             //returns the AddUser page 
             return View();
         }
@@ -304,6 +317,9 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult EditUser(UserViewModel userList, int id)
         {
+            if (SelectedUser == null)
+                return Redirect("Home/ErrorPage");
+
             return View(SelectedUser);
         }
         [HttpPost]
@@ -317,6 +333,9 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult DeleteUser(UserViewModel user, int id)
         {
+            if (SelectedUser == null)
+                return Redirect("Home/ErrorPage");
+
             //Sends the right user to the delete view
             SelectedUser = user.Users[id];
             return View(SelectedUser);
@@ -338,6 +357,9 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult AddItem()
         {
+            if (SelectedUser == null)
+                return Redirect("Home/ErrorPage");
+
             return View();
         }
 
@@ -353,7 +375,8 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult EditItem(ItemViewModel item, int id)
         {
-
+            if (SelectedUser == null)
+                return Redirect("Home/ErrorPage");
 
             return View(item.Items[id]);
         }
@@ -379,6 +402,9 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult DeleteItem(ItemViewModel item, int id)
         {
+            if (SelectedUser == null)
+                return Redirect("Home/ErrorPage");
+
             SelectedItem = item.Items[id];
             return View(SelectedItem);
         }
@@ -406,6 +432,9 @@ namespace UdlånsWeb.Controllers
 
         public IActionResult CourseSite()
         {
+            if (SelectedUser == null)
+                return Redirect("Home/ErrorPage");
+
             CourseViewModel viewModel = new CourseViewModel();
             viewModel = convertCourseData.GetCourses();
             if (viewModel == null)
@@ -419,6 +448,9 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult AddCourse()
         {
+            if (SelectedUser == null)
+                return Redirect("Home/ErrorPage");
+
             return View();
         }
 
@@ -434,6 +466,9 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult EditCourse(CourseViewModel course, int id)
         {
+            if (SelectedUser == null)
+                return Redirect("Home/ErrorPage");
+
             return View(course.Courses[id]);
         }
 
@@ -449,6 +484,9 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult DeleteCourse(CourseViewModel course, int id)
         {
+            if (SelectedUser == null)
+                return Redirect("Home/ErrorPage");
+
             bookingViewModel.CourseModel = course.Courses[id];
             return View(course.Courses[id]);
         }
@@ -468,6 +506,11 @@ namespace UdlånsWeb.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult ErrorPage()
+        {
+            return View(new ErrorViewModel());
         }
     }
 }
