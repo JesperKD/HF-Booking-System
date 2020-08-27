@@ -73,7 +73,7 @@ namespace UdlånsWeb.Controllers
 
             return View();
         }
-        public IActionResult BookingDefined(Course course)
+        public IActionResult BookingDefine(Course course)
         {
             if (bookingViewModel == null)
             {

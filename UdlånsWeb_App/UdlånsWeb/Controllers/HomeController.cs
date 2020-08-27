@@ -51,7 +51,7 @@ namespace UdlånsWeb.Controllers
                 return Redirect("/Home/AdminSite");
 
             else
-                return Redirect("Views/Booking/BookingDefined");
+                return Redirect("Booking/BookingDefine");
         }
        
         public IActionResult Privacy()
@@ -92,7 +92,6 @@ namespace UdlånsWeb.Controllers
                             }
                         }
                     }
-
                 }
             }
             catch (Exception)

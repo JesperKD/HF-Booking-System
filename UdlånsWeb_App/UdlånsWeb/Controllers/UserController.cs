@@ -31,7 +31,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult UserPage()
         {
-            if (CurrentUser.User == null && CurrentUser.User.Admin == true)
+            if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("Home/ErrorPage");
 
             UserViewModel userModel = Data.ConvertUserData.GetUsers();
@@ -44,9 +44,9 @@ namespace UdlånsWeb.Controllers
 
         //Need to find a way around this
         [HttpPost]
-        public IActionResult UserPage(UserViewModel user, int id)
+        public IActionResult UserPage(UserViewModel userViewModel, int id, User user)
         {
-            SelectedUser = user.Users[id];
+            SelectedUser = userViewModel.Users[id];
             return Redirect("EditUser");
         }
 
@@ -69,9 +69,9 @@ namespace UdlånsWeb.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditUser(UserViewModel userList, int id)
+        public IActionResult EditUser()
         {
-            if (CurrentUser.User == null && CurrentUser.User.Admin == true)
+            if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("Home/ErrorPage");
 
             return View(SelectedUser);
@@ -85,13 +85,13 @@ namespace UdlånsWeb.Controllers
 
 
         [HttpGet]
-        public IActionResult DeleteUser(UserViewModel user, int id)
+        public IActionResult DeleteUser(int id)
         {
-            if (CurrentUser.User == null && CurrentUser.User.Admin == true)
+            if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("Home/ErrorPage");
 
             //Sends the right user to the delete view
-            SelectedUser = user.Users[id];
+            SelectedUser = Data.ConvertUserData.GetUsers().Users[id];
             return View(SelectedUser);
         }
         [HttpPost]

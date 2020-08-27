@@ -13,22 +13,23 @@
             <dd>
                 @Model.Users[i].Name
                 <br />
-                @using (Html.BeginForm("UserPage", "User", FormMethod.Get))
+                @using (Html.BeginForm("UserPage", "User", FormMethod.Post))
                 {
                     @Html.ValidationSummary(true)
                     <input asp-for="Id" type="number" value="@i" hidden />
 
-                    <p hidden>@Html.EditorFor(m => m.Users)</p>
+                    <input asp-for="Users" value="@Model" />
                     <input class="submitButton" type="submit" value="Rediger" />
                 }
-                @using (Html.BeginForm("DeleteUser", "Home", FormMethod.Get))
+                @using (Html.BeginForm("DeleteUser", "User", FormMethod.Get))
                 {
                     @Html.ValidationSummary(true)
-                    <input asp-for="Id" type="number" value="@i" hidden/>
+                    <input asp-for="Id" type="hidden" value="@i" />
 
-                    <p hidden>@Html.EditorFor(m => m.Users)</p>
-                    <input class="submitButton" type="submit" value="Fjern"/>
+                    <input asp-for="Users" type="hidden" value="@Model" />
+                    <input class="submitButton" type="submit" value="Fjern" />
                 }
+
             </dd>
         </dl>
 
