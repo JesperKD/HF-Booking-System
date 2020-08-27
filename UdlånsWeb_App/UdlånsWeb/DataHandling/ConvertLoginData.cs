@@ -47,7 +47,7 @@ namespace UdlånsWeb.DataHandling
         public User AutoLogin()
         {
             User user = new User();
-            //var initials = _httpContextAccessor.HttpContext.User.Identity.Name;
+
             string initials = Environment.UserName;
             string[] iniSplit = initials.Split('.');
 
@@ -69,17 +69,16 @@ namespace UdlånsWeb.DataHandling
 
         }
 
-        public User WindowsLogin(string WindowsName)
+        public User ManuelLogin(string Initials)
         {
             User user = new User();
 
             UserViewModel userModel = convertuserdata.GetUsers();
             try
             {
-                string[] nameSplit = WindowsName.Split('\\');
-                if (userModel.Users.Any(x => x.Initials == nameSplit[1].ToUpper()))
+                if (userModel.Users.Any(x => x.Initials == Initials.ToUpper()))
                 {
-                    user = userModel.Users.Where(x => x.Initials == nameSplit[1].ToUpper()).FirstOrDefault();
+                    user = userModel.Users.Where(x => x.Initials == Initials.ToUpper()).FirstOrDefault();
                     return user;
                 }
             }

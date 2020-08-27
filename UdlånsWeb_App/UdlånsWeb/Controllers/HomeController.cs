@@ -41,11 +41,26 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult HomePage()
         {
-            SelectedUser = convertlogindata.AutoLogin();
-
-
             // remove to prevent any logins
             // insert a user not found message
+            //if (SelectedUser == null)
+            //    return Redirect("/Home/ErrorPage");
+
+            //if (SelectedUser.Admin == true)
+            //    return Redirect("/Home/AdminSite");
+
+            //else
+            //    return Redirect("Home/Booking");
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult HomePage(string initials)
+        {
+            //Add logic for login
+            SelectedUser = convertlogindata.ManuelLogin(initials);
+
             if (SelectedUser == null)
                 return Redirect("/Home/ErrorPage");
 
@@ -54,16 +69,6 @@ namespace UdlånsWeb.Controllers
 
             else
                 return Redirect("Home/Booking");
-        }
-
-        [HttpPost]
-        public IActionResult HomePage(string initials)
-        {
-            //Add logic for login
-            convertlogindata.CheckLogin(initials);
-
-            //Redirect to InfoPage
-            return Redirect("/Home/InfoPage");
         }
         #region Booking
         [HttpGet]
