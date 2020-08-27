@@ -49,12 +49,12 @@ namespace UdlånsWeb.Controllers
         public IActionResult HomePage(string initials)
         {
             //Add logic for login
-            SelectedUser = convertlogindata.ManuelLogin(initials);
+            CurrentUser = convertlogindata.ManuelLogin(initials);
 
-            if (SelectedUser == null)
+            if (CurrentUser == null)
                 return Redirect("/Home/ErrorPage");
 
-            if (SelectedUser.Admin == true)
+            if (CurrentUser.Admin == true)
                 return Redirect("/Home/AdminSite");
 
             else
