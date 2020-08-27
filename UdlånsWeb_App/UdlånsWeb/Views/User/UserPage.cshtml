@@ -13,7 +13,7 @@
             <dd>
                 @Model.Users[i].Name
                 <br />
-                @using (Html.BeginForm())
+                @using (Html.BeginForm("UserPage", "User", FormMethod.Get))
                 {
                     @Html.ValidationSummary(true)
                     <input asp-for="Id" type="number" value="@i" hidden />

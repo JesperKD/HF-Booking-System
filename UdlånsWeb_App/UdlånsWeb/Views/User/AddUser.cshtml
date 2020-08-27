@@ -4,7 +4,7 @@
 }
 <h2>Tilføj ny bruger</h2>
 
-@using (Html.BeginForm("AddUser"))
+@using (Html.BeginForm("AddUser", "User", FormMethod.Post))
 {
     <div>
         @Html.TextBoxFor(u => u.Name, new { @class = "form-control", placeholder = "Navn" })

@@ -1,24 +1,22 @@
 ﻿@model UdlånsWeb.Models.Course
 
 @{
-    ViewData["Title"] = "AddCourse";
+    ViewData["Title"] = "EditCourse";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>AddCourse</h1>
-
-<h4>Course</h4>
+<h1>EditCourse</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddCourse">
+        <form asp-action="EditCourse" asp-controller="Course">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-             <div hidden class="form-group">
+            <div hidden class="form-group">
                 <label asp-for="NumberOfStudents" class="control-label"></label>
                 <input asp-for="NumberOfStudents" class="form-control" />
                 <span asp-validation-for="NumberOfStudents" class="text-danger"></span>
@@ -34,7 +32,7 @@
                 </label>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
