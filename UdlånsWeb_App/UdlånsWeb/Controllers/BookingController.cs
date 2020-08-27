@@ -22,7 +22,6 @@ namespace UdlånsWeb.Controllers
     {
         Data Data = new Data();
         private static User SelectedUser { get; set; }
-        private static User CurrentUser { get; set; }
         private static Item SelectedItem { get; set; }
         private static BookingViewModel bookingViewModel { get; set; }
         private static BookingViewModel userBooking { get; set; }
@@ -30,8 +29,8 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult InfoPage()
         {
-            if (CurrentUser == null)
-                return Redirect("ErrorPage");
+            if (CurrentUser.User == null)
+                return Redirect("Home/ErrorPage");
 
             return View(bookingViewModel);
         }
@@ -67,14 +66,14 @@ namespace UdlånsWeb.Controllers
             return Redirect("ConfirmBooking");
         }
         [HttpGet]
-        public IActionResult Booking()
+        public IActionResult BookingDefine()
         {
-            if (CurrentUser == null)
-                return Redirect("ErrorPage");
+            if (CurrentUser.User == null)
+                return Redirect("Home/ErrorPage");
 
             return View();
         }
-        public IActionResult Booking(Course course)
+        public IActionResult BookingDefined(Course course)
         {
             if (bookingViewModel == null)
             {
@@ -120,7 +119,7 @@ namespace UdlånsWeb.Controllers
                 if (item.Name == userBooking.CourseModel.Name)
                 {
                     userBooking.HostRentedForCourse.TurnInDate = userBooking.RentDate.AddDays(item.Duration);
-                    userBooking.CurrentUser = CurrentUser;
+                    userBooking.CurrentUser = CurrentUser.User;
                     userBooking.RentedClient = userBooking.CurrentUser.Initials;
                 }
             }

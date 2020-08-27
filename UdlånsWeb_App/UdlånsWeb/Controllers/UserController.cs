@@ -20,9 +20,9 @@ namespace UdlånsWeb.Controllers
 {
     public class UserController : Controller
     {
+
         Data Data = new Data();
         private static User SelectedUser { get; set; }
-        private static User CurrentUser { get; set; }
         private static Item SelectedItem { get; set; }
         private static BookingViewModel bookingViewModel { get; set; }
         private static BookingViewModel userBooking { get; set; }
@@ -31,7 +31,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult UserPage()
         {
-            if (CurrentUser == null && CurrentUser.Admin == true)
+            if (CurrentUser.User == null && CurrentUser.User.Admin == true)
                 return Redirect("Home/ErrorPage");
 
             UserViewModel userModel = Data.ConvertUserData.GetUsers();
@@ -55,13 +55,13 @@ namespace UdlånsWeb.Controllers
         public IActionResult AddUser(User user)
         {
             Data.ConvertUserData.AddUser(user);
-            return Redirect("/Home/UserPage");
+            return Redirect("UserPage");
         }
 
         [HttpGet]
         public IActionResult AddUser()
         {
-            if (CurrentUser == null && CurrentUser.Admin == true)
+            if (CurrentUser.User == null && CurrentUser.User.Admin == true)
                 return Redirect("Home/ErrorPage");
 
             //returns the AddUser page 
@@ -71,7 +71,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult EditUser(UserViewModel userList, int id)
         {
-            if (CurrentUser == null && CurrentUser.Admin == true)
+            if (CurrentUser.User == null && CurrentUser.User.Admin == true)
                 return Redirect("Home/ErrorPage");
 
             return View(SelectedUser);
@@ -87,7 +87,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult DeleteUser(UserViewModel user, int id)
         {
-            if (CurrentUser == null && CurrentUser.Admin == true)
+            if (CurrentUser.User == null && CurrentUser.User.Admin == true)
                 return Redirect("Home/ErrorPage");
 
             //Sends the right user to the delete view

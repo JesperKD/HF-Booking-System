@@ -23,7 +23,6 @@ namespace UdlånsWeb.Controllers
         private readonly ILogger<HomeController> _logger;
         Data Data = new Data();
         private static User SelectedUser { get; set; }
-        private static User CurrentUser { get; set; }
         private static Item SelectedItem { get; set; }
         private static BookingViewModel bookingViewModel { get; set; }
         private static BookingViewModel userBooking { get; set; }
@@ -43,16 +42,16 @@ namespace UdlånsWeb.Controllers
         public IActionResult HomePage(string initials)
         {
             //Add logic for login
-            CurrentUser = Data.Convertlogindata.ManuelLogin(initials);
+            CurrentUser.User = Data.Convertlogindata.ManuelLogin(initials);
 
-            if (CurrentUser == null)
+            if (CurrentUser.User == null)
                 return Redirect("/Home/ErrorPage");
 
-            if (CurrentUser.Admin == true)
+            if (CurrentUser.User.Admin == true)
                 return Redirect("/Home/AdminSite");
 
             else
-                return Redirect("Home/Booking");
+                return Redirect("Views/Booking/BookingDefined");
         }
        
         public IActionResult Privacy()
@@ -65,7 +64,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult AdminSite()
         {
-            if (CurrentUser == null || CurrentUser.Admin == false)
+            if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("ErrorPage");
 
             ItemViewModel itemModel = Data.ConvertItemData.GetItems();

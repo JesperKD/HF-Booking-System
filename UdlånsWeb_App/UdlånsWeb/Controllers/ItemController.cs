@@ -23,7 +23,6 @@ namespace UdlånsWeb.Controllers
     {
         Data Data = new Data();
         private static User SelectedUser { get; set; }
-        private static User CurrentUser { get; set; }
         private static Item SelectedItem { get; set; }
         private static BookingViewModel bookingViewModel { get; set; }
         private static BookingViewModel userBooking { get; set; }
@@ -31,7 +30,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult AddItem()
         {
-            if (CurrentUser == null && CurrentUser.Admin == true)
+            if (CurrentUser.User == null && CurrentUser.User.Admin == true)
                 return Redirect("Home/ErrorPage");
 
             return View();
@@ -41,13 +40,13 @@ namespace UdlånsWeb.Controllers
         public IActionResult AddItem(Item item)
         {
             Data.ConvertItemData.AddItem(item);
-            return Redirect("AdminSite");
+            return Redirect("Home/AdminSite");
         }
 
         [HttpGet]
         public IActionResult EditItem(ItemViewModel item, int id)
         {
-            if (CurrentUser == null && CurrentUser.Admin == true)
+            if (CurrentUser.User == null && CurrentUser.User.Admin == true)
                 return Redirect("Home/ErrorPage");
 
             return View(item.Items[id]);
@@ -66,13 +65,13 @@ namespace UdlånsWeb.Controllers
                 }
             }
             Data.ConvertItemData.EditItem(item);
-            return Redirect("AdminSite");
+            return Redirect("Home/AdminSite");
         }
 
         [HttpGet]
         public IActionResult DeleteItem(ItemViewModel item, int id)
         {
-            if (CurrentUser == null && CurrentUser.Admin == true)
+            if (CurrentUser.User == null && CurrentUser.User.Admin == true)
                 return Redirect("Home/ErrorPage");
 
             SelectedItem = item.Items[id];
@@ -87,12 +86,12 @@ namespace UdlånsWeb.Controllers
             List<BookingViewModel> bookings = Data.ConvertBookingData.GetBookings();
             foreach (var booking in bookings)
             {
-                if (item.Id == booking.Id)
+                if (item.Id == booking.Id) 
                 {
                     Data.ConvertBookingData.DeleteBooking(booking);
                 }
             }
-            return Redirect("AdminSite");
+            return Redirect("Home/AdminSite");
         }
 
     }

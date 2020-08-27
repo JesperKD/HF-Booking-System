@@ -1,6 +1,6 @@
 ﻿@model UdlånsWeb.Models.Course
 
-@using (Html.BeginForm("Booking", "Booking", FormMethod.Post))
+@using (Html.BeginForm("BookingDefine", "Booking", FormMethod.Post))
 {
     @Html.ValidationSummary(true)
     @Html.CheckBoxFor(m => m.Defined)
