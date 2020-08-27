@@ -204,7 +204,6 @@ namespace UdlånsWeb.Controllers
         #endregion
         #endregion
 
-
         public IActionResult Privacy()
         {
             var ItemModel = new ItemViewModel();
@@ -259,87 +258,6 @@ namespace UdlånsWeb.Controllers
             model = Data.ConvertBookingData.GetBookings();
             return View(model);
         }
-
-
-
-
-        //Overview over all user pages
-        #region User Pages
-        [HttpGet]
-        public IActionResult UserPage()
-        {
-            if (CurrentUser == null && CurrentUser.Admin == true)
-                return Redirect("Home/ErrorPage");
-
-            UserViewModel userModel = Data.ConvertUserData.GetUsers();
-            if (userModel == null)
-            {
-                userModel = new UserViewModel();
-            }
-            return View(userModel);
-        }
-
-        //Need to find a way around this
-        [HttpPost]
-        public IActionResult UserPage(UserViewModel user, int id)
-        {
-            SelectedUser = user.Users[id];
-            return Redirect("EditUser");
-        }
-
-        //This is for adding users
-        [HttpPost]
-        public IActionResult AddUser(User user)
-        {
-            Data.ConvertUserData.AddUser(user);
-            return Redirect("/Home/UserPage");
-        }
-
-        [HttpGet]
-        public IActionResult AddUser()
-        {
-            if (CurrentUser == null && CurrentUser.Admin == true)
-                return Redirect("Home/ErrorPage");
-
-            //returns the AddUser page 
-            return View();
-        }
-
-        [HttpGet]
-        public IActionResult EditUser(UserViewModel userList, int id)
-        {
-            if (CurrentUser == null && CurrentUser.Admin == true)
-                return Redirect("Home/ErrorPage");
-
-            return View(SelectedUser);
-        }
-        [HttpPost]
-        public IActionResult EditUser(User user)
-        {
-            Data.ConvertUserData.EditUser(user);
-            return Redirect("UserPage");
-        }
-
-
-        [HttpGet]
-        public IActionResult DeleteUser(UserViewModel user, int id)
-        {
-            if (CurrentUser == null && CurrentUser.Admin == true)
-                return Redirect("Home/ErrorPage");
-
-            //Sends the right user to the delete view
-            SelectedUser = user.Users[id];
-            return View(SelectedUser);
-        }
-        [HttpPost]
-        public IActionResult DeleteUser(User user)
-        {
-            Data.ConvertUserData.DeleteUser(user);
-            return Redirect("UserPage");
-        }
-
-
-        #endregion
 
         //Overview over all item pages
         #region Item Pages
@@ -416,81 +334,6 @@ namespace UdlånsWeb.Controllers
             return Redirect("AdminSite");
         }
         #endregion
-        #endregion
-
-        //Overview over all course pages
-        #region Course Pages
-
-        public IActionResult CourseSite()
-        {
-            if (CurrentUser == null && CurrentUser.Admin == true)
-                return Redirect("Home/ErrorPage");
-
-            CourseViewModel viewModel = new CourseViewModel();
-            viewModel = Data.ConvertCourseData.GetCourses();
-            if (viewModel == null)
-                return View(new CourseViewModel());
-            else
-                return View(viewModel);
-        }
-
-
-        #region Add Course
-        [HttpGet]
-        public IActionResult AddCourse()
-        {
-            if (CurrentUser == null && CurrentUser.Admin == true)
-                return Redirect("Home/ErrorPage");
-
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult AddCourse(Course course)
-        {
-            Data.ConvertCourseData.AddCourse(course);
-            return Redirect("CourseSite");
-        }
-        #endregion
-
-        #region Edit Course
-        [HttpGet]
-        public IActionResult EditCourse(CourseViewModel course, int id)
-        {
-            if (CurrentUser == null && CurrentUser.Admin == true)
-                return Redirect("Home/ErrorPage");
-
-            return View(course.Courses[id]);
-        }
-
-        [HttpPost]
-        public IActionResult EditCourse(Course course)
-        {
-            Data.ConvertCourseData.EditCourse(course);
-            return Redirect("CourseSite");
-        }
-        #endregion
-
-        #region Delete Course
-        [HttpGet]
-        public IActionResult DeleteCourse(CourseViewModel course, int id)
-        {
-            if (CurrentUser == null && CurrentUser.Admin == true)
-                return Redirect("Home/ErrorPage");
-
-            bookingViewModel.CourseModel = course.Courses[id];
-            return View(course.Courses[id]);
-        }
-
-        [HttpPost]
-        public IActionResult DeleteCourse(Course course)
-        {
-            Data.ConvertCourseData.DeleteCourse(course);
-            return Redirect("CourseSite");
-        }
-        #endregion
-
-
         #endregion
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
