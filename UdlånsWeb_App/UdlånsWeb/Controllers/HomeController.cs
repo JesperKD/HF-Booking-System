@@ -158,8 +158,6 @@ namespace UdlånsWeb.Controllers
 
         public IActionResult BookingSucces()
         {
-            //Send mail to user
-
             //Make a booking save file
             List<Item> hosts = Data.ConvertItemData.GetItems().Items;
             List<Course> courses = Data.ConvertCourseData.GetCourses().Courses;
@@ -195,10 +193,13 @@ namespace UdlånsWeb.Controllers
                 if (userBooking.RentedClient == item.Initials)
                 {
                     user.Email = item.Email;
-                    return View(user);
                 }
             }
-            return View(new User());
+
+            // send mail to user and admins
+            //MailSending.Email
+
+            return View(user);
         }
         #endregion
         #endregion
