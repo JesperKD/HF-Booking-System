@@ -98,7 +98,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult Booking()
         {
-            if (CurrentUser == null || CurrentUser.Admin == false)
+            if (CurrentUser == null)
                 return Redirect("ErrorPage");
 
             return View();
