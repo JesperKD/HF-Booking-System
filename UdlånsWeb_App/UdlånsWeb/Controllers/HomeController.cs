@@ -46,7 +46,7 @@ namespace UdlånsWeb.Controllers
             //Add logic for login
             CurrentUser = Data.Convertlogindata.ManuelLogin(initials);
 
-            if (CurrentUser == null)
+            if (CurrentUser == null || CurrentUser.Admin == false)
                 return Redirect("/Home/ErrorPage");
 
             if (CurrentUser.Admin == true)
@@ -98,7 +98,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult Booking()
         {
-            if (CurrentUser == null)
+            if (CurrentUser == null || CurrentUser.Admin == false)
                 return Redirect("ErrorPage");
 
             return View();
@@ -149,7 +149,7 @@ namespace UdlånsWeb.Controllers
                 if (item.Name == userBooking.CourseModel.Name)
                 {
                     userBooking.HostRentedForCourse.TurnInDate = userBooking.RentDate.AddDays(item.Duration);
-                    userBooking.CurrentUser = Data.Convertlogindata.AutoLogin();
+                    userBooking.CurrentUser = CurrentUser;
                     userBooking.RentedClient = userBooking.CurrentUser.Initials;
                 }
             }
@@ -213,7 +213,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult AdminSite()
         {
-            if (CurrentUser == null && CurrentUser.Admin == true)
+            if (CurrentUser == null || CurrentUser.Admin == false)
                 return Redirect("ErrorPage");
 
             ItemViewModel itemModel = Data.ConvertItemData.GetItems();
@@ -263,7 +263,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult UserPage()
         {
-            if (CurrentUser == null && CurrentUser.Admin == true)
+            if (CurrentUser == null || CurrentUser.Admin == false)
                 return Redirect("Home/ErrorPage");
 
             UserViewModel userModel = Data.ConvertUserData.GetUsers();
@@ -293,7 +293,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult AddUser()
         {
-            if (CurrentUser == null && CurrentUser.Admin == true)
+            if (CurrentUser == null || CurrentUser.Admin == false)
                 return Redirect("Home/ErrorPage");
 
             //returns the AddUser page 
@@ -303,7 +303,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult EditUser(UserViewModel userList, int id)
         {
-            if (CurrentUser == null && CurrentUser.Admin == true)
+            if (CurrentUser == null || CurrentUser.Admin == false)
                 return Redirect("Home/ErrorPage");
 
             return View(SelectedUser);
@@ -319,7 +319,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult DeleteUser(UserViewModel user, int id)
         {
-            if (CurrentUser == null && CurrentUser.Admin == true)
+            if (CurrentUser == null || CurrentUser.Admin == false)
                 return Redirect("Home/ErrorPage");
 
             //Sends the right user to the delete view
@@ -343,7 +343,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult AddItem()
         {
-            if (CurrentUser == null && CurrentUser.Admin == true)
+            if (CurrentUser == null || CurrentUser.Admin == false)
                 return Redirect("Home/ErrorPage");
 
             return View();
@@ -361,7 +361,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult EditItem(ItemViewModel item, int id)
         {
-            if (CurrentUser == null && CurrentUser.Admin == true)
+            if (CurrentUser == null || CurrentUser.Admin == false)
                 return Redirect("Home/ErrorPage");
 
             return View(item.Items[id]);
@@ -388,7 +388,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult DeleteItem(ItemViewModel item, int id)
         {
-            if (CurrentUser == null && CurrentUser.Admin == true)
+            if (CurrentUser == null || CurrentUser.Admin == false)
                 return Redirect("Home/ErrorPage");
 
             SelectedItem = item.Items[id];
@@ -418,7 +418,7 @@ namespace UdlånsWeb.Controllers
 
         public IActionResult CourseSite()
         {
-            if (CurrentUser == null && CurrentUser.Admin == true)
+            if (CurrentUser == null || CurrentUser.Admin == false)
                 return Redirect("Home/ErrorPage");
 
             CourseViewModel viewModel = new CourseViewModel();
@@ -433,7 +433,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult AddCourse()
         {
-            if (CurrentUser == null && CurrentUser.Admin == true)
+            if (CurrentUser == null || CurrentUser.Admin == false)
                 return Redirect("Home/ErrorPage");
 
             return View();
@@ -451,7 +451,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult EditCourse(CourseViewModel course, int id)
         {
-            if (CurrentUser == null && CurrentUser.Admin == true)
+            if (CurrentUser == null || CurrentUser.Admin == false)
                 return Redirect("Home/ErrorPage");
 
             return View(course.Courses[id]);
@@ -469,7 +469,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult DeleteCourse(CourseViewModel course, int id)
         {
-            if (CurrentUser == null && CurrentUser.Admin == true)
+            if (CurrentUser == null || CurrentUser.Admin == false)
                 return Redirect("Home/ErrorPage");
 
             bookingViewModel.CourseModel = course.Courses[id];
