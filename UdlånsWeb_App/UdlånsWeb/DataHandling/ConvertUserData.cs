@@ -23,7 +23,7 @@ namespace UdlånsWeb.DataHandling
 
             // rewrite to handle encryption
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append(user.Name + "," + user.Initials + "," + user.Email + "," + user.Admin + "," + 0);
+            stringBuilder.Append(user.FirstName + "," + user.Initials + "," + user.Email + "," + user.Admin + "," + 0);
 
             // change to correct path for file saving
             ToTxt.AppendStringToTxt(FILE_PATH + USER_FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5) + Environment.NewLine);
@@ -44,7 +44,7 @@ namespace UdlånsWeb.DataHandling
                     string raw = Decrypt.DecryptString(line, "SkPRingsted", 5);
                     string[] userData = raw.Split(',');
                     User user = new User();
-                    user.Name = userData[0];
+                    user.FirstName = userData[0];
                     user.Initials = userData[1].ToUpper();
                     user.Email = userData[2];
                     user.Admin = Convert.ToBoolean(userData[3]);
@@ -76,7 +76,7 @@ namespace UdlånsWeb.DataHandling
                     string raw = Decrypt.DecryptString(line, "SkPRingsted", 5);
                     string[] userData = raw.Split(',');
                     User user = new User();
-                    user.Name = userData[0];
+                    user.FirstName = userData[0];
                     user.Initials = userData[1];
                     user.Email = userData[2];
                     user.Admin = Convert.ToBoolean(userData[3]);
@@ -111,7 +111,7 @@ namespace UdlånsWeb.DataHandling
                 string raw = Decrypt.DecryptString(userLine, "SkPRingsted", 5);
                 string[] userData = raw.Split(',');
                 Models.User oUser = new User();
-                oUser.Name = userData[0];
+                oUser.FirstName = userData[0];
                 oUser.Initials = userData[1];
                 oUser.Email = userData[2];
                 oUser.Admin = Convert.ToBoolean(userData[3]);
@@ -135,7 +135,7 @@ namespace UdlånsWeb.DataHandling
             foreach (User Item in userModelNew.Users)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(Item.Name + "," + Item.Initials + "," + Item.Email + "," + Item.Admin + "," + Item.Id);
+                stringBuilder.Append(Item.FirstName + "," + Item.Initials + "," + Item.Email + "," + Item.Admin + "," + Item.Id);
 
                 Encrypt = new Encrypt();
                 usersTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
@@ -161,7 +161,7 @@ namespace UdlånsWeb.DataHandling
                     string raw = Decrypt.DecryptString(userLine, "SkPRingsted", 5);
                     string[] userData = raw.Split(',');
                     Models.User oUser = new User();
-                    oUser.Name = userData[0];
+                    oUser.FirstName = userData[0];
                     oUser.Initials = userData[1];
                     oUser.Email = userData[2];
                     oUser.Admin = Convert.ToBoolean(userData[3]);
@@ -176,7 +176,7 @@ namespace UdlånsWeb.DataHandling
             }
 
             // finds the old user and removes it
-            User removeUser = userModel.Users.Where(x=> x.Name == user.Name && x.Email == user.Email).FirstOrDefault();
+            User removeUser = userModel.Users.Where(x=> x.Id == user.Id).FirstOrDefault();
             userModel.Users.Remove(removeUser);
 
             // creates correct user string
@@ -185,7 +185,7 @@ namespace UdlånsWeb.DataHandling
             foreach (User Item in userModel.Users)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(Item.Name + "," + Item.Initials + "," + Item.Email + "," + Item.Admin + "," + Item.Id);
+                stringBuilder.Append(Item.FirstName + "," + Item.Initials + "," + Item.Email + "," + Item.Admin + "," + Item.Id);
 
                 Encrypt = new Encrypt();
                 usersTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));

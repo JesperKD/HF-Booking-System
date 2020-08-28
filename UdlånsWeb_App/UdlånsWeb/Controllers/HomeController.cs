@@ -23,7 +23,7 @@ namespace UdlånsWeb.Controllers
         private readonly ILogger<HomeController> _logger;
         Data Data = new Data();
         private static User SelectedUser { get; set; }
-        private static Item SelectedItem { get; set; }
+        private static Host SelectedItem { get; set; }
         private static BookingViewModel bookingViewModel { get; set; }
         private static BookingViewModel userBooking { get; set; }
 
@@ -45,10 +45,10 @@ namespace UdlånsWeb.Controllers
             CurrentUser.User = Data.Convertlogindata.ManuelLogin(initials);
 
             if (CurrentUser.User == null)
-                return Redirect("/Home/ErrorPage");
+                return Redirect("Home/ErrorPage");
 
             if (CurrentUser.User.Admin == true)
-                return Redirect("/Home/AdminSite");
+                return Redirect("/Item/AdminSite");
 
             else
                 return Redirect("Booking/BookingDefine");
@@ -56,50 +56,12 @@ namespace UdlånsWeb.Controllers
        
         public IActionResult Privacy()
         {
-            var ItemModel = new ItemViewModel();
+            var ItemModel = new HostViewModel();
             ItemModel.Items = TestData.GetItems();
             return View(ItemModel);
         }
 
-        [HttpGet]
-        public IActionResult AdminSite()
-        {
-            if (CurrentUser.User == null || CurrentUser.User.Admin == false)
-                return Redirect("ErrorPage");
-
-            ItemViewModel itemModel = Data.ConvertItemData.GetItems();
-            try
-            {
-                if (Data.ConvertBookingData.GetBookings() != null) itemModel.Bookings = Data.ConvertBookingData.GetBookings();
-                if (itemModel == null)
-                {
-                    itemModel = new ItemViewModel();
-                }
-                foreach (var item in itemModel.Items)
-                {
-                    //if host is rented 
-                    if (item.Rented == true)
-                    {
-                        //check bookings for a turn in date 
-                        foreach (var booking in itemModel.Bookings)
-                        {
-                            //checks if turn in date has run out and if the booking id macth the item/host id
-                            if (booking.HostRentedForCourse.TurnInDate == DateTime.Now.Date && booking.Id == item.Id)
-                            {
-                                //reset rented so the view model updates
-                                //Used by admin to show if host is used or not
-                                item.Rented = false;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return View(new ItemViewModel());
-            }
-            return View(itemModel);
-        }
+        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

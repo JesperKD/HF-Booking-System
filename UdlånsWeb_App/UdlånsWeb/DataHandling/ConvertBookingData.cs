@@ -23,7 +23,7 @@ namespace UdlånsWeb.DataHandling
             Encrypt = new Encrypt();
 
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append(booking.RentedClient + "," + booking.HostRentedForCourse.HostName + "," + booking.Id + "," + booking.HostRentedForCourse.TurnInDate);
+            stringBuilder.Append(booking.CurrentUser.Initials + "," + booking.HostRentedForCourse.Name + "," + booking.Id + "," + booking.HostRentedForCourse.TurnInDate);
             ToTxt.AppendStringToTxt(FILE_PATH + FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5) + Environment.NewLine);
         }
 
@@ -41,12 +41,11 @@ namespace UdlånsWeb.DataHandling
                     string raw = Decrypt.DecryptString(line, "SkPRingsted", 5);
                     string[] courseData = raw.Split(',');
                     BookingViewModel booking = new BookingViewModel();
-                    booking.RentedClient = courseData[0];
-                    booking.HostRentedForCourse.HostName = courseData[1];
+                    booking.CurrentUser.Initials = courseData[0];
+                    booking.HostRentedForCourse.Name = courseData[1];
                     booking.Id = int.Parse(courseData[2]);
                     booking.HostRentedForCourse.TurnInDate = DateTime.Parse(courseData[3]);
                     courseModel.Add(booking);
-
                 }
                 return courseModel;
             }
@@ -71,14 +70,14 @@ namespace UdlånsWeb.DataHandling
                 string raw = Decrypt.DecryptString(itemLine, "SkPRingsted", 5);
                 string[] courseData = raw.Split(',');
                 BookingViewModel oCourse = new BookingViewModel();
-                oCourse.RentedClient = courseData[0];
-                oCourse.HostRentedForCourse.HostName = courseData[1];
+                oCourse.CurrentUser.Initials = courseData[0];
+                oCourse.HostRentedForCourse.Name = courseData[1];
                 oCourse.Id = int.Parse(courseData[2]);
                 courseModelOld.Add(oCourse);
             }
 
             // finds the old item and removes it
-            BookingViewModel OldCourse = courseModelOld.Where(x => x.RentedClient == booking.RentedClient).FirstOrDefault();
+            BookingViewModel OldCourse = courseModelOld.Where(x => x.CurrentUser.Id == booking.CurrentUser.Id).FirstOrDefault();
             courseModelOld.Remove(OldCourse);
 
             // creates new list from old, and inserts edited item at index Id
@@ -94,7 +93,7 @@ namespace UdlånsWeb.DataHandling
             foreach (var xbooking in bookingModelNew)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(booking.RentedClient + "," + booking.HostRentedForCourse.HostName + "," + booking.Id + "," + booking.HostRentedForCourse.TurnInDate);
+                stringBuilder.Append(booking.CurrentUser.Initials + "," + booking.HostRentedForCourse.Name + "," + booking.Id + "," + booking.HostRentedForCourse.TurnInDate);
 
                 Encrypt = new Encrypt();
                 coursesTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
@@ -118,8 +117,8 @@ namespace UdlånsWeb.DataHandling
                     string raw = Decrypt.DecryptString(Line, "SkPRingsted", 5);
                     string[] courseData = raw.Split(',');
                     Models.BookingViewModel oCourse = new BookingViewModel();
-                    oCourse.RentedClient = courseData[0];
-                    oCourse.HostRentedForCourse.HostName = courseData[1];
+                    oCourse.CurrentUser.Initials = courseData[0];
+                    oCourse.HostRentedForCourse.Name = courseData[1];
                    
                     courseModel.Add(oCourse);
                 }
@@ -131,7 +130,7 @@ namespace UdlånsWeb.DataHandling
             }
 
             // finds the old item and removes it
-            BookingViewModel removeCourse = courseModel.Where(x => x.RentedClient == booking.RentedClient).First();
+            BookingViewModel removeCourse = courseModel.Where(x => x.CurrentUser.Id == booking.Id).First();
             courseModel.Remove(removeCourse);
 
             // creates correct user string
@@ -140,7 +139,7 @@ namespace UdlånsWeb.DataHandling
             foreach (var bookingx in courseModel)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(booking.RentedClient + "," + booking.HostRentedForCourse.HostName + "," + booking.Id);
+                stringBuilder.Append(booking.CurrentUser.Initials + "," + booking.HostRentedForCourse.Name + "," + booking.Id + "," + booking.HostRentedForCourse.TurnInDate);
 
                 Encrypt = new Encrypt();
                 coursesTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));

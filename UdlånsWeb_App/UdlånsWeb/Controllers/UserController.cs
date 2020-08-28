@@ -20,45 +20,29 @@ namespace UdlånsWeb.Controllers
 {
     public class UserController : Controller
     {
-
         Data Data = new Data();
-        private static User SelectedUser { get; set; }
-        private static Item SelectedItem { get; set; }
-        private static BookingViewModel bookingViewModel { get; set; }
-        private static BookingViewModel userBooking { get; set; }
 
-
-        [HttpGet]
+        //User overview
         public IActionResult UserPage()
         {
+            //Checks if user is addmin or if they have a user 
+            //if not they get redirected to a error page
             if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("Home/ErrorPage");
 
+            //Gets the list of users 
             UserViewModel userModel = Data.ConvertUserData.GetUsers();
             if (userModel == null)
             {
+                //If there is no users make an empty list
                 userModel = new UserViewModel();
             }
+            //returns the user view model
             return View(userModel);
         }
-
-        //Need to find a way around this
-        [HttpPost]
-        public IActionResult UserPage(UserViewModel userViewModel, int id, User user)
-        {
-            SelectedUser = userViewModel.Users[id];
-            return Redirect("EditUser");
-        }
-
-        //This is for adding users
-        [HttpPost]
-        public IActionResult AddUser(User user)
-        {
-            Data.ConvertUserData.AddUser(user);
-            return Redirect("UserPage");
-        }
-
+   
         [HttpGet]
+        //This is for user model/view
         public IActionResult AddUser()
         {
             if (CurrentUser.User == null && CurrentUser.User.Admin == true)
@@ -67,14 +51,26 @@ namespace UdlånsWeb.Controllers
             //returns the AddUser page 
             return View();
         }
+       
+        [HttpPost]
+        //This is for adding users
+        public IActionResult AddUser(User user)
+        {
+            //Gets the selected user from UserPage 
+            //Then sends it to data 
+            Data.ConvertUserData.AddUser(user);
+            //After they user has been saved redirect to UserPage
+            return Redirect("UserPage");
+        }
+
 
         [HttpGet]
-        public IActionResult EditUser()
+        public IActionResult EditUser(UserViewModel userViewModel, int id)
         {
             if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("Home/ErrorPage");
 
-            return View(SelectedUser);
+            return View(userViewModel.Users[id]);
         }
         [HttpPost]
         public IActionResult EditUser(User user)
@@ -85,14 +81,13 @@ namespace UdlånsWeb.Controllers
 
 
         [HttpGet]
-        public IActionResult DeleteUser(int id)
+        public IActionResult DeleteUser(UserViewModel userViewModel, int id)
         {
             if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("Home/ErrorPage");
 
-            //Sends the right user to the delete view
-            SelectedUser = Data.ConvertUserData.GetUsers().Users[id];
-            return View(SelectedUser);
+            //Sends the selected user to the delete view
+            return View(userViewModel.Users[id]);
         }
         [HttpPost]
         public IActionResult DeleteUser(User user)

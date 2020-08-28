@@ -8,17 +8,18 @@ using UdlånsWeb.DataHandling;
 
 namespace UdlånsWeb.Models
 {
-    public class Item
+    public class Host
     {
         [DisplayName("Host Navn")]
-        public string HostName { get; set; }
+        public string Name { get; set; }
         [DisplayName("Adgangskode")]
-        public string HostPassword { get; set; }
+        public string Password { get; set; }
         [DisplayName("Brugernavn")]
         public string UserName { get; set; }
         public string VmWareVersion { get; set; }
+        [DisplayName("Host IP")]
         public string HostIp { get; set; }
-        [DisplayName("Antal enheder per host")]
+        [DisplayName("Max antal elever")]
         public int NumberOfPeoplePerHost { get; set; }
         [DisplayName("Lånes fra")]
         public DateTime RentedDate { get; set; }

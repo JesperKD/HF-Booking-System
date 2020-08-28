@@ -13,14 +13,14 @@
             Dine initialer:
         </dt>
         <dd>
-            @Html.DisplayFor(x => x.RentedClient)
+            @Html.DisplayFor(x => x.CurrentUser.Initials)
         </dd>
 
         <dt>
             Navn på host:
         </dt>
         <dd>
-            @Html.DisplayFor(x => x.HostRentedForCourse.HostName)
+            @Html.DisplayFor(x => x.HostRentedForCourse.Name)
         </dd>
 
         <dt>

@@ -16,7 +16,7 @@ namespace UdlånsWeb.DataHandling
         const string ITEM_FILE_NAME = "\\item.txt";
         const string FILE_PATH = "C:\\TestSite";
 
-        public void AddItem(Item item)
+        public void AddItem(Host item)
         {
             Encrypt = new Encrypt();
 
@@ -41,16 +41,16 @@ namespace UdlånsWeb.DataHandling
 
             }
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append(item.HostName + "," + item.HostPassword + "," + item.UserName + "," + item.VmWareVersion + "," + item.HostIp + "," + item.NumberOfPeoplePerHost + "," + item.Rented + "," + itemID + "," + item.TurnInDate);
+            stringBuilder.Append(item.Name + "," + item.Password + "," + item.UserName + "," + item.VmWareVersion + "," + item.HostIp + "," + item.NumberOfPeoplePerHost + "," + item.Rented + "," + itemID + "," + item.TurnInDate);
 
             ToTxt.AppendStringToTxt(FILE_PATH + ITEM_FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5) + Environment.NewLine);
         }
 
-        public ItemViewModel GetItems()
+        public HostViewModel GetItems()
         {
             try
             {
-                var itemModel = new ItemViewModel();
+                var itemModel = new HostViewModel();
 
                 string[] rawItem = FromTxt.StringsFromTxt(FILE_PATH + ITEM_FILE_NAME);
 
@@ -59,9 +59,9 @@ namespace UdlånsWeb.DataHandling
                     Decrypt = new Decrypt();
                     string raw = Decrypt.DecryptString(line, "SkPRingsted", 5);
                     string[] itemData = raw.Split(',');
-                    Item item = new Item();
-                    item.HostName = itemData[0];
-                    item.HostPassword = itemData[1];
+                    Host item = new Host();
+                    item.Name = itemData[0];
+                    item.Password = itemData[1];
                     item.UserName = itemData[2];
                     item.VmWareVersion = itemData[3];
                     item.HostIp = itemData[4];
@@ -82,10 +82,10 @@ namespace UdlånsWeb.DataHandling
             }
         }
 
-        public void EditItem(Item item)
+        public void EditItem(Host item)
         {
             //Logic for Edit Item
-            var itemModelOld = new ItemViewModel();
+            var itemModelOld = new HostViewModel();
 
             // gets all items from file
             string[] rawItem = FromTxt.StringsFromTxt(FILE_PATH + ITEM_FILE_NAME);
@@ -95,9 +95,9 @@ namespace UdlånsWeb.DataHandling
                 Decrypt = new Decrypt();
                 string raw = Decrypt.DecryptString(itemLine, "SkPRingsted", 5);
                 string[] itemData = raw.Split(',');
-                Models.Item oItem = new Item();
-                oItem.HostName = itemData[0];
-                oItem.HostPassword = itemData[1];
+                Models.Host oItem = new Host();
+                oItem.Name = itemData[0];
+                oItem.Password = itemData[1];
                 oItem.UserName = itemData[2];
                 oItem.VmWareVersion = itemData[3];
                 oItem.HostIp = itemData[4];
@@ -110,11 +110,11 @@ namespace UdlånsWeb.DataHandling
             }
 
             // finds the old item and removes it
-            Item OldItem = itemModelOld.Items.Where(x => x.Id == item.Id).FirstOrDefault();
+            Host OldItem = itemModelOld.Items.Where(x => x.Id == item.Id).FirstOrDefault();
             itemModelOld.Items.Remove(OldItem);
 
             // creates new list from old, and inserts edited item at index Id
-            ItemViewModel ItemModelNew = new ItemViewModel();
+            HostViewModel ItemModelNew = new HostViewModel();
             ItemModelNew = itemModelOld;
             ItemModelNew.Items.Insert(item.Id, item);
 
@@ -122,10 +122,10 @@ namespace UdlånsWeb.DataHandling
             List<string> itemsTosave = new List<string>();
 
             // makes each item into a new string
-            foreach (Item Item in ItemModelNew.Items)
+            foreach (Host Item in ItemModelNew.Items)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(Item.HostName + "," + Item.HostPassword + "," + Item.UserName + "," + Item.VmWareVersion + "," + Item.HostIp + "," + Item.NumberOfPeoplePerHost + "," + Item.Rented + "," + Item.Id + "," + Item.TurnInDate);
+                stringBuilder.Append(Item.Name + "," + Item.Password + "," + Item.UserName + "," + Item.VmWareVersion + "," + Item.HostIp + "," + Item.NumberOfPeoplePerHost + "," + Item.Rented + "," + Item.Id + "," + Item.TurnInDate);
 
                 Encrypt = new Encrypt();
                 itemsTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
@@ -134,10 +134,10 @@ namespace UdlånsWeb.DataHandling
             ToTxt.StringsToTxt(FILE_PATH + ITEM_FILE_NAME, itemsTosave.ToArray());
         }
 
-        public void DeleteItem(Item item)
+        public void DeleteItem(Host item)
         {
             // Code input item that has to be deleted 
-            var itemModel = new ItemViewModel();
+            var itemModel = new HostViewModel();
             try
             {
                 // gets all users from file
@@ -148,9 +148,9 @@ namespace UdlånsWeb.DataHandling
                     Decrypt = new Decrypt();
                     string raw = Decrypt.DecryptString(itemLine, "SkPRingsted", 5);
                     string[] itemData = raw.Split(',');
-                    Models.Item oItem = new Item();
-                    oItem.HostName = itemData[0];
-                    oItem.HostPassword = itemData[1];
+                    Models.Host oItem = new Host();
+                    oItem.Name = itemData[0];
+                    oItem.Password = itemData[1];
                     oItem.UserName = itemData[2];
                     oItem.VmWareVersion = itemData[3];
                     oItem.HostIp = itemData[4];
@@ -167,16 +167,16 @@ namespace UdlånsWeb.DataHandling
             }
 
             // finds the old item and removes it
-            Item removeUser = itemModel.Items.Where(x => x.HostName == item.HostName && x.HostIp == item.HostIp && x.Id == item.Id).First();
+            Host removeUser = itemModel.Items.Where(x => x.Name == item.Name && x.HostIp == item.HostIp && x.Id == item.Id).FirstOrDefault();
             itemModel.Items.Remove(removeUser);
 
             // creates correct user string
             List<string> itemsTosave = new List<string>();
 
-            foreach (Item Item in itemModel.Items)
+            foreach (Host Item in itemModel.Items)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(item.HostName + "," + item.HostPassword + "," + item.UserName + "," + item.VmWareVersion + "," + item.HostIp + "," + item.NumberOfPeoplePerHost + "," + item.Rented);
+                stringBuilder.Append(item.Name + "," + item.Password + "," + item.UserName + "," + item.VmWareVersion + "," + item.HostIp + "," + item.NumberOfPeoplePerHost + "," + item.Rented);
 
                 Encrypt = new Encrypt();
                 itemsTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));

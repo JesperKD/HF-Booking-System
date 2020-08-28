@@ -22,7 +22,7 @@ namespace UdlånsWeb.Controllers
     {
         Data Data = new Data();
         private static User SelectedUser { get; set; }
-        private static Item SelectedItem { get; set; }
+        private static Host SelectedItem { get; set; }
         private static BookingViewModel bookingViewModel { get; set; }
         private static BookingViewModel userBooking { get; set; }
 
@@ -39,7 +39,7 @@ namespace UdlånsWeb.Controllers
         public IActionResult InfoPage(BookingViewModel booking)
         {
             //Make a booking save file
-            List<Item> hosts = Data.ConvertItemData.GetItems().Items;
+            List<Host> hosts = Data.ConvertItemData.GetItems().Items;
             List<Course> courses = Data.ConvertCourseData.GetCourses().Courses;
 
             foreach (var item in hosts)
@@ -84,7 +84,7 @@ namespace UdlånsWeb.Controllers
                         Defined = course.Defined
                     },
 
-                    HostRentedForCourse = new Item()
+                    HostRentedForCourse = new Host()
                     {
                         TurnInDate = DateTime.Now.Date,
                         RentedDate = DateTime.Now.Date
@@ -120,7 +120,7 @@ namespace UdlånsWeb.Controllers
                 {
                     userBooking.HostRentedForCourse.TurnInDate = userBooking.RentDate.AddDays(item.Duration);
                     userBooking.CurrentUser = CurrentUser.User;
-                    userBooking.RentedClient = userBooking.CurrentUser.Initials;
+                    userBooking.CurrentUser.Initials = userBooking.CurrentUser.Initials;
                 }
             }
             return View(userBooking);
@@ -131,7 +131,7 @@ namespace UdlånsWeb.Controllers
             //Send mail to user
 
             //Make a booking save file
-            List<Item> hosts = Data.ConvertItemData.GetItems().Items;
+            List<Host> hosts = Data.ConvertItemData.GetItems().Items;
             List<Course> courses = Data.ConvertCourseData.GetCourses().Courses;
             User user = new User();
 
@@ -162,7 +162,7 @@ namespace UdlånsWeb.Controllers
             }
             foreach (var item in Data.ConvertUserData.GetUsers().Users)
             {
-                if (userBooking.RentedClient == item.Initials)
+                if (userBooking.CurrentUser.Initials == item.Initials)
                 {
                     user.Email = item.Email;
                     return View(user);

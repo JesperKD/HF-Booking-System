@@ -9,7 +9,7 @@
 @using (Html.BeginForm("AddUser", "User", FormMethod.Post))
 {
     <div>
-        @Html.TextBoxFor(u => u.Name, new { @class = "form-control", placeholder = "Navn" })
+        @Html.TextBoxFor(u => u.FirstName, new { @class = "form-control", placeholder = "Navn" })
     </div>
     <br />
     <div>

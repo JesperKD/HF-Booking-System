@@ -7,8 +7,8 @@ namespace UdlånsWeb.Models
 {
     public class UserViewModel
     {
-        public List<User> Users { get; set; }
         public int Id { get; set; }
+        public List<User> Users { get; set; }
         public UserViewModel()
         {
             Users = new List<User>();

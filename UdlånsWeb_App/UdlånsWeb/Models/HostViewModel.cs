@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace UdlånsWeb.Models
 {
-    public class ItemViewModel
+    public class HostViewModel
     {
         public int Id { get; set; }
-        public List<Item> Items { get; set; }
+        public List<Host> Items { get; set; }
         public List<BookingViewModel> Bookings { get; set; }
-        public ItemViewModel()
+        public HostViewModel()
         {
-            Items = new List<Item>();
+            Items = new List<Host>();
+            Bookings = new List<BookingViewModel>();
         }
     }
 }

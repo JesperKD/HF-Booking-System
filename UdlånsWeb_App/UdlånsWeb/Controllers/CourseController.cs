@@ -22,7 +22,7 @@ namespace UdlånsWeb.Controllers
     {
         Data Data = new Data();
         private static User SelectedUser { get; set; }
-        private static Item SelectedItem { get; set; }
+        private static Host SelectedItem { get; set; }
         private static BookingViewModel bookingViewModel { get; set; }
         private static BookingViewModel userBooking { get; set; }
 
@@ -57,12 +57,12 @@ namespace UdlånsWeb.Controllers
         }
         
         [HttpGet]
-        public IActionResult EditCourse(CourseViewModel course, int id)
+        public IActionResult EditCourse(CourseViewModel course)
         {
             if (CurrentUser.User == null && CurrentUser.User.Admin == true)
                 return Redirect("Home/ErrorPage");
 
-            return View(course.Courses[id]);
+            return View(course.Courses[course.Id]);
         }
 
         [HttpPost]
@@ -73,13 +73,12 @@ namespace UdlånsWeb.Controllers
         }
 
         [HttpGet]
-        public IActionResult DeleteCourse(CourseViewModel course, int id)
+        public IActionResult DeleteCourse(CourseViewModel courseView)
         {
-            if (CurrentUser.User == null && CurrentUser.User.Admin == true)
+            if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("Home/ErrorPage");
 
-            bookingViewModel.CourseModel = course.Courses[id];
-            return View(course.Courses[id]);
+            return View(courseView.Courses[courseView.Id]);
         }
 
         [HttpPost]

@@ -5,35 +5,129 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Bookings</h1>
+<h1>Din booking</h1>
 
+<h5 class="text-body">
+    Adgang til serverne kan etableres via følgende netværk:
+    Trådløst (Når eleverne er på skolen) – Forbind til DataExpNet (kode: Just@Salt&Vinegar666)
+    VPN (når eleverne er hjemme) – Følg vejledningen til installation af VPN forbindelsen og forbind herefter med jeres ZBC initialer (Kode: Just@Salt&Vinegar666)
+
+    !!! Husk at bede dine elever om at rydde op på hosten inden faget slutter !!!
+</h5>
 <div>
     <hr />
     <dl class="row">
         @foreach (var item in Model)
         {
+
             <dt class="col-sm-2">
-                Host:
+                <label asp-for="@item.HostRentedForCourse.Name"></label>
             </dt>
             <dd class="col-sm-10">
-                @item.HostRentedForCourse.HostName
+                @item.HostRentedForCourse.Name
             </dd>
 
             <dt class="col-sm-2">
-                Udlånt til:
+                <label asp-for="@item.HostRentedForCourse.HostIp"></label>
             </dt>
             <dd class="col-sm-10">
-                @item.RentedClient
+                @item.HostRentedForCourse.HostIp
             </dd>
 
             <dt class="col-sm-2">
-                Udlejning udløber: 
+                <label asp-for="@item.HostRentedForCourse.VmWareVersion"></label>
             </dt>
             <dd class="col-sm-10">
-                @item.HostRentedForCourse.TurnInDate
+                @item.HostRentedForCourse.VmWareVersion
             </dd>
+
+            <dt class="col-sm-2">
+                <label asp-for="@item.HostRentedForCourse.UserName"></label>
+            </dt>
+            <dd class="col-sm-10">
+                @item.HostRentedForCourse.UserName
+            </dd>
+
+            <dt>
+                <label asp-for="@item.HostRentedForCourse.Password"></label>
+            </dt>
+            <dd>
+                @item.HostRentedForCourse.Password
+            </dd>
+
+            <dd>
+                <hr />
+            </dd>
+            
+            <dt>
+                <label asp-for="@item.CurrentUser.FirstName"></label>
+            </dt>
+            <dd>
+                @item.CurrentUser.FirstName
+            </dd>
+
+            <dt>
+                <label asp-for="@item.CurrentUser.LastName"></label>
+            </dt>
+            <dd>
+                @item.CurrentUser.LastName
+            </dd>
+            
+            <dt>
+                <label asp-for="@item.CurrentUser.Initials"></label>
+            </dt>
+            <dd>
+                @item.CurrentUser.Initials
+            </dd>
+            
+            <dt>
+                <label asp-for="@item.CurrentUser.Admin"></label>
+            </dt>
+            <dd>
+                @item.CurrentUser.Admin
+            </dd>
+            
+            <dt>
+                <label asp-for="@item.CurrentUser.Email"></label>
+            </dt>
+            <dd>
+                @item.CurrentUser.Email
+            </dd>
+
+            <dd>
+                <hr />
+            </dd>
+
+            <dt>
+                <label asp-for="@item.CourseModel.Name"></label>
+            </dt>
+            <dd>
+                @item.CourseModel.Name
+            </dd>
+
+            <dt>
+                <label asp-for="@item.CourseModel.CourseNumber"></label>
+            </dt>
+            <dd>
+                Dage: @item.CourseModel.CourseNumber
+            </dd>
+
+            <dt>
+                <label asp-for="@item.CourseModel.Duration"></label>
+            </dt>
+            <dd>
+                 @item.CourseModel.Duration
+            </dd>
+
+            <dt>
+                <label asp-for="@item.CourseModel.NumberOfStudents"></label>
+            </dt>
+            <dd>
+                @item.CourseModel.NumberOfStudents
+            </dd>
+
+
         }
-
     </dl>
 </div>
 

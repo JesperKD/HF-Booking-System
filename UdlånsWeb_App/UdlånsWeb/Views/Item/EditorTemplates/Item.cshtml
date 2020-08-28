@@ -1,12 +1,13 @@
-﻿@model Item
+﻿@model Host
 
-<b>@Model.HostName</b>
-@Html.HiddenFor(m => m.HostName)
+<b>@Model.Name</b>
+@Html.HiddenFor(m => m.Name)
 @Html.HiddenFor(m => m.HostIp)
-@Html.HiddenFor(m => m.HostPassword)
+@Html.HiddenFor(m => m.Password)
 @Html.HiddenFor(m => m.UserName)
 @Html.HiddenFor(m => m.VmWareVersion)
 @Html.HiddenFor(m => m.NumberOfPeoplePerHost)
 @Html.HiddenFor(m => m.Rented)
 @Html.HiddenFor(m => m.RentedDate)
 @Html.HiddenFor(m => m.TurnInDate)
+@Html.HiddenFor(m => m.Id)

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -23,9 +24,18 @@ namespace UdlånsWeb.DataHandling
         public void AddCourse(Course course)
         {
             Encrypt = new Encrypt();
-
+            CourseViewModel courseView = GetCourses();
+            int id = 0;
+            if (courseView.Courses.Count != 0 || courseView.Courses != null)
+            {
+                foreach (var item in courseView.Courses)
+                {
+                    item.Id = id;
+                    id++;
+                }
+            }
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append(course.Name + "," + course.NumberOfStudents + "," + course.Duration + "," + course.Defined);
+            stringBuilder.Append(course.Name + "," + course.NumberOfStudents + "," + course.Duration + "," + course.Defined + "," + course.Id);
             ToTxt.AppendStringToTxt(FILE_PATH + FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5) + Environment.NewLine);
         }
 
@@ -47,7 +57,7 @@ namespace UdlånsWeb.DataHandling
                     course.NumberOfStudents = int.Parse(courseData[1]);
                     course.Duration = int.Parse(courseData[2]);
                     course.Defined = Convert.ToBoolean(courseData[3]);
-
+                    course.Id = int.Parse(courseData[4]);
                     courseModel.Courses.Add(course);
 
                 }
@@ -78,12 +88,12 @@ namespace UdlånsWeb.DataHandling
                 oCourse.NumberOfStudents = int.Parse(courseData[1]);
                 oCourse.Duration = int.Parse(courseData[2]);
                 oCourse.Defined = Convert.ToBoolean(courseData[3]);
-                
+                course.Id = int.Parse(courseData[4]);
                 courseModelOld.Courses.Add(oCourse);
             }
 
             // finds the old item and removes it
-            Course OldCourse = courseModelOld.Courses.Where(x => x.Name == course.Name).FirstOrDefault();
+            Course OldCourse = courseModelOld.Courses.Where(x => x.Id == course.Id).FirstOrDefault();
             courseModelOld.Courses.Remove(OldCourse);
 
             // creates new list from old, and inserts edited item at index Id
@@ -99,7 +109,7 @@ namespace UdlånsWeb.DataHandling
             foreach (Course xcourse in CourseModelNew.Courses)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(course.Name + "," + course.NumberOfStudents + "," + course.Duration + "," + course.Defined);
+                stringBuilder.Append(course.Name + "," + course.NumberOfStudents + "," + course.Duration + "," + course.Defined + "" + course.Id);
 
                 Encrypt = new Encrypt();
                 coursesTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
@@ -123,7 +133,7 @@ namespace UdlånsWeb.DataHandling
                     string raw = Decrypt.DecryptString(Line, "SkPRingsted", 5);
                     string[] courseData = raw.Split(',');
                     Models.Course oCourse = new Course();
-                    oCourse.Name = courseData[0];           
+                    oCourse.Name = courseData[0];
                     oCourse.NumberOfStudents = int.Parse(courseData[1]);
                     oCourse.Duration = int.Parse(courseData[2]);
                     oCourse.Defined = Convert.ToBoolean(courseData[3]);
@@ -137,7 +147,7 @@ namespace UdlånsWeb.DataHandling
             }
 
             // finds the old item and removes it
-            Course removeCourse = courseModel.Courses.Where(x => x.Name == course.Name && x.Duration == course.Duration).First();
+            Course removeCourse = courseModel.Courses.Where(x => x.Name == course.Name && x.Duration == course.Duration).FirstOrDefault();
             courseModel.Courses.Remove(removeCourse);
 
             // creates correct user string

@@ -1,7 +1,8 @@
 ﻿@model UdlånsWeb.Models.User
 
 @{
-    Layout = null;
+    ViewData["Title"] = "EditUser";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -19,10 +20,10 @@
         <form asp-action="EditUser" asp-controller="User">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                <label asp-for="FirstName" class="control-label"></label>
                 <br />
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Initials" class="control-label"></label>

@@ -1,41 +1,69 @@
-﻿@model UserViewModel
+﻿@model UdlånsWeb.Models.UserViewModel
 @{
     ViewData["Title"] = "UserPage";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-@for (int i = 0; i < Model.Users.Count; i++)
-{
-    <div style="border-bottom:solid 2px black;">
-        <dl>
-            <dt>
-                Navn:
-            </dt>
-            <dd>
-                @Model.Users[i].Name
-                <br />
-                @using (Html.BeginForm("UserPage", "User", FormMethod.Post))
-                {
-                    @Html.ValidationSummary(true)
-                    <input asp-for="Id" type="number" value="@i" hidden />
+<div class="container-fluid">
+    <div class="row">
+        @for (int i = 0; i < Model.Users.Count; i++)
+        {
 
-                    <input asp-for="Users" value="@Model" />
-                    <input class="submitButton" type="submit" value="Rediger" />
-                }
-                @using (Html.BeginForm("DeleteUser", "User", FormMethod.Get))
-                {
-                    @Html.ValidationSummary(true)
-                    <input asp-for="Id" type="hidden" value="@i" />
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 py-2">
+                <button name="CollapButton" type="button" class="collapsible bg-success text-white" value="">@Model.Users[i].FirstName</button>
+                <div class="content" style="border : solid 2px black;">
+                    <div>
+                        <dl style="margin: 0px 10px 0px 0px;">
 
-                    <input asp-for="Users" type="hidden" value="@Model" />
-                    <input class="submitButton" type="submit" value="Fjern" />
-                }
+                            <dt>
+                                Initialer:
+                            </dt>
+                            <dd>
+                                @Model.Users[i].Initials<br />
+                            </dd>
+                            <dt>
+                                Email:
+                            </dt>
+                            <dd>
+                                @Model.Users[i].Email<br />
+                            </dd>
+                            <dt>
+                                Admin:
+                            </dt>
+                            <dd>
+                                @Model.Users[i].Admin<br />
+                            </dd>
 
-            </dd>
-        </dl>
+                        </dl>
 
+                        <ul style="display: inline-block; list-style-type:none;">
+                            <li style="margin-left: 10px; display: inline-block; list-style-type: none;">
+                                @using (Html.BeginForm("EditUser", "User", FormMethod.Get))
+                                {
+                                    @Html.ValidationSummary(true)
+                                    <input asp-for="Id" type="number" value="@i" hidden />
+                                    <p hidden>@Html.EditorFor(m => m.Users)</p>
+                                    <button type="submit">Rediger</button>
+                                }
+
+                            </li>
+                            <li style="margin-left: 10px; display: inline-block; list-style-type: none;">
+                                @using (Html.BeginForm("DeleteUser", "User", FormMethod.Get))
+                                {
+                                    @Html.ValidationSummary(true)
+                                    <input asp-for="Id" type="number" value="@i" hidden />
+                                    <button type="submit">Fjern</button>
+                                    <p hidden>@Html.EditorFor(m => m.Users)</p>
+                                }
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        }
     </div>
-    <br />
-}
+</div>
 
 
 

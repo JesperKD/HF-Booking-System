@@ -12,12 +12,15 @@ namespace UdlånsWeb.Models
     {
         public int Id { get; set; }
         public User CurrentUser { get; set; }
-        public string RentedClient { get; set; }
         [DisplayName("Lånes fra")]
         public DateTime RentDate { get; set; }
-        public Item HostRentedForCourse { get; set; } = new Item();
+        public Host HostRentedForCourse { get; set; } = new Host();
         public Course CourseModel { get; set; } = new Course();
         [DisplayName("Alle fag")]
         public List<Course> CoursesForSelection { get; set; } = new List<Course>();
+        public BookingViewModel()
+        {
+
+        }
     }
 }
