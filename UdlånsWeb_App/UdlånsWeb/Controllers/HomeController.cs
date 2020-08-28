@@ -47,7 +47,7 @@ namespace UdlånsWeb.Controllers
             CurrentUser = Data.Convertlogindata.ManuelLogin(initials);
 
             if (CurrentUser == null)
-                return Redirect("/Home/ErrorPage");
+                return Redirect("ErrorPage");
 
             if (CurrentUser.Admin == true)
                 return Redirect("/Home/AdminSite");
@@ -264,7 +264,7 @@ namespace UdlånsWeb.Controllers
         public IActionResult UserPage()
         {
             if (CurrentUser == null || CurrentUser.Admin == false)
-                return Redirect("Home/ErrorPage");
+                return Redirect("ErrorPage");
 
             UserViewModel userModel = Data.ConvertUserData.GetUsers();
             if (userModel == null)
@@ -294,7 +294,7 @@ namespace UdlånsWeb.Controllers
         public IActionResult AddUser()
         {
             if (CurrentUser == null || CurrentUser.Admin == false)
-                return Redirect("Home/ErrorPage");
+                return Redirect("ErrorPage");
 
             //returns the AddUser page 
             return View();
@@ -304,7 +304,7 @@ namespace UdlånsWeb.Controllers
         public IActionResult EditUser(UserViewModel userList, int id)
         {
             if (CurrentUser == null || CurrentUser.Admin == false)
-                return Redirect("Home/ErrorPage");
+                return Redirect("ErrorPage");
 
             return View(SelectedUser);
         }
@@ -320,7 +320,7 @@ namespace UdlånsWeb.Controllers
         public IActionResult DeleteUser(UserViewModel user, int id)
         {
             if (CurrentUser == null || CurrentUser.Admin == false)
-                return Redirect("Home/ErrorPage");
+                return Redirect("ErrorPage");
 
             //Sends the right user to the delete view
             SelectedUser = user.Users[id];
@@ -344,7 +344,7 @@ namespace UdlånsWeb.Controllers
         public IActionResult AddItem()
         {
             if (CurrentUser == null || CurrentUser.Admin == false)
-                return Redirect("Home/ErrorPage");
+                return Redirect("ErrorPage");
 
             return View();
         }
@@ -362,7 +362,7 @@ namespace UdlånsWeb.Controllers
         public IActionResult EditItem(ItemViewModel item, int id)
         {
             if (CurrentUser == null || CurrentUser.Admin == false)
-                return Redirect("Home/ErrorPage");
+                return Redirect("ErrorPage");
 
             return View(item.Items[id]);
         }
@@ -389,7 +389,7 @@ namespace UdlånsWeb.Controllers
         public IActionResult DeleteItem(ItemViewModel item, int id)
         {
             if (CurrentUser == null || CurrentUser.Admin == false)
-                return Redirect("Home/ErrorPage");
+                return Redirect("ErrorPage");
 
             SelectedItem = item.Items[id];
             return View(SelectedItem);
@@ -419,7 +419,7 @@ namespace UdlånsWeb.Controllers
         public IActionResult CourseSite()
         {
             if (CurrentUser == null || CurrentUser.Admin == false)
-                return Redirect("Home/ErrorPage");
+                return Redirect("ErrorPage");
 
             CourseViewModel viewModel = new CourseViewModel();
             viewModel = Data.ConvertCourseData.GetCourses();
@@ -434,7 +434,7 @@ namespace UdlånsWeb.Controllers
         public IActionResult AddCourse()
         {
             if (CurrentUser == null || CurrentUser.Admin == false)
-                return Redirect("Home/ErrorPage");
+                return Redirect("ErrorPage");
 
             return View();
         }
@@ -452,7 +452,7 @@ namespace UdlånsWeb.Controllers
         public IActionResult EditCourse(CourseViewModel course, int id)
         {
             if (CurrentUser == null || CurrentUser.Admin == false)
-                return Redirect("Home/ErrorPage");
+                return Redirect("ErrorPage");
 
             return View(course.Courses[id]);
         }
@@ -470,7 +470,7 @@ namespace UdlånsWeb.Controllers
         public IActionResult DeleteCourse(CourseViewModel course, int id)
         {
             if (CurrentUser == null || CurrentUser.Admin == false)
-                return Redirect("Home/ErrorPage");
+                return Redirect("ErrorPage");
 
             bookingViewModel.CourseModel = course.Courses[id];
             return View(course.Courses[id]);
