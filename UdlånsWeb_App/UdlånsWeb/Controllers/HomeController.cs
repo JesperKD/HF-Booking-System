@@ -28,7 +28,6 @@ namespace UdlånsWeb.Controllers
         private static BookingViewModel bookingViewModel { get; set; }
         private static BookingViewModel userBooking { get; set; }
 
-
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -204,7 +203,6 @@ namespace UdlånsWeb.Controllers
         #endregion
         #endregion
 
-
         public IActionResult Privacy()
         {
             var ItemModel = new ItemViewModel();
@@ -259,9 +257,6 @@ namespace UdlånsWeb.Controllers
             model = Data.ConvertBookingData.GetBookings();
             return View(model);
         }
-
-
-
 
         //Overview over all user pages
         #region User Pages
@@ -434,7 +429,6 @@ namespace UdlånsWeb.Controllers
                 return View(viewModel);
         }
 
-
         #region Add Course
         [HttpGet]
         public IActionResult AddCourse()
@@ -489,8 +483,6 @@ namespace UdlånsWeb.Controllers
             return Redirect("CourseSite");
         }
         #endregion
-
-
         #endregion
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
