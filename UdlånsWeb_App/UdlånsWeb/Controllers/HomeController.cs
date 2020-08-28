@@ -46,7 +46,7 @@ namespace UdlånsWeb.Controllers
             //Add logic for login
             CurrentUser = Data.Convertlogindata.ManuelLogin(initials);
 
-            if (CurrentUser == null || CurrentUser.Admin == false)
+            if (CurrentUser == null)
                 return Redirect("/Home/ErrorPage");
 
             if (CurrentUser.Admin == true)
