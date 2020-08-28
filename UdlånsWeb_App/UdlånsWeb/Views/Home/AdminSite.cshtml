@@ -43,6 +43,33 @@
                                 <dd>
                                     @Model.Items[i].VmWareVersion<br />
                                 </dd>
+                                @if (Model.Bookings.Count != 0 && Model.Items[i].Rented == true)
+                                {
+                                    <dt>
+                                        Lånt til:
+                                    </dt>
+                                    <dd>
+                                        @for (int j = 0; j < Model.Bookings.Count; j++)
+                                        {
+                                            if(Model.Bookings[j].Id == Model.Items[i].Id)
+                                            {
+                                                @Model.Bookings[j].RentedClient
+                                            }
+                                        }
+                                    </dd>
+                                    <dt>
+                                        Lejning udløber:
+                                    </dt>
+                                    <dd>
+                                        @for (int j = 0; j < Model.Bookings.Count; j++)
+                                        {
+                                            if(Model.Bookings[j].Id == Model.Items[i].Id)
+                                            {
+                                                @Model.Items[i].TurnInDate
+                                            }
+                                        }
+                                    </dd>
+                                }
                             </dl>
 
                             <ul style="display: inline-block; list-style-type:none;">
@@ -104,6 +131,33 @@
                                 <dd>
                                     @Model.Items[i].VmWareVersion<br />
                                 </dd>
+                                @if (Model.Bookings.Count != 0 && Model.Items[i].Rented == true)
+                                {
+                                    <dt>
+                                        Lånt til:
+                                    </dt>
+                                    <dd>
+                                        @for (int j = 0; j < Model.Bookings.Count; j++)
+                                        {
+                                            if (Model.Bookings[j].Id == Model.Items[i].Id)
+                                            {
+                                                @Model.Bookings[j].RentedClient
+                                            }
+                                        }
+                                    </dd>
+                                    <dt>
+                                        Lejning udløber:
+                                    </dt>
+                                    <dd>
+                                        @for (int j = 0; j < Model.Bookings.Count; j++)
+                                        {
+                                            if (Model.Bookings[j].Id == Model.Items[i].Id)
+                                            {
+                                                @Model.Items[i].TurnInDate
+                                            }
+                                        }
+                                    </dd>
+                                }
                             </dl>
 
                             <ul style="display: inline-block; list-style-type:none;">
@@ -132,5 +186,4 @@
             }
         }
     </div>
-
 </div>
