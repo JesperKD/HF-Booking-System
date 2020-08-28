@@ -1,44 +1,52 @@
-﻿@model UdlånsWeb.Models.Course
+﻿@model UdlånsWeb.Models.BookingViewModel
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="container">
     <div style="width:250px">
-        <label asp-for="Name" class="control-label"></label>
-        <br />
+        <form asp-action="InfoPage">
 
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
-        <br />
-
-        <label asp-for="StartDate" class="control-label"></label>
-        <br />
-
-        <input asp-for="StartDate" class="form-control" />
-        <span asp-validation-for="StartDate" class="text-danger"></span>
-        <br />
-        @if (Model.Difined == true)
-        {
-            <label asp-for="EndDate" class="control-label"></label>
+            <label asp-for="@Model.CourseModel.Name" class="control-label"></label>
             <br />
-            <input asp-for="EndDate" class="form-control" />
-            <span asp-validation-for="EndDate" class="text-danger"></span>
+            <select asp-for="@Model.CourseModel.Name">
+                @for (int i = 0; i < Model.CoursesForSelection.Count; i++)
+                {
+                    <option>@Model.CoursesForSelection[i].Name</option>
+                }
+                
+            </select>
+            <span asp-validation-for="@Model.CourseModel.Name"></span>
             <br />
-        }
+
+            <label asp-for="@Model.RentDate" class="control-label"></label>
+            <br />
+
+            <input asp-for="@Model.RentDate" class="form-control" />
+            <span asp-validation-for="@Model.RentDate" class="text-danger"></span>
+            <br />
+            @if (Model.CourseModel.Defined == true)
+            {
+                <label asp-for="@Model.HostRentedForCourse.TurnInDate" class="control-label"></label>
+                <br />
+                <input asp-for="@Model.HostRentedForCourse.TurnInDate" class="form-control" />
+                <span asp-validation-for="@Model.HostRentedForCourse.TurnInDate" class="text-danger"></span>
+                <br />
+            }
 
 
-        <label asp-for="NumberOfStudents" class="control-label"></label>
-        <br />
+            <label asp-for="@Model.CourseModel.NumberOfStudents" class="control-label"></label>
+            <br />
 
-        <input asp-for="NumberOfStudents" class="form-control" />
-        <span asp-validation-for="NumberOfStudents" class="text-danger"></span>
-        <br />
+            <input asp-for="@Model.CourseModel.NumberOfStudents" class="form-control" />
+            <span asp-validation-for="@Model.CourseModel.NumberOfStudents" class="text-danger"></span>
+            <br />
 
-        <input style="margin-top:20px;" type="submit" value="Book" class="btn btn-primary" />
-        <div>
-            <a asp-action="InfoPage">Back to List</a>
-        </div>
+            <input style="margin-top:20px;" type="submit" value="Book" class="btn btn-primary" />
+            <div>
+                <a asp-action="Booking">Tilbage</a>
+            </div>
+        </form>
     </div>
 </div>
 
