@@ -9,7 +9,7 @@ namespace UdlånsWeb.DataHandling
     public static class Data
     {
         private static ConvertCourseData convertCourseData { get; set; } = new ConvertCourseData();
-        private static ConvertItemData convertItemData { get; set; } = new ConvertItemData();
+        private static ConvertHostData convertItemData { get; set; } = new ConvertHostData();
         private static ConvertUserData convertUserData { get; set; } = new ConvertUserData();
         private static ConvertLoginData convertlogindata { get; set; } = new ConvertLoginData();
         private static ConvertBookingData convertBookingData { get; set; } = new ConvertBookingData();
@@ -26,7 +26,7 @@ namespace UdlånsWeb.DataHandling
             //Loads all the courses
             CourseViewModel = convertCourseData.GetCourses();
             //Load all the hosts
-            HostViewModel = convertItemData.GetItems();
+            HostViewModel = convertItemData.GetHosts();
             //Load all the users
             UserViewModel = convertUserData.GetUsers();
             //Load all bookings made
@@ -35,6 +35,10 @@ namespace UdlånsWeb.DataHandling
         }
 
         #region Bookings
+        /// <summary>
+        /// Save all bookings in booking view model list
+        /// </summary>
+        /// <param name="bookingViewModels"></param>
         public static void SaveBookings(List<BookingViewModel> bookingViewModels)
         {
             convertBookingData.SaveAllBookings(bookingViewModels);
@@ -50,7 +54,7 @@ namespace UdlånsWeb.DataHandling
         #endregion
         #region Courses
 
-        public static void SaveCourses(CourseViewModel courseViewModel)
+        public static void SaveCourse(CourseViewModel courseViewModel)
         {
             convertCourseData.SaveAllCourses(courseViewModel);
         }
@@ -60,10 +64,16 @@ namespace UdlånsWeb.DataHandling
             convertCourseData.EditCourse(course);
         }
 
-        public static void DeleteCourses(Course course)
+        public static void DeleteCourse(Course course)
         {
             convertCourseData.DeleteCourse(course);
         }
+        #endregion
+        #region Hosts
+
+        #endregion
+        #region Users
+
         #endregion
     }
 }

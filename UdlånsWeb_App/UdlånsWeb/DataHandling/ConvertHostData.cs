@@ -7,46 +7,38 @@ using UdlånsWeb.Models;
 
 namespace UdlånsWeb.DataHandling
 {
-    public class ConvertItemData
+    public class ConvertHostData
     {
         ToTxt ToTxt = new ToTxt();
         FromTxt FromTxt = new FromTxt();
         Encrypt Encrypt;
         Decrypt Decrypt;
-        const string ITEM_FILE_NAME = "\\item.txt";
+        const string ITEM_FILE_NAME = "\\host.txt";
         const string FILE_PATH = "C:\\TestSite";
 
-        public void AddItem(Host item)
+        public void AddHost(Host host)
         {
             Encrypt = new Encrypt();
 
-            int itemID = 0;
-            try
+            HostViewModel hostsView = GetHosts();
+            hostsView.Items.Sort();
+            int highestNumberForId = 0;
+             if(hostsView.Items.Contains(host))
+            foreach (var item in hostsView.Items)
             {
-                if (GetItems().Items.Count > 0)
+                if(item.Id > highestNumberForId)
                 {
-                    for (int i = 0; i < GetItems().Items.Count; i++)
-                    {
-                        itemID++;
-                    }
-                }
-
-                if (itemID == GetItems().Items.LastOrDefault().Id)
-                {
-                    itemID++;
+                    highestNumberForId = item.Id;
                 }
             }
-            catch(Exception)
-            {
 
-            }
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append(item.Name + "," + item.Password + "," + item.UserName + "," + item.VmWareVersion + "," + item.HostIp + "," + item.NumberOfPeoplePerHost + "," + item.Rented + "," + itemID + "," + item.TurnInDate);
+            stringBuilder.Append(host.Name + "," + host.Password + "," + host.UserName + "," + host.VmWareVersion + "," + host.HostIp + "," + host.NumberOfPeoplePerHost + "," + host.Rented + "," + highestNumberForId + "," + host.TurnInDate);
 
             ToTxt.AppendStringToTxt(FILE_PATH + ITEM_FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5) + Environment.NewLine);
         }
 
-        public HostViewModel GetItems()
+        public HostViewModel GetHosts()
         {
             try
             {
@@ -82,7 +74,7 @@ namespace UdlånsWeb.DataHandling
             }
         }
 
-        public void EditItem(Host item)
+        public void EditHost(Host item)
         {
             //Logic for Edit Item
             var itemModelOld = new HostViewModel();
@@ -109,19 +101,19 @@ namespace UdlånsWeb.DataHandling
                 itemModelOld.Items.Add(oItem);
             }
 
-            // finds the old item and removes it
+            // finds the old host and removes it
             Host OldItem = itemModelOld.Items.Where(x => x.Id == item.Id).FirstOrDefault();
             itemModelOld.Items.Remove(OldItem);
 
-            // creates new list from old, and inserts edited item at index Id
+            // creates new list from old, and inserts edited host at index Id
             HostViewModel ItemModelNew = new HostViewModel();
             ItemModelNew = itemModelOld;
             ItemModelNew.Items.Insert(item.Id, item);
 
-            // creates correct item string
+            // creates correct host string
             List<string> itemsTosave = new List<string>();
 
-            // makes each item into a new string
+            // makes each host into a new string
             foreach (Host Item in ItemModelNew.Items)
             {
                 StringBuilder stringBuilder = new StringBuilder();
@@ -134,9 +126,9 @@ namespace UdlånsWeb.DataHandling
             ToTxt.StringsToTxt(FILE_PATH + ITEM_FILE_NAME, itemsTosave.ToArray());
         }
 
-        public void DeleteItem(Host item)
+        public void DeleteHost(Host host)
         {
-            // Code input item that has to be deleted 
+            // Code input host that has to be deleted 
             var itemModel = new HostViewModel();
             try
             {
@@ -156,18 +148,17 @@ namespace UdlånsWeb.DataHandling
                     oItem.HostIp = itemData[4];
                     oItem.NumberOfPeoplePerHost = int.Parse(itemData[5]);
                     oItem.Rented = Convert.ToBoolean(itemData[6]);
-                    item.Id = int.Parse(itemData[7]);
+                    oItem.Id = int.Parse(itemData[7]);
                     itemModel.Items.Add(oItem);
                 }
-
             }
             catch (Exception)
             {
 
             }
 
-            // finds the old item and removes it
-            Host removeUser = itemModel.Items.Where(x => x.Name == item.Name && x.HostIp == item.HostIp && x.Id == item.Id).FirstOrDefault();
+            // finds the old host and removes it
+            Host removeUser = itemModel.Items.Where(x => x.Name == host.Name && x.HostIp == host.HostIp && x.Id == host.Id).FirstOrDefault();
             itemModel.Items.Remove(removeUser);
 
             // creates correct user string
@@ -176,7 +167,7 @@ namespace UdlånsWeb.DataHandling
             foreach (Host Item in itemModel.Items)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(item.Name + "," + item.Password + "," + item.UserName + "," + item.VmWareVersion + "," + item.HostIp + "," + item.NumberOfPeoplePerHost + "," + item.Rented);
+                stringBuilder.Append(host.Name + "," + host.Password + "," + host.UserName + "," + host.VmWareVersion + "," + host.HostIp + "," + host.NumberOfPeoplePerHost + "," + host.Rented);
 
                 Encrypt = new Encrypt();
                 itemsTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));

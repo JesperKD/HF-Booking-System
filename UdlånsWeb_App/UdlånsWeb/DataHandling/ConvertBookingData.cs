@@ -76,8 +76,6 @@ namespace UdlånsWeb.DataHandling
                         {
                             bookingViewModel.HostsRentedForCourse.Add( new Host ( ) { Id = int.Parse( item ) });
                         }
-
-
                     }
 
                 }

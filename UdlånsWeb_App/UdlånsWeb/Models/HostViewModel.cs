@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 
 namespace UdlånsWeb.Models
 {
-    public class HostViewModel
+    public class HostViewModel : IComparable<HostViewModel>, IEquatable<HostViewModel>
     {
         public int Id { get; set; }
         public List<Host> Items { get; set; }
@@ -16,5 +17,6 @@ namespace UdlånsWeb.Models
             Items = new List<Host>();
             Bookings = new List<BookingViewModel>();
         }
+
     }
 }

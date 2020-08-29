@@ -2,13 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using UdlånsWeb.DataHandling;
 
 namespace UdlånsWeb.Models
 {
-    public class Host
+    public class Host : IComparable<Host>
     {
         [DisplayName("Host Navn")]
         public string Name { get; set; }
@@ -27,6 +28,26 @@ namespace UdlånsWeb.Models
         public DateTime TurnInDate { get; set; }
         public bool Rented { get; set; }
         public int Id { get; set; }
-
+        private static int id;
+        public Host()
+        {
+            Data.LoadData();
+            HostViewModel viewModel = Data.HostViewModel;
+            viewModel.Items.Sort();
+            if(viewModel.Items.Last().Id > id)
+            {
+                id = viewModel.Items.Last().Id;
+                id++;
+            }
+            Id = id;
+            id++;
+        }
+        public int CompareTo(Host other)
+        {
+            if (other == null)
+                return 1;
+            else
+                return this.Id.CompareTo(other.Id);
+        }
     }
 }

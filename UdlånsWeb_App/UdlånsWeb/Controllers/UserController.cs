@@ -20,8 +20,6 @@ namespace UdlånsWeb.Controllers
 {
     public class UserController : Controller
     {
-        Data Data = new Data();
-
         //User overview
         public IActionResult UserPage()
         {
@@ -31,7 +29,7 @@ namespace UdlånsWeb.Controllers
                 return Redirect("Home/ErrorPage");
 
             //Gets the list of users 
-            UserViewModel userModel = Data.ConvertUserData.GetUsers();
+            UserViewModel userModel = Data.UserViewModel;
             if (userModel == null)
             {
                 //If there is no users make an empty list
@@ -58,7 +56,7 @@ namespace UdlånsWeb.Controllers
         {
             //Gets the selected user from UserPage 
             //Then sends it to data 
-            Data.ConvertUserData.AddUser(user);
+            Data.UserViewModel.Users.Add(user);
             //After they user has been saved redirect to UserPage
             return Redirect("UserPage");
         }

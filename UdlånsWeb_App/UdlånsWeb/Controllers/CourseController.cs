@@ -66,7 +66,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult EditCourse(Course course)
         {
-            Data.EditCourses(course);
+            Data.EditCourse(course);
             return Redirect("CourseSite");
         }
 
@@ -82,7 +82,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult DeleteCourse(Course course)
         {
-            Data.ConvertCourseData.DeleteCourse(course);
+            Data.DeleteCourse(course);
             return Redirect("CourseSite");
         }
     }

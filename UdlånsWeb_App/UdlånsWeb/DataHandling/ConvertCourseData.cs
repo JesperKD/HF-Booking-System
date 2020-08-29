@@ -25,6 +25,7 @@ namespace UdlånsWeb.DataHandling
         {
             Encrypt = new Encrypt();
             CourseViewModel courseView = GetCourses();
+            courseView.Courses.Add(course);
             int id = 0;
             if (courseView.Courses.Count != 0 || courseView.Courses != null)
             {
