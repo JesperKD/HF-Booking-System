@@ -14,7 +14,7 @@
                 {
                     <option>@Model.CoursesForSelection[i].Name</option>
                 }
-                
+
             </select>
             <span asp-validation-for="@Model.CourseModel.Name"></span>
             <br />
@@ -27,11 +27,14 @@
             <br />
             @if (Model.CourseModel.Defined == true)
             {
-                <label asp-for="@Model.HostRentedForCourse.TurnInDate" class="control-label"></label>
-                <br />
-                <input asp-for="@Model.HostRentedForCourse.TurnInDate" class="form-control" />
-                <span asp-validation-for="@Model.HostRentedForCourse.TurnInDate" class="text-danger"></span>
-                <br />
+                foreach (var item in Model.HostsRentedForCourse)
+                {
+                    <label asp-for="@Model.TurnInDate" class="control-label"></label>
+                    <br />
+                    <input asp-for="@Model.TurnInDate" class="form-control" />
+                    <span asp-validation-for="@Model.TurnInDate" class="text-danger"></span>
+                    <br />
+                }
             }
 
 
@@ -43,9 +46,6 @@
             <br />
 
             <input style="margin-top:20px;" type="submit" value="Book" class="btn btn-primary" />
-            <div>
-                <a asp-action="Booking/BookingDefine">Tilbage</a>
-            </div>
         </form>
     </div>
 </div>

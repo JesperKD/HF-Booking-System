@@ -17,18 +17,21 @@
         </dd>
 
         <dt>
-            Navn på host:
+            Navn på hosts:
         </dt>
-        <dd>
-            @Html.DisplayFor(x => x.HostRentedForCourse.Name)
-        </dd>
+        @foreach (var item in Model.HostsRentedForCourse)
+        {
+            <dd>
+                @item.Name
+            </dd>
+            <dt>
+                Indleverings dato:
+            </dt>
+            <dd>
+                @item.TurnInDate
+            </dd>
+        }
 
-        <dt>
-            Indleverings dato:
-        </dt>
-        <dd>
-            @Html.DisplayFor(x => x.HostRentedForCourse.TurnInDate)
-        </dd>
     </dl>
     <button type="submit">Godkend</button>
 }

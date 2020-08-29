@@ -20,7 +20,6 @@ namespace UdlånsWeb.Controllers
 {
     public class CourseController : Controller
     {
-        Data Data = new Data();
         private static User SelectedUser { get; set; }
         private static Host SelectedItem { get; set; }
         private static BookingViewModel bookingViewModel { get; set; }
@@ -28,15 +27,14 @@ namespace UdlånsWeb.Controllers
 
         public IActionResult CourseSite()
         {
-            if (CurrentUser.User == null && CurrentUser.User.Admin == true)
+            if (CurrentUser.User == null && CurrentUser.User.Admin == false)
                 return Redirect("Home/ErrorPage");
 
-            CourseViewModel viewModel = new CourseViewModel();
-            viewModel = Data.ConvertCourseData.GetCourses();
-            if (viewModel == null)
+            
+            if (Data.CourseViewModel == null)
                 return View(new CourseViewModel());
             else
-                return View(viewModel);
+                return View(Data.CourseViewModel);
         }
 
 
@@ -52,7 +50,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult AddCourse(Course course)
         {
-            Data.ConvertCourseData.AddCourse(course);
+            Data.CourseViewModel.Courses.Add(course);
             return Redirect("CourseSite");
         }
         
@@ -68,7 +66,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult EditCourse(Course course)
         {
-            Data.ConvertCourseData.EditCourse(course);
+            Data.EditCourses(course);
             return Redirect("CourseSite");
         }
 

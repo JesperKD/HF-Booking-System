@@ -21,7 +21,20 @@
                             <dd>
                                 @Model.Courses[i].Duration
                             </dd>
-                          
+
+                            <dt>
+                                @Html.DisplayNameFor(m => m.Courses[i].CourseNumber)
+                            </dt>
+                            <dd>
+                                @Model.Courses[i].CourseNumber
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(m => m.Courses[i].NumberOfStudents)
+                            </dt>
+                            <dd>
+                                @Model.Courses[i].NumberOfStudents
+                            </dd>
                         </dl>
 
                         <ul style="display: inline-block; list-style-type:none;">

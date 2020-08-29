@@ -20,45 +20,49 @@
         @foreach (var item in Model)
         {
 
-            <dt class="col-sm-2">
-                <label asp-for="@item.HostRentedForCourse.Name"></label>
-            </dt>
-            <dd class="col-sm-10">
-                @item.HostRentedForCourse.Name
-            </dd>
+            foreach (var host in item.HostsRentedForCourse)
+            {
 
-            <dt class="col-sm-2">
-                <label asp-for="@item.HostRentedForCourse.HostIp"></label>
-            </dt>
-            <dd class="col-sm-10">
-                @item.HostRentedForCourse.HostIp
-            </dd>
+                <dt class="col-sm-2">
+                    <label asp-for="@host.Name"></label>
+                </dt>
+                <dd class="col-sm-10">
+                    @host.Name
+                </dd>
 
-            <dt class="col-sm-2">
-                <label asp-for="@item.HostRentedForCourse.VmWareVersion"></label>
-            </dt>
-            <dd class="col-sm-10">
-                @item.HostRentedForCourse.VmWareVersion
-            </dd>
+                <dt class="col-sm-2">
+                    <label asp-for="@host.HostIp"></label>
+                </dt>
+                <dd class="col-sm-10">
+                    @host.HostIp
+                </dd>
 
-            <dt class="col-sm-2">
-                <label asp-for="@item.HostRentedForCourse.UserName"></label>
-            </dt>
-            <dd class="col-sm-10">
-                @item.HostRentedForCourse.UserName
-            </dd>
+                <dt class="col-sm-2">
+                    <label asp-for="@host.VmWareVersion"></label>
+                </dt>
+                <dd class="col-sm-10">
+                    @host.VmWareVersion
+                </dd>
 
-            <dt>
-                <label asp-for="@item.HostRentedForCourse.Password"></label>
-            </dt>
-            <dd>
-                @item.HostRentedForCourse.Password
-            </dd>
+                <dt class="col-sm-2">
+                    <label asp-for="@host.UserName"></label>
+                </dt>
+                <dd class="col-sm-10">
+                    @host.UserName
+                </dd>
 
-            <dd>
-                <hr />
-            </dd>
-            
+                <dt>
+                    <label asp-for="@host.Password"></label>
+                </dt>
+                <dd>
+                    @host.Password
+                </dd>
+
+                <dd>
+                    <hr />
+                </dd>
+            }
+
             <dt>
                 <label asp-for="@item.CurrentUser.FirstName"></label>
             </dt>
@@ -72,21 +76,21 @@
             <dd>
                 @item.CurrentUser.LastName
             </dd>
-            
+
             <dt>
                 <label asp-for="@item.CurrentUser.Initials"></label>
             </dt>
             <dd>
                 @item.CurrentUser.Initials
             </dd>
-            
+
             <dt>
                 <label asp-for="@item.CurrentUser.Admin"></label>
             </dt>
             <dd>
                 @item.CurrentUser.Admin
             </dd>
-            
+
             <dt>
                 <label asp-for="@item.CurrentUser.Email"></label>
             </dt>
@@ -116,7 +120,7 @@
                 <label asp-for="@item.CourseModel.Duration"></label>
             </dt>
             <dd>
-                 @item.CourseModel.Duration
+                @item.CourseModel.Duration
             </dd>
 
             <dt>

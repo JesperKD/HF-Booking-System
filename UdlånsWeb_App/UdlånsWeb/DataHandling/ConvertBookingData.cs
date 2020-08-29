@@ -17,21 +17,33 @@ namespace UdlånsWeb.DataHandling
         const string FILE_PATH = "C:\\TestSite";
 
 
-        #region Course Methods
+        #region Booking Methods
         public void SaveBooking(BookingViewModel booking)
         {
             Encrypt = new Encrypt();
 
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append(booking.CurrentUser.Initials + "," + booking.HostRentedForCourse.Name + "," + booking.Id + "," + booking.HostRentedForCourse.TurnInDate);
+            stringBuilder.Append(booking.Id + "," + booking.CurrentUser.Id + "," + booking.CourseModel.Id + "#");
+            foreach (var host in booking.HostsRentedForCourse)
+            {
+                stringBuilder.Append("," + host.Id);
+            }
+            stringBuilder.Append("+");
             ToTxt.AppendStringToTxt(FILE_PATH + FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5) + Environment.NewLine);
         }
 
+        public void SaveAllBookings(List<BookingViewModel> bookingViewModels)
+        {
+            foreach (var item in bookingViewModels)
+            {
+                SaveBooking(item);
+            }
+        }
         public List<BookingViewModel> GetBookings()
         {
+            List<BookingViewModel> bookingViewModels = new List<BookingViewModel>();
             try
             {
-                List<BookingViewModel> courseModel = new List<BookingViewModel>();
 
                 string[] rawCourse = FromTxt.StringsFromTxt(FILE_PATH + FILE_NAME);
 
@@ -39,15 +51,37 @@ namespace UdlånsWeb.DataHandling
                 {
                     Decrypt = new Decrypt();
                     string raw = Decrypt.DecryptString(line, "SkPRingsted", 5);
-                    string[] courseData = raw.Split(',');
-                    BookingViewModel booking = new BookingViewModel();
-                    booking.CurrentUser.Initials = courseData[0];
-                    booking.HostRentedForCourse.Name = courseData[1];
-                    booking.Id = int.Parse(courseData[2]);
-                    booking.HostRentedForCourse.TurnInDate = DateTime.Parse(courseData[3]);
-                    courseModel.Add(booking);
+                    string[] bookingData = raw.Split('+');
+                    foreach (var bookings in bookingData)
+                    {
+                        string[] bookingIds = bookings.Split('#');
+
+                        BookingViewModel bookingViewModel = new BookingViewModel()
+                        {
+                            Id = int.Parse(bookingIds[0].Split(',')[0]),
+                            CurrentUser = new User()
+                            {
+                                Id = int.Parse(bookingIds[0].Split(',')[1])
+                            },
+                            CourseModel = new Course()
+                            {
+                                Id = int.Parse(bookingIds[0].Split(',')[2])
+                            },
+
+                            HostsRentedForCourse = new List<Host>(),
+
+                        };
+
+                        foreach (var item in bookingIds[1].Split(',').ToList())
+                        {
+                            bookingViewModel.HostsRentedForCourse.Add( new Host ( ) { Id = int.Parse( item ) });
+                        }
+
+
+                    }
+
                 }
-                return courseModel;
+                return bookingViewModels;
             }
             catch (Exception ex)
             {
@@ -55,100 +89,39 @@ namespace UdlånsWeb.DataHandling
                 return new List<BookingViewModel>();
             }
         }
-
+        /// <summary>
+        /// Takes the changed booking then make a match on the old one 
+        /// It will delete the old and save the new 
+        /// </summary>
+        /// <param name="booking"></param>
         public void EditBooking(BookingViewModel booking)
         {
-            //Logic for Edit Item
-            var courseModelOld = new List<BookingViewModel>();
-
-            // gets all items from file
-            string[] rawCourse = FromTxt.StringsFromTxt(FILE_PATH + FILE_NAME);
-
-            foreach (string itemLine in rawCourse)
-            {
-                Decrypt = new Decrypt();
-                string raw = Decrypt.DecryptString(itemLine, "SkPRingsted", 5);
-                string[] courseData = raw.Split(',');
-                BookingViewModel oCourse = new BookingViewModel();
-                oCourse.CurrentUser.Initials = courseData[0];
-                oCourse.HostRentedForCourse.Name = courseData[1];
-                oCourse.Id = int.Parse(courseData[2]);
-                courseModelOld.Add(oCourse);
-            }
-
-            // finds the old item and removes it
-            BookingViewModel OldCourse = courseModelOld.Where(x => x.CurrentUser.Id == booking.CurrentUser.Id).FirstOrDefault();
-            courseModelOld.Remove(OldCourse);
-
-            // creates new list from old, and inserts edited item at index Id
-            List<BookingViewModel> bookingModelNew = new List<BookingViewModel>();
-            bookingModelNew = courseModelOld;
-            bookingModelNew.Insert(booking.Id, booking);
-
-
-            // creates correct item string
-            List<string> coursesTosave = new List<string>();
-
-            // makes each item into a new string
-            foreach (var xbooking in bookingModelNew)
-            {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(booking.CurrentUser.Initials + "," + booking.HostRentedForCourse.Name + "," + booking.Id + "," + booking.HostRentedForCourse.TurnInDate);
-
-                Encrypt = new Encrypt();
-                coursesTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
-            }
-            // overrides file with new strings
-            ToTxt.StringsToTxt(FILE_PATH + FILE_NAME, coursesTosave.ToArray());
+            List<BookingViewModel> bookingViewModels = GetBookings();
+            
+            // finds the old booking
+            BookingViewModel bookingViewModelOld = bookingViewModels.Where(x => x.Id == booking.Id).FirstOrDefault();
+            // Removes the old booking from the list
+            bookingViewModels.Remove(bookingViewModelOld);
+            
+            //Inserts the changed booking
+            bookingViewModels.Insert(booking.Id, booking);
+            //Saves the remade list
+            SaveAllBookings(bookingViewModels);
         }
 
         public void DeleteBooking(BookingViewModel booking)
         {
-            // Code input item that has to be deleted 
-            var courseModel = new List<BookingViewModel>();
-            try
-            {
-                // gets all users from file
-                string[] rawCourse = FromTxt.StringsFromTxt(FILE_PATH + FILE_NAME);
+            List<BookingViewModel> bookingViewModels = GetBookings();
 
-                foreach (string Line in rawCourse)
-                {
-                    Decrypt = new Decrypt();
-                    string raw = Decrypt.DecryptString(Line, "SkPRingsted", 5);
-                    string[] courseData = raw.Split(',');
-                    Models.BookingViewModel oCourse = new BookingViewModel();
-                    oCourse.CurrentUser.Initials = courseData[0];
-                    oCourse.HostRentedForCourse.Name = courseData[1];
-                   
-                    courseModel.Add(oCourse);
-                }
+            // finds the old booking
+            BookingViewModel bookingViewModelOld = bookingViewModels.Where(x => x.Id == booking.Id).FirstOrDefault();
+            // Removes the old booking from the list
+            bookingViewModels.Remove(bookingViewModelOld);
 
-            }
-            catch (Exception)
-            {
-
-            }
-
-            // finds the old item and removes it
-            BookingViewModel removeCourse = courseModel.Where(x => x.CurrentUser.Id == booking.Id).First();
-            courseModel.Remove(removeCourse);
-
-            // creates correct user string
-            List<string> coursesTosave = new List<string>();
-
-            foreach (var bookingx in courseModel)
-            {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(booking.CurrentUser.Initials + "," + booking.HostRentedForCourse.Name + "," + booking.Id + "," + booking.HostRentedForCourse.TurnInDate);
-
-                Encrypt = new Encrypt();
-                coursesTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
-            }
-
-            // overrides file with new strings
-            ToTxt.StringsToTxt(FILE_PATH + FILE_NAME, coursesTosave.ToArray());
+            //Saves the remade list
+            SaveAllBookings(bookingViewModels);
         }
-        #endregion	        #endregion
+        #endregion
 
     }
 }
