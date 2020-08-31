@@ -31,7 +31,7 @@ namespace UdlånsWeb.DataHandling
         /// </summary>
         public static void SaveHosts()
         {
-            convertHostData.ReWriteHostFile(convertHostData.GetHosts());
+            convertHostData.ReWriteHostFile(HostViewModel);
         }
         /// <summary>
         /// Deletes the host from the file
@@ -86,7 +86,68 @@ namespace UdlånsWeb.DataHandling
             SaveBookings();
         }
         #endregion
+        #region User
+        /// <summary>
+        /// Gets the users from file then save them in UserViewModel and returns a UserViewModel 
+        /// </summary>
+        /// <returns></returns>
+        public static UserViewModel GetUsers()
+        {
+            UserViewModel = convertUserData.GetUsers();
+            return UserViewModel;
+        }
+        /// <summary>
+        /// Saves the users in UserViewModel
+        /// </summary>
+        public static void SaveUsers()
+        {
+            convertUserData.ReWriteUserFile(UserViewModel);
+        }
+        public static void DeleteUser(User user)
+        {
+            GetUsers();
+            User userToDelete = UserViewModel.Users.Where(x => x.Id == user.Id).FirstOrDefault();
+            UserViewModel.Users.Remove(userToDelete);
+            SaveUsers();
+        }
+        public static void EditUser(User user)
+        {
+            GetUsers();
+            User userToDelete = UserViewModel.Users.Where(x => x.Id == user.Id).FirstOrDefault();
+            UserViewModel.Users.Add(user);
+            SaveUsers();
+        }
+        #endregion
+        #region Course
+        public static CourseViewModel GetCourses()
+        {
+            CourseViewModel = convertCourseData.GetCourses();
+            return CourseViewModel;
+        }
+        /// <summary>
+        /// Saves the users in UserViewModel
+        /// </summary>
+        public static void SaveCourses()
+        {
+            convertCourseData.RewriteCourseFile(CourseViewModel);
+        }
+        public static void DeleteCourse(Course course)
+        {
+            GetCourses();
 
+            Course courseToDelete = CourseViewModel.Courses.Where(x => x.Id == course.Id).FirstOrDefault();
+            CourseViewModel.Courses.Remove(courseToDelete);
+            SaveCourses();
+        }
+        public static void EditCourse(Course course)
+        {
+            GetUsers();
+            Course courseToDelete = CourseViewModel.Courses.Where(x => x.Id == course.Id).FirstOrDefault();
+            CourseViewModel.Courses.Remove(courseToDelete);
+            CourseViewModel.Courses.Add(course);
+            SaveUsers();
+        }
+        #endregion
 
         /// <summary>
         /// Makes object fx. Host, User or Course to a Json formated string 

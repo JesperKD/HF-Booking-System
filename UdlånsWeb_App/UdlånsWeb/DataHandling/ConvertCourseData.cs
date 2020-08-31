@@ -30,29 +30,19 @@ namespace UdlånsWeb.DataHandling
             ToTxt.AppendStringToTxt(FILE_PATH + FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5) + Environment.NewLine);
         }
 
-        public void SaveCourseToNewFile(Course course)
+        public void RewriteCourseFile(CourseViewModel courseViewModel)
         {
             List<string> itemsTosave = new List<string>();
             StringBuilder stringBuilder = new StringBuilder();
             Encrypt = new Encrypt();
             //Main props to save 
-
-            stringBuilder.Append(Data.ConvertObjectToJson(course));
-
-            itemsTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
-            ToTxt.StringsToTxt(FILE_PATH + FILE_NAME, itemsTosave.ToArray());
-        }
-
-        /// <summary>
-        /// Needs to have ids 
-        /// </summary>
-        /// <param name="bookingViewModels"></param>
-        public void SaveAllCourses(CourseViewModel courseViewModels)
-        {
-            foreach (var item in courseViewModels.Courses)
+            foreach (var item in courseViewModel.Courses)
             {
-                SaveCourseAdd(item);
+                stringBuilder.Append(Data.ConvertObjectToJson(item));
+                itemsTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
             }
+
+            ToTxt.StringsToTxt(FILE_PATH + FILE_NAME, itemsTosave.ToArray());
         }
 
         public CourseViewModel GetCourses()
