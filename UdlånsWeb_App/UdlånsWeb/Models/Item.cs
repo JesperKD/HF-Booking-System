@@ -17,9 +17,7 @@ namespace UdlånsWeb.Models
         [DisplayName("Brugernavn")]
         public string UserName { get; set; }
         public string VmWareVersion { get; set; }
-        public string HostIp { get; set; }
-        [DisplayName("Antal enheder per host")]
-        public int NumberOfPeoplePerHost { get; set; }
+        public string HostIp { get; set; }        
         [DisplayName("Lånes fra")]
         public DateTime RentedDate { get; set; }
         [DisplayName("Lånes til")]

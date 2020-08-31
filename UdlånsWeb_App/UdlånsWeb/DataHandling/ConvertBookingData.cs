@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Hosting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,8 +23,18 @@ namespace UdlånsWeb.DataHandling
         {
             Encrypt = new Encrypt();
 
+            string hosts = string.Empty;
+            foreach (Item Host in booking.HostRentedForCourse)
+            {
+                hosts = hosts + Host.HostName + "," + booking.Id + "," + Host.TurnInDate + ",";
+            }
+            if (hosts.EndsWith(','))
+            {                
+               hosts = hosts.Remove(hosts.Length - 1,1);
+            }
+
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append(booking.RentedClient + "," + booking.HostRentedForCourse.HostName + "," + booking.Id + "," + booking.HostRentedForCourse.TurnInDate);
+            stringBuilder.Append(booking.RentedClient + "," + hosts);
             ToTxt.AppendStringToTxt(FILE_PATH + FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5) + Environment.NewLine);
         }
 
@@ -42,9 +53,22 @@ namespace UdlånsWeb.DataHandling
                     string[] courseData = raw.Split(',');
                     BookingViewModel booking = new BookingViewModel();
                     booking.RentedClient = courseData[0];
-                    booking.HostRentedForCourse.HostName = courseData[1];
-                    booking.Id = int.Parse(courseData[2]);
-                    booking.HostRentedForCourse.TurnInDate = DateTime.Parse(courseData[3]);
+
+                    booking.HostRentedForCourse.Add(new Item() { HostName = courseData[1], Id = int.Parse(courseData[2]), TurnInDate = DateTime.Parse(courseData[3]) });
+                    if (courseData.Length > 4)
+                    {
+                        for (int i = 4; i < courseData.Length;)
+                        {
+                            var host = courseData.Skip(4).Take(3).ToArray();
+                            booking.HostRentedForCourse.Add(new Item() { HostName = host[0], Id = int.Parse(host[1]), TurnInDate = DateTime.Parse(host[2]) });
+                            i += 3;
+                        }
+                    }
+
+
+                    //booking.HostRentedForCourse.HostName = courseData[1];
+                    //booking.Id = int.Parse(courseData[2]);
+                    //booking.HostRentedForCourse.TurnInDate = DateTime.Parse(courseData[3]);
                     courseModel.Add(booking);
 
                 }
@@ -71,9 +95,23 @@ namespace UdlånsWeb.DataHandling
                 string raw = Decrypt.DecryptString(itemLine, "SkPRingsted", 5);
                 string[] courseData = raw.Split(',');
                 BookingViewModel oCourse = new BookingViewModel();
-                oCourse.RentedClient = courseData[0];
-                oCourse.HostRentedForCourse.HostName = courseData[1];
-                oCourse.Id = int.Parse(courseData[2]);
+
+                booking.RentedClient = courseData[0];
+
+                booking.HostRentedForCourse.Add(new Item() { HostName = courseData[1], Id = int.Parse(courseData[2]), TurnInDate = DateTime.Parse(courseData[3]) });
+                if (courseData.Length > 4)
+                {
+                    for (int i = 4; i < courseData.Length;)
+                    {
+                        var host = courseData.Skip(4).Take(3).ToArray();
+                        booking.HostRentedForCourse.Add(new Item() { HostName = host[0], Id = int.Parse(host[1]), TurnInDate = DateTime.Parse(host[2]) });
+                        i += 3;
+                    }
+                }
+
+                //oCourse.RentedClient = courseData[0];
+                //oCourse.HostRentedForCourse.HostName = courseData[1];
+                //oCourse.Id = int.Parse(courseData[2]);
                 courseModelOld.Add(oCourse);
             }
 
@@ -93,8 +131,18 @@ namespace UdlånsWeb.DataHandling
             // makes each item into a new string
             foreach (var xbooking in bookingModelNew)
             {
+                string hosts = string.Empty;
+                foreach (Item Host in xbooking.HostRentedForCourse)
+                {
+                    hosts += Host.HostName + "," + booking.Id + "," + Host.TurnInDate + ",";
+                }
+                if (hosts.EndsWith(','))
+                {
+                    hosts.TrimEnd(',');
+                }
+
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(booking.RentedClient + "," + booking.HostRentedForCourse.HostName + "," + booking.Id + "," + booking.HostRentedForCourse.TurnInDate);
+                stringBuilder.Append(booking.RentedClient + "," + hosts);
 
                 Encrypt = new Encrypt();
                 coursesTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
@@ -119,8 +167,8 @@ namespace UdlånsWeb.DataHandling
                     string[] courseData = raw.Split(',');
                     Models.BookingViewModel oCourse = new BookingViewModel();
                     oCourse.RentedClient = courseData[0];
-                    oCourse.HostRentedForCourse.HostName = courseData[1];
-                   
+                    //oCourse.HostRentedForCourse.HostName = courseData[1];
+
                     courseModel.Add(oCourse);
                 }
 
@@ -139,8 +187,21 @@ namespace UdlånsWeb.DataHandling
 
             foreach (var bookingx in courseModel)
             {
+                string hosts = string.Empty;
+                foreach (Item Host in bookingx.HostRentedForCourse)
+                {
+                    hosts += Host.HostName + "," + bookingx.Id + "," + Host.TurnInDate + ",";
+                }
+                if (hosts.EndsWith(','))
+                {
+                    hosts.TrimEnd(',');
+                }
+
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(booking.RentedClient + "," + booking.HostRentedForCourse.HostName + "," + booking.Id);
+                stringBuilder.Append(bookingx.RentedClient + "," + hosts);
+
+                //StringBuilder stringBuilder = new StringBuilder();
+                //stringBuilder.Append(booking.RentedClient + "," + booking.HostRentedForCourse.HostName + "," + booking.Id);
 
                 Encrypt = new Encrypt();
                 coursesTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));

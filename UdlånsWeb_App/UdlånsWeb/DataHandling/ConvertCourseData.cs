@@ -25,7 +25,7 @@ namespace UdlånsWeb.DataHandling
             Encrypt = new Encrypt();
 
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append(course.Name + "," + course.NumberOfStudents + "," + course.Duration + "," + course.Defined);
+            stringBuilder.Append(course.Name + "," + course.NumberOfGroupsPerHost + "," + course.Duration + "," + course.Defined);
             ToTxt.AppendStringToTxt(FILE_PATH + FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5) + Environment.NewLine);
         }
 
@@ -44,7 +44,7 @@ namespace UdlånsWeb.DataHandling
                     string[] courseData = raw.Split(',');
                     Course course = new Course();
                     course.Name = courseData[0];
-                    course.NumberOfStudents = int.Parse(courseData[1]);
+                    course.NumberOfGroupsPerHost = int.Parse(courseData[1]);
                     course.Duration = int.Parse(courseData[2]);
                     course.Defined = Convert.ToBoolean(courseData[3]);
 
@@ -75,7 +75,7 @@ namespace UdlånsWeb.DataHandling
                 string[] courseData = raw.Split(',');
                 Course oCourse = new Course();
                 oCourse.Name = courseData[0];
-                oCourse.NumberOfStudents = int.Parse(courseData[1]);
+                oCourse.NumberOfGroupsPerHost = int.Parse(courseData[1]);
                 oCourse.Duration = int.Parse(courseData[2]);
                 oCourse.Defined = Convert.ToBoolean(courseData[3]);
                 
@@ -99,7 +99,7 @@ namespace UdlånsWeb.DataHandling
             foreach (Course xcourse in CourseModelNew.Courses)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(course.Name + "," + course.NumberOfStudents + "," + course.Duration + "," + course.Defined);
+                stringBuilder.Append(course.Name + "," + course.NumberOfGroupsPerHost + "," + course.Duration + "," + course.Defined);
 
                 Encrypt = new Encrypt();
                 coursesTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
@@ -124,7 +124,7 @@ namespace UdlånsWeb.DataHandling
                     string[] courseData = raw.Split(',');
                     Models.Course oCourse = new Course();
                     oCourse.Name = courseData[0];           
-                    oCourse.NumberOfStudents = int.Parse(courseData[1]);
+                    oCourse.NumberOfGroupsPerHost = int.Parse(courseData[1]);
                     oCourse.Duration = int.Parse(courseData[2]);
                     oCourse.Defined = Convert.ToBoolean(courseData[3]);
                     courseModel.Courses.Add(oCourse);
@@ -146,7 +146,7 @@ namespace UdlånsWeb.DataHandling
             foreach (Course coursex in courseModel.Courses)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(course.Name + "," + course.NumberOfStudents + "," + course.Duration + "," + course.Defined);
+                stringBuilder.Append(course.Name + "," + course.NumberOfGroupsPerHost + "," + course.Duration + "," + course.Defined);
 
                 Encrypt = new Encrypt();
                 coursesTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));

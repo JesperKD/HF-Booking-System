@@ -2,7 +2,7 @@
 
 <h5>Booking gennemført</h5>
 <h6>
-    Mail vil blive sendt til: @if (Model.CurrentUser.Email != null) {Html.DisplayFor(x => Model.CurrentUser.Email);}
+    Mail vil blive sendt til: @if (Model.CurrentUser.Email != null) { Html.DisplayFor(x => Model.CurrentUser.Email); }
 </h6>
 
 <dl>
@@ -10,25 +10,32 @@
         Udlånt til:
     </dt>
     <dd>
-        @if(Model.CurrentUser.Name != null) { Html.DisplayFor(x => x.CurrentUser.Name); }
+        @if (Model.CurrentUser.Name != null) { Html.DisplayFor(x => x.CurrentUser.Name); }
     </dd>
 
-    <dt>
-        Navn på host:
-    </dt>
-    <dd>
-        @Html.DisplayFor(x => x.HostRentedForCourse.HostName)
-    </dd>
+    @foreach (var host in Model.HostRentedForCourse)
+    {
+        <dt>
+            Navn på host:
+        </dt>
+        <dd>
+            @host.HostName
+        </dd>
 
-    <dt>
-        Indleverings dato:
-    </dt>
-    <dd>
-        @Html.DisplayFor(x => x.HostRentedForCourse.TurnInDate)
-    </dd>
+        <dt>
+            Indleverings dato:
+        </dt>
+        <dd>
+            @host.TurnInDate
+        </dd>
+    }
+
 </dl>
 <div>
-    <button type="submit">Godkend</button>
+    @using (Html.BeginForm("Booking", "Home", FormMethod.Get))
+    {
+        <button type="submit">Godkend</button>
+    }
 </div>
 
 

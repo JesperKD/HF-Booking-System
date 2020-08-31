@@ -37,12 +37,7 @@
                 <label asp-for="HostIp" class="control-label"></label>
                 <input asp-for="HostIp" class="form-control" />
                 <span asp-validation-for="HostIp" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NumberOfPeoplePerHost" class="control-label"></label>
-                <input asp-for="NumberOfPeoplePerHost" class="form-control" />
-                <span asp-validation-for="NumberOfPeoplePerHost" class="text-danger"></span>
-            </div>
+            </div>            
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Rented" /> @Html.DisplayNameFor(model => model.Rented)

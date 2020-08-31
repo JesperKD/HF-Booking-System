@@ -12,8 +12,8 @@ namespace UdlånsWeb.Models
     {
         [DisplayName("Fag")]
         public string Name { get; set; }
-        [DisplayName("Antal elever")]
-        public int NumberOfStudents { get; set; }
+        [DisplayName("Antal grupper per host")]
+        public int NumberOfGroupsPerHost { get; set; }
         [DisplayName("Fagets varighed i dage, weekend skal inkluderes")]
         public int Duration { get; set; }
         public bool Defined { get; set; }

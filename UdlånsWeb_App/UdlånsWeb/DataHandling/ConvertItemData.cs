@@ -41,7 +41,7 @@ namespace UdlånsWeb.DataHandling
 
             }
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append(item.HostName + "," + item.HostPassword + "," + item.UserName + "," + item.VmWareVersion + "," + item.HostIp + "," + item.NumberOfPeoplePerHost + "," + item.Rented + "," + itemID + "," + item.TurnInDate);
+            stringBuilder.Append(item.HostName + "," + item.HostPassword + "," + item.UserName + "," + item.VmWareVersion + "," + item.HostIp + "," + "," + item.Rented + "," + itemID + "," + item.TurnInDate);
 
             ToTxt.AppendStringToTxt(FILE_PATH + ITEM_FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5) + Environment.NewLine);
         }
@@ -65,10 +65,9 @@ namespace UdlånsWeb.DataHandling
                     item.UserName = itemData[2];
                     item.VmWareVersion = itemData[3];
                     item.HostIp = itemData[4];
-                    item.NumberOfPeoplePerHost = int.Parse(itemData[5]);
                     item.Rented = Convert.ToBoolean(itemData[6]);
                     item.Id = int.Parse(itemData[7]);
-                    if (itemData[8] != null) item.TurnInDate = DateTime.Parse(itemData[8]);
+                    if (itemData[6] != null) item.TurnInDate = DateTime.Parse(itemData[8]);
 
                     itemModel.Items.Add(item);
 
@@ -101,10 +100,9 @@ namespace UdlånsWeb.DataHandling
                 oItem.UserName = itemData[2];
                 oItem.VmWareVersion = itemData[3];
                 oItem.HostIp = itemData[4];
-                oItem.NumberOfPeoplePerHost = int.Parse(itemData[5]);
                 oItem.Rented = Convert.ToBoolean(itemData[6]);
                 oItem.Id = int.Parse(itemData[7]);
-                if (itemData[8] != null) oItem.TurnInDate = DateTime.Parse(itemData[8]);
+                if (itemData[6] != null) oItem.TurnInDate = DateTime.Parse(itemData[8]);
 
                 itemModelOld.Items.Add(oItem);
             }
@@ -125,7 +123,7 @@ namespace UdlånsWeb.DataHandling
             foreach (Item Item in ItemModelNew.Items)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(Item.HostName + "," + Item.HostPassword + "," + Item.UserName + "," + Item.VmWareVersion + "," + Item.HostIp + "," + Item.NumberOfPeoplePerHost + "," + Item.Rented + "," + Item.Id + "," + Item.TurnInDate);
+                stringBuilder.Append(Item.HostName + "," + Item.HostPassword + "," + Item.UserName + "," + Item.VmWareVersion + "," + Item.HostIp + "," + "," + Item.Rented + "," + Item.Id + "," + Item.TurnInDate);
 
                 Encrypt = new Encrypt();
                 itemsTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
@@ -154,9 +152,8 @@ namespace UdlånsWeb.DataHandling
                     oItem.UserName = itemData[2];
                     oItem.VmWareVersion = itemData[3];
                     oItem.HostIp = itemData[4];
-                    oItem.NumberOfPeoplePerHost = int.Parse(itemData[5]);
-                    oItem.Rented = Convert.ToBoolean(itemData[6]);
-                    item.Id = int.Parse(itemData[7]);
+                    oItem.Rented = Convert.ToBoolean(itemData[5]);
+                    item.Id = int.Parse(itemData[6]);
                     itemModel.Items.Add(oItem);
                 }
 
@@ -176,7 +173,7 @@ namespace UdlånsWeb.DataHandling
             foreach (Item Item in itemModel.Items)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(item.HostName + "," + item.HostPassword + "," + item.UserName + "," + item.VmWareVersion + "," + item.HostIp + "," + item.NumberOfPeoplePerHost + "," + item.Rented);
+                stringBuilder.Append(item.HostName + "," + item.HostPassword + "," + item.UserName + "," + item.VmWareVersion + "," + item.HostIp + "," + "," + item.Rented);
 
                 Encrypt = new Encrypt();
                 itemsTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
