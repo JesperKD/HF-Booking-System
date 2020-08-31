@@ -72,7 +72,7 @@ namespace UdlånsWeb.Controllers
         {
             int studentsRemaining = booking.CourseModel.NumberOfStudents;
             
-            foreach (var item in Data.HostViewModel.Items)
+            foreach (var item in Data.HostViewModel.Hosts)
             {
                 if (item.NumberOfPeoplePerHost >= studentsRemaining)
                 {

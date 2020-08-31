@@ -57,7 +57,7 @@ namespace UdlånsWeb.Controllers
         public IActionResult Privacy()
         {
             var ItemModel = new HostViewModel();
-            ItemModel.Items = TestData.GetItems();
+            ItemModel.Hosts = TestData.GetItems();
             return View(ItemModel);
         }
 

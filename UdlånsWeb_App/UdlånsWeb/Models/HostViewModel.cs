@@ -10,11 +10,11 @@ namespace UdlånsWeb.Models
     public class HostViewModel : IComparable<HostViewModel>, IEquatable<HostViewModel>
     {
         public int Id { get; set; }
-        public List<Host> Items { get; set; }
+        public List<Host> Hosts { get; set; }
         public List<BookingViewModel> Bookings { get; set; }
         public HostViewModel()
         {
-            Items = new List<Host>();
+            Hosts = new List<Host>();
             Bookings = new List<BookingViewModel>();
         }
 

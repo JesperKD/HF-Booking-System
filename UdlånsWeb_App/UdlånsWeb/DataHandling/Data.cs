@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace UdlånsWeb.DataHandling
     public static class Data
     {
         private static ConvertCourseData convertCourseData { get; set; } = new ConvertCourseData();
-        private static ConvertHostData convertItemData { get; set; } = new ConvertHostData();
+        private static ConvertHostData convertHostData { get; set; } = new ConvertHostData();
         private static ConvertUserData convertUserData { get; set; } = new ConvertUserData();
         private static ConvertLoginData convertlogindata { get; set; } = new ConvertLoginData();
         private static ConvertBookingData convertBookingData { get; set; } = new ConvertBookingData();
@@ -18,62 +19,118 @@ namespace UdlånsWeb.DataHandling
         public static HostViewModel HostViewModel { get; set; }
         public static UserViewModel UserViewModel { get; set; }
         public static List<BookingViewModel> BookingViewModels { get; set; }
-        /// <summary>
-        /// Loads data from files to keep while the app is running Will reload/update if runed again
-        /// </summary>
-        public static void LoadData()
+
+        #region Host
+        public static HostViewModel GetHosts()
         {
-            //Loads all the courses
-            CourseViewModel = convertCourseData.GetCourses();
-            //Load all the hosts
-            HostViewModel = convertItemData.GetHosts();
-            //Load all the users
-            UserViewModel = convertUserData.GetUsers();
-            //Load all bookings made
+            HostViewModel = convertHostData.GetHosts();
+            return HostViewModel;
+        }
+        /// <summary>
+        /// Make sure to add the host to Data.HostViewModel.Hosts
+        /// </summary>
+        public static void SaveHosts()
+        {
+            convertHostData.ReWriteHostFile(convertHostData.GetHosts());
+        }
+        /// <summary>
+        /// Deletes the host from the file
+        /// </summary>
+        /// <param name="host"></param>
+        public static void DeleteHost(Host host)
+        {
+            //Get the hosts from the file
+            HostViewModel = convertHostData.GetHosts();
+            //Finds the user getting deleted
+            Host hostGettingDeleted = HostViewModel.Hosts.Where(x => x.Id == host.Id).FirstOrDefault();
+            //Deletes the old host data from the file
+            HostViewModel.Hosts.Remove(hostGettingDeleted);
+            //Overrides the file with all the hosts
+            convertHostData.ReWriteHostFile(HostViewModel);
+        }
+        public static void EditHost(Host host)
+        {
+            //Get the hosts from the file
+            HostViewModel = convertHostData.GetHosts();
+            //Finds the user getting edited
+            Host hostGettingDeleted = HostViewModel.Hosts.Where(x => x.Id == host.Id).FirstOrDefault();
+            //Deletes the old host data from the file
+            HostViewModel.Hosts.Remove(hostGettingDeleted);
+            //Adds the new edited host to the host view model
+            HostViewModel.Hosts.Add(host);
+            //Overrides the file with all the hosts
+            convertHostData.ReWriteHostFile(HostViewModel);
+        }
+        #endregion
+        #region Booking
+        public static List<BookingViewModel> GetBookings()
+        {
             BookingViewModels = convertBookingData.GetBookings();
-
+            return BookingViewModels;
         }
-
-        #region Bookings
-        /// <summary>
-        /// Save all bookings in booking view model list
-        /// </summary>
-        /// <param name="bookingViewModels"></param>
-        public static void SaveBookings(List<BookingViewModel> bookingViewModels)
+        public static void SaveBookings()
         {
-            convertBookingData.SaveAllBookings(bookingViewModels);
-        }
-        public static void EditBooking(BookingViewModel bookingViewModel)
-        {
-            convertBookingData.EditBooking(bookingViewModel);
+            convertBookingData.RewriteBookingFile(BookingViewModels);
         }
         public static void DeleteBooking(BookingViewModel bookingViewModel)
         {
-            convertBookingData.DeleteBooking(bookingViewModel);
+            BookingViewModel modelToDelete = GetBookings().Where(x => x.Id == bookingViewModel.Id).FirstOrDefault();
+            BookingViewModels.Remove(modelToDelete);
+            SaveBookings();
         }
-        #endregion
-        #region Courses
-
-        public static void SaveCourse(CourseViewModel courseViewModel)
+        public static void EditBooking(BookingViewModel bookingViewModel)
         {
-            convertCourseData.SaveAllCourses(courseViewModel);
+            BookingViewModel modelToDelete = GetBookings().Where(x => x.Id == bookingViewModel.Id).FirstOrDefault();
+            BookingViewModels.Remove(modelToDelete);
+            BookingViewModels.Add(bookingViewModel);
+            SaveBookings();
         }
+        #endregion
 
-        public static void EditCourse(Course course)
+
+        /// <summary>
+        /// Makes object fx. Host, User or Course to a Json formated string 
+        /// </summary>
+        /// <param name="modelOrType"></param>
+        /// <returns></returns>
+        public static string ConvertObjectToJson(object modelOrType)
         {
-            convertCourseData.EditCourse(course);
+            string jsonString = JsonConvert.SerializeObject(modelOrType);
+            return jsonString;
         }
 
-        public static void DeleteCourse(Course course)
+
+        /// <summary>
+        /// Takes a Json formated string and converts it to the selected object 
+        /// And a string type is host, user or course
+        /// </summary>
+        /// <param name="jsonString"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static object ConvertJsonToObejct(string jsonString, string type)
         {
-            convertCourseData.DeleteCourse(course);
+            var jsonObject = JsonConvert.DeserializeObject(jsonString);
+            switch (type)
+            {
+                case "Host":
+                    Host host = JsonConvert.DeserializeObject<Host>(jsonString);
+                    return host;
+
+                case "BookingViewModel":
+                    BookingViewModel bookingViewModel = JsonConvert.DeserializeObject<BookingViewModel>(jsonString);
+                    return bookingViewModel;
+
+                case "User":
+                    User user = JsonConvert.DeserializeObject<User>(jsonString);
+                    return user;
+
+                case "Course":
+                    Course course = JsonConvert.DeserializeObject<Course>(jsonString);
+                    return course;
+                default:
+                    break;
+            }
+            return null;
         }
-        #endregion
-        #region Hosts
-
-        #endregion
-        #region Users
-
-        #endregion
     }
 }

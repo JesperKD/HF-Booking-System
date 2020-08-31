@@ -31,12 +31,11 @@ namespace UdlånsWeb.Models
         private static int id;
         public Host()
         {
-            Data.LoadData();
             HostViewModel viewModel = Data.HostViewModel;
-            viewModel.Items.Sort();
-            if(viewModel.Items.Last().Id > id)
+            viewModel.Hosts.Sort();
+            if(viewModel.Hosts.Last().Id > id)
             {
-                id = viewModel.Items.Last().Id;
+                id = viewModel.Hosts.Last().Id;
                 id++;
             }
             Id = id;
