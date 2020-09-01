@@ -30,10 +30,10 @@ namespace UdlånsWeb.DataHandling
         {
             List<string> itemsTosave = new List<string>();
             StringBuilder stringBuilder = new StringBuilder();
-            Encrypt = new Encrypt();
             //Main props to save
             foreach (var item in userViewModel.Users)
             {
+                Encrypt = new Encrypt();
                 stringBuilder.Append(Data.ConvertObjectToJson(item));
                 itemsTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted"));
             }
