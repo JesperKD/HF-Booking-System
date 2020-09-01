@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace UdlånsWeb.Models
 {
-    public class HostViewModel : IComparable<HostViewModel>, IEquatable<HostViewModel>
+    public class HostViewModel
     {
         public int Id { get; set; }
         public List<Host> Hosts { get; set; }

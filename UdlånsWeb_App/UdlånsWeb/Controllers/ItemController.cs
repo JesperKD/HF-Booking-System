@@ -23,22 +23,20 @@ namespace UdlånsWeb.Controllers
     public class ItemController : Controller
     {
         
-        private static User SelectedUser { get; set; }
+        
         private static Host SelectedItem { get; set; }
-        private static BookingViewModel bookingViewModel { get; set; }
-        private static BookingViewModel userBooking { get; set; }
 
         [HttpGet]
         public IActionResult AdminSite()
         {
             if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("ErrorPage");
-
-            HostViewModel itemModel = Data.HostViewModel;
+            
+            HostViewModel itemModel = Data.GetHosts();
             try
             {
-                if (Data.BookingViewModels != null || Data.BookingViewModels.Count == 0) 
-                    itemModel.Bookings = Data.BookingViewModels;
+                if (itemModel.Bookings != null || Data.BookingViewModels.Count != 0) 
+                    itemModel.Bookings = Data.GetBookings();
 
                 if (itemModel == null)
                 {
@@ -69,16 +67,17 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult AddItem()
         {
-            if (CurrentUser.User == null && CurrentUser.User.Admin == true)
+            if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("Home/ErrorPage");
 
             return View();
         }
 
         [HttpPost]
-        public IActionResult AddItem(Host item)
+        public IActionResult AddItem(Host host)
         {
-            
+            Data.HostViewModel.Hosts.Add(host);
+            Data.SaveHosts();
             return Redirect("AdminSite");
         }
 
@@ -86,41 +85,48 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult EditItem(HostViewModel item, int id)
         {
-            if (CurrentUser.User == null && CurrentUser.User.Admin == true)
+            if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("Home/ErrorPage");
 
             return View(item.Hosts[id]);
         }
 
         [HttpPost]
-        public IActionResult EditItem(Host item)
+        public IActionResult EditItem(Host host)
         {
             //Checks after a booking on the host and delete it aswell
-            Data.BookingViewModels = Data.;
-            foreach (var booking in bookings)
+            List<BookingViewModel> bookingViewModel = Data.GetBookings();
+            foreach (var booking in bookingViewModel)
             {
-                if (item.Id == booking.Id)
+                if (host.Id == booking.Id)
                 {
-                    
+                    Data.DeleteBooking(booking);
                 }
             }
-          
+            Data.HostViewModel.Hosts.Add(host);
             return Redirect("AdminSite");
         }
 
         [HttpGet]
         public IActionResult DeleteItem(HostViewModel item, int id)
         {
-            if (CurrentUser.User == null && CurrentUser.User.Admin == true)
+            if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("Home/ErrorPage");
 
-            SelectedItem = item.Hosts[id];
-            return View(SelectedItem);
+            return View(item.Hosts[id]);
         }
 
         [HttpPost]
         public IActionResult DeleteItem(Host host)
         {
+            List<BookingViewModel> bookingViewModel = Data.GetBookings();
+            foreach (var booking in bookingViewModel)
+            {
+                if (host.Id == booking.Id)
+                {
+                    Data.DeleteBooking(booking);
+                }
+            }
             Data.DeleteHost(host);
             return Redirect("AdminSite");
         }

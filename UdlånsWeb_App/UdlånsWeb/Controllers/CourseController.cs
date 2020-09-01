@@ -27,7 +27,7 @@ namespace UdlånsWeb.Controllers
 
         public IActionResult CourseSite()
         {
-            if (CurrentUser.User == null && CurrentUser.User.Admin == false)
+            if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("Home/ErrorPage");
 
             
@@ -41,7 +41,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult AddCourse()
         {
-            if (CurrentUser.User == null && CurrentUser.User.Admin == true)
+            if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("Home/ErrorPage");
 
             return View();
@@ -51,15 +51,16 @@ namespace UdlånsWeb.Controllers
         public IActionResult AddCourse(Course course)
         {
             Data.CourseViewModel.Courses.Add(course);
+            Data.SaveBookings();
             return Redirect("CourseSite");
         }
         
         [HttpGet]
         public IActionResult EditCourse(CourseViewModel course)
         {
-            if (CurrentUser.User == null && CurrentUser.User.Admin == true)
+            if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("Home/ErrorPage");
-
+            
             return View(course.Courses[course.Id]);
         }
 

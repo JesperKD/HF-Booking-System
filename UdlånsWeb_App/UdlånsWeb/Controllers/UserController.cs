@@ -43,9 +43,9 @@ namespace UdlånsWeb.Controllers
         //This is for user model/view
         public IActionResult AddUser()
         {
-            if (CurrentUser.User == null && CurrentUser.User.Admin == true)
+            if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("Home/ErrorPage");
-
+            
             //returns the AddUser page 
             return View();
         }
@@ -57,6 +57,7 @@ namespace UdlånsWeb.Controllers
             //Gets the selected user from UserPage 
             //Then sends it to data 
             Data.UserViewModel.Users.Add(user);
+            Data.SaveUsers();
             //After they user has been saved redirect to UserPage
             return Redirect("UserPage");
         }
@@ -73,7 +74,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult EditUser(User user)
         {
-            Data.ConvertUserData.EditUser(user);
+            Data.EditUser(user);
             return Redirect("UserPage");
         }
 
@@ -90,7 +91,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult DeleteUser(User user)
         {
-            Data.ConvertUserData.DeleteUser(user);
+            Data.DeleteUser(user);
             return Redirect("UserPage");
         }
 

@@ -24,6 +24,16 @@ namespace UdlånsWeb.Controllers
         private static BookingViewModel userBooking { get; set; }
         
         [HttpGet]
+        public IActionResult BookingDefine()
+        {
+            if (CurrentUser.User == null)
+                return Redirect("Home/ErrorPage");
+            
+            
+
+            return View();
+        }
+        [HttpGet]
         public IActionResult InfoPage(Course course)
         {
             if (CurrentUser.User == null)
@@ -56,16 +66,6 @@ namespace UdlånsWeb.Controllers
             return Redirect("ConfirmBooking");
         }
 
-        [HttpGet]
-        public IActionResult BookingDefine()
-        {
-            if (CurrentUser.User == null)
-                return Redirect("Home/ErrorPage");
-            
-            
-
-            return View();
-        }
 
 
         public IActionResult ConfirmBooking(BookingViewModel booking)
@@ -92,14 +92,21 @@ namespace UdlånsWeb.Controllers
 
         public IActionResult BookingSucces()
         {
-            
             Data.SaveBookings();
             return View(CurrentUser.User);    
         }
 
         public IActionResult Bookings()
         {
-            return View(Data.GetBookings());
+            if(Data.GetBookings().Count != 0 || Data.GetBookings() != null)
+            {
+                Data.GetBookings();
+                return View(Data.BookingViewModels);
+            }
+            else
+            {
+                return View(new BookingViewModel());
+            }
         }
 
     }

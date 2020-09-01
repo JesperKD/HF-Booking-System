@@ -21,11 +21,6 @@ namespace UdlånsWeb.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        Data Data = new Data();
-        private static User SelectedUser { get; set; }
-        private static Host SelectedItem { get; set; }
-        private static BookingViewModel bookingViewModel { get; set; }
-        private static BookingViewModel userBooking { get; set; }
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -41,9 +36,10 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult HomePage(string initials)
         {
-            //Add logic for login
-            CurrentUser.User = Data.Convertlogindata.ManuelLogin(initials);
-
+            Data.GetUsers();
+            CurrentUser.User = Data.GetUsers().Users.Where(x => x.Initials == initials).FirstOrDefault();
+            
+            //Login still needs some work
             if (CurrentUser.User == null)
                 return Redirect("Home/ErrorPage");
 

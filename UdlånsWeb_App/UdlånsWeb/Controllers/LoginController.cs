@@ -20,7 +20,6 @@ namespace UdlånsWeb.Controllers
 {
     public class LoginController : Controller
     {
-        Data Data = new Data();
         private static User SelectedUser { get; set; }
         private static Host SelectedItem { get; set; }
         private static BookingViewModel bookingViewModel { get; set; }

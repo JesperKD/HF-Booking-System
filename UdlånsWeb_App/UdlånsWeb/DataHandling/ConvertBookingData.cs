@@ -51,11 +51,15 @@ namespace UdlånsWeb.DataHandling
 
                 foreach (string line in rawCourse)
                 {
-                    Decrypt = new Decrypt();
-                    string raw = Decrypt.DecryptString(line, "SkPRingsted", 5);
+                    if (line != null)
+                    {
+                        Decrypt = new Decrypt();
+                        string raw = Decrypt.DecryptString(line, "SkPRingsted", 5);
 
-                    BookingViewModel bookingViewModel = (BookingViewModel)Data.ConvertJsonToObejct(raw, "BookingViewModel");
-                    bookingViewModels.Add(bookingViewModel);
+                        BookingViewModel bookingViewModel = (BookingViewModel)Data.ConvertJsonToObejct(raw, "BookingViewModel");
+                        bookingViewModels.Add(bookingViewModel);
+                    }
+
                 }
             }
             catch (Exception ex)

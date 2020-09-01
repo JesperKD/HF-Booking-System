@@ -49,11 +49,14 @@ namespace UdlånsWeb.DataHandling
 
                 foreach (string line in rawCourse)
                 {
-                    Decrypt = new Decrypt();
-                    string raw = Decrypt.DecryptString(line, "SkPRingsted", 5);
+                    if (line != null)
+                    {
+                        Decrypt = new Decrypt();
+                        string raw = Decrypt.DecryptString(line, "SkPRingsted", 5);
 
-                    User user = (User)Data.ConvertJsonToObejct(raw, "User");
-                    userViewModel.Users.Add(user);
+                        User user = (User)Data.ConvertJsonToObejct(raw, "User");
+                        userViewModel.Users.Add(user);
+                    }
                 }
             }
             catch (Exception ex)

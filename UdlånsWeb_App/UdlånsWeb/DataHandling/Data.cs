@@ -23,7 +23,14 @@ namespace UdlånsWeb.DataHandling
         #region Host
         public static HostViewModel GetHosts()
         {
-            HostViewModel = convertHostData.GetHosts();
+            if (convertHostData.GetHosts().Hosts.Count != 0)
+            {
+                HostViewModel = convertHostData.GetHosts();
+            }
+            else
+            {
+                HostViewModel = new HostViewModel();
+            }
             return HostViewModel;
         }
         /// <summary>
@@ -65,7 +72,14 @@ namespace UdlånsWeb.DataHandling
         #region Booking
         public static List<BookingViewModel> GetBookings()
         {
-            BookingViewModels = convertBookingData.GetBookings();
+            if (convertBookingData.GetBookings() != null)
+            {
+                BookingViewModels = convertBookingData.GetBookings();
+            }
+            else
+            {
+                BookingViewModels = new List<BookingViewModel>();
+            }
             return BookingViewModels;
         }
         public static void SaveBookings()
@@ -93,7 +107,14 @@ namespace UdlånsWeb.DataHandling
         /// <returns></returns>
         public static UserViewModel GetUsers()
         {
-            UserViewModel = convertUserData.GetUsers();
+            if (convertHostData.GetHosts() != null)
+            {
+                UserViewModel = convertUserData.GetUsers();
+            }
+            else
+            {
+                UserViewModel = new UserViewModel();
+            }
             return UserViewModel;
         }
         /// <summary>
@@ -121,7 +142,14 @@ namespace UdlånsWeb.DataHandling
         #region Course
         public static CourseViewModel GetCourses()
         {
-            CourseViewModel = convertCourseData.GetCourses();
+            if (convertBookingData.GetBookings() != null)
+            {
+                CourseViewModel = convertCourseData.GetCourses();
+            }
+            else
+            {
+                CourseViewModel = new CourseViewModel();
+            }
             return CourseViewModel;
         }
         /// <summary>
