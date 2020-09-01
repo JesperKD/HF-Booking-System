@@ -35,7 +35,7 @@ namespace UdlånsWeb.DataHandling
             foreach (var item in userViewModel.Users)
             {
                 stringBuilder.Append(Data.ConvertObjectToJson(item));
-                itemsTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
+                itemsTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted"));
             }
             ToTxt.StringsToTxt(FILE_PATH + FILE_NAME, itemsTosave.ToArray());
         }
