@@ -41,8 +41,8 @@ namespace UdlånsWeb.Controllers
                     RentDate = DateTime.Now.Date,
                 };
             }
-
-            bookingViewModel.CoursesForSelection = Data.CourseViewModel.Courses;
+            
+            bookingViewModel.CoursesForSelection = Data.GetCourses().Courses;
             bookingViewModel.CurrentUser = CurrentUser.User;
             return View(bookingViewModel);
         }
@@ -62,7 +62,7 @@ namespace UdlånsWeb.Controllers
             if (CurrentUser.User == null)
                 return Redirect("Home/ErrorPage");
             
-            Data.LoadData();
+            
 
             return View();
         }
@@ -92,13 +92,14 @@ namespace UdlånsWeb.Controllers
 
         public IActionResult BookingSucces()
         {
-            Data.SaveBookings(Data.BookingViewModels);
+            
+            Data.SaveBookings();
             return View(CurrentUser.User);    
         }
 
         public IActionResult Bookings()
         {
-            return View(Data.BookingViewModels);
+            return View(Data.GetBookings());
         }
 
     }
