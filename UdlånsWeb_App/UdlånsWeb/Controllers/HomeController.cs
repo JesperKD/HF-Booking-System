@@ -53,11 +53,9 @@ namespace UdlånsWeb.Controllers
         public IActionResult Privacy()
         {
             var ItemModel = new HostViewModel();
-            ItemModel.Hosts = TestData.GetItems();
+            ItemModel = Data.GetHosts();
             return View(ItemModel);
         }
-
-        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -15,30 +15,30 @@ namespace UdlånsWeb.DataHandling
         private static ConvertLoginData convertlogindata { get; set; } = new ConvertLoginData();
         private static ConvertBookingData convertBookingData { get; set; } = new ConvertBookingData();
 
-        public static CourseViewModel CourseViewModel { get; set; }
-        public static HostViewModel HostViewModel { get; set; }
-        public static UserViewModel UserViewModel { get; set; }
-        public static List<BookingViewModel> BookingViewModels { get; set; }
+        public static CourseViewModel CourseData { get; set; }
+        public static HostViewModel HostData { get; set; }
+        public static UserViewModel UserData { get; set; }
+        public static List<BookingViewModel> BookingData { get; set; }
 
         #region Host
         public static HostViewModel GetHosts()
         {
             if (convertHostData.GetHosts().Hosts.Count != 0)
             {
-                HostViewModel = convertHostData.GetHosts();
+                HostData = convertHostData.GetHosts();
             }
             else
             {
-                HostViewModel = new HostViewModel();
+                HostData = new HostViewModel();
             }
-            return HostViewModel;
+            return HostData;
         }
         /// <summary>
         /// Make sure to add the host to Data.HostViewModel.Hosts
         /// </summary>
         public static void SaveHosts()
         {
-            convertHostData.ReWriteHostFile(HostViewModel);
+            convertHostData.ReWriteHostFile(HostData);
         }
         /// <summary>
         /// Deletes the host from the file
@@ -47,59 +47,63 @@ namespace UdlånsWeb.DataHandling
         public static void DeleteHost(Host host)
         {
             //Get the hosts from the file
-            HostViewModel = convertHostData.GetHosts();
+            HostData = convertHostData.GetHosts();
             //Finds the user getting deleted
-            Host hostGettingDeleted = HostViewModel.Hosts.Where(x => x.Id == host.Id).FirstOrDefault();
+            Host hostGettingDeleted = HostData.Hosts.Where(x => x.Id == host.Id).FirstOrDefault();
             //Deletes the old host data from the file
-            HostViewModel.Hosts.Remove(hostGettingDeleted);
+            HostData.Hosts.Remove(hostGettingDeleted);
             //Overrides the file with all the hosts
-            convertHostData.ReWriteHostFile(HostViewModel);
+            convertHostData.ReWriteHostFile(HostData);
         }
         public static void EditHost(Host host)
         {
             //Get the hosts from the file
-            HostViewModel = convertHostData.GetHosts();
+            HostData = convertHostData.GetHosts();
             //Finds the user getting edited
-            Host hostGettingDeleted = HostViewModel.Hosts.Where(x => x.Id == host.Id).FirstOrDefault();
+            Host hostGettingDeleted = HostData.Hosts.Where(x => x.Id == host.Id).FirstOrDefault();
             //Deletes the old host data from the file
-            HostViewModel.Hosts.Remove(hostGettingDeleted);
+            HostData.Hosts.Remove(hostGettingDeleted);
             //Adds the new edited host to the host view model
-            HostViewModel.Hosts.Add(host);
+            HostData.Hosts.Add(host);
             //Overrides the file with all the hosts
-            convertHostData.ReWriteHostFile(HostViewModel);
+            convertHostData.ReWriteHostFile(HostData);
         }
         #endregion
+
+
         #region Booking
         public static List<BookingViewModel> GetBookings()
         {
-            if (convertBookingData.GetBookings() != null)
+            if (convertBookingData.GetBookings().Count != 0)
             {
-                BookingViewModels = convertBookingData.GetBookings();
+                BookingData = convertBookingData.GetBookings();
             }
             else
             {
-                BookingViewModels = new List<BookingViewModel>();
+                BookingData = new List<BookingViewModel>();
             }
-            return BookingViewModels;
+            return BookingData;
         }
         public static void SaveBookings()
         {
-            convertBookingData.RewriteBookingFile(BookingViewModels);
+            convertBookingData.RewriteBookingFile(BookingData);
         }
         public static void DeleteBooking(BookingViewModel bookingViewModel)
         {
             BookingViewModel modelToDelete = GetBookings().Where(x => x.Id == bookingViewModel.Id).FirstOrDefault();
-            BookingViewModels.Remove(modelToDelete);
+            BookingData.Remove(modelToDelete);
             SaveBookings();
         }
         public static void EditBooking(BookingViewModel bookingViewModel)
         {
             BookingViewModel modelToDelete = GetBookings().Where(x => x.Id == bookingViewModel.Id).FirstOrDefault();
-            BookingViewModels.Remove(modelToDelete);
-            BookingViewModels.Add(bookingViewModel);
+            BookingData.Remove(modelToDelete);
+            BookingData.Add(bookingViewModel);
             SaveBookings();
         }
         #endregion
+
+
         #region User
         /// <summary>
         /// Gets the users from file then save them in UserViewModel and returns a UserViewModel 
@@ -107,72 +111,74 @@ namespace UdlånsWeb.DataHandling
         /// <returns></returns>
         public static UserViewModel GetUsers()
         {
-            if (convertHostData.GetHosts() != null)
+            if (convertUserData.GetUsers() != null)
             {
-                UserViewModel = convertUserData.GetUsers();
+                UserData = convertUserData.GetUsers();
             }
             else
             {
-                UserViewModel = new UserViewModel();
+                UserData = new UserViewModel();
             }
-            return UserViewModel;
+            return UserData;
         }
         /// <summary>
         /// Saves the users in UserViewModel
         /// </summary>
         public static void SaveUsers()
         {
-            convertUserData.ReWriteUserFile(UserViewModel);
+            convertUserData.ReWriteUserFile(UserData);
         }
         public static void DeleteUser(User user)
         {
             GetUsers();
-            User userToDelete = UserViewModel.Users.Where(x => x.Id == user.Id).FirstOrDefault();
-            UserViewModel.Users.Remove(userToDelete);
+            User userToDelete = UserData.Users.Where(x => x.Id == user.Id).FirstOrDefault();
+            UserData.Users.Remove(userToDelete);
             SaveUsers();
         }
         public static void EditUser(User user)
         {
             GetUsers();
-            User userToDelete = UserViewModel.Users.Where(x => x.Id == user.Id).FirstOrDefault();
-            UserViewModel.Users.Add(user);
+            User userToDelete = UserData.Users.Where(x => x.Id == user.Id).FirstOrDefault();
+            UserData.Users.Add(user);
             SaveUsers();
         }
         #endregion
+
+
         #region Course
         public static CourseViewModel GetCourses()
         {
-            if (convertBookingData.GetBookings() != null)
+            if (convertCourseData.GetCourses().Courses.Count != 0)
             {
-                CourseViewModel = convertCourseData.GetCourses();
+                CourseData = convertCourseData.GetCourses();
             }
             else
             {
-                CourseViewModel = new CourseViewModel();
+                CourseData = new CourseViewModel();
             }
-            return CourseViewModel;
+            return CourseData;
         }
         /// <summary>
         /// Saves the users in UserViewModel
         /// </summary>
         public static void SaveCourses()
         {
-            convertCourseData.RewriteCourseFile(CourseViewModel);
+            convertCourseData.RewriteCourseFile(CourseData);
         }
         public static void DeleteCourse(Course course)
         {
             GetCourses();
 
-            Course courseToDelete = CourseViewModel.Courses.Where(x => x.Id == course.Id).FirstOrDefault();
-            CourseViewModel.Courses.Remove(courseToDelete);
+            Course courseToDelete = CourseData.Courses.Where(x => x.Id == course.Id).FirstOrDefault();
+            CourseData.Courses.Remove(courseToDelete);
             SaveCourses();
         }
         public static void EditCourse(Course course)
         {
             GetUsers();
-            Course courseToDelete = CourseViewModel.Courses.Where(x => x.Id == course.Id).FirstOrDefault();
-            CourseViewModel.Courses.Remove(courseToDelete);
-            CourseViewModel.Courses.Add(course);
+            Course courseToDelete = CourseData.Courses.Where(x => x.Id == course.Id).FirstOrDefault();
+            CourseData.Courses.Remove(courseToDelete);
+            CourseData.Courses.Add(course);
             SaveUsers();
         }
         #endregion
@@ -198,7 +204,6 @@ namespace UdlånsWeb.DataHandling
         /// <returns></returns>
         public static object ConvertJsonToObejct(string jsonString, string type)
         {
-            var jsonObject = JsonConvert.DeserializeObject(jsonString);
             switch (type)
             {
                 case "Host":

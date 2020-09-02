@@ -45,6 +45,8 @@ namespace UdlånsWeb.Controllers
                 {
                     CourseModel = new Course()
                     {
+                        Name = course.Name,
+                        CourseNumber = course.CourseNumber,
                         Defined = course.Defined
                     },
 
@@ -60,38 +62,45 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult InfoPage(BookingViewModel booking)
         {
+            //Finds the course matching the chosen course name
+            Course course = Data.GetCourses().Courses.Where(x => x.Id == booking.CourseModel.Id).FirstOrDefault();
+            //Sets the course defined to user choise
+            course.Defined = booking.CourseModel.Defined;
+            //Sets the number of students for the selected course
+            course.NumberOfStudents = booking.CourseModel.NumberOfStudents;
+            //Puts the user defined data to the booking view model
+            booking.CourseModel = course;
+            //Adds the booking to userBooking for save later
             userBooking = booking;
-
-            
             return Redirect("ConfirmBooking");
         }
 
-
-
         public IActionResult ConfirmBooking(BookingViewModel booking)
         {
-            int studentsRemaining = booking.CourseModel.NumberOfStudents;
-            
-            foreach (var item in Data.HostViewModel.Hosts)
+            int studentsRemaining = userBooking.CourseModel.NumberOfStudents;
+            var hostViewModel = Data.GetHosts();
+            foreach (var item in hostViewModel.Hosts)
             {
-                if (item.NumberOfPeoplePerHost >= studentsRemaining)
+                //Makes sure that there is enough hosts for the class
+                if (item.NumberOfPeoplePerHost <= studentsRemaining)
                 {
+                    if(userBooking.CourseModel.Defined == false)
+                    {
+                        userBooking.TurnInDate = userBooking.RentDate.AddDays(userBooking.CourseModel.Duration);
+                    }
                     studentsRemaining -= item.NumberOfPeoplePerHost;
                     userBooking.CurrentUser = CurrentUser.User;
-
                 }
             }
 
-            if(booking.CourseModel.Defined == false)
-            booking.TurnInDate = booking.RentDate.AddDays(booking.CourseModel.Duration);
-
-            Data.BookingViewModels.Add(booking);
+            Data.BookingData.Add(userBooking);
             
             return View(userBooking);
         }
 
         public IActionResult BookingSucces()
         {
+            
             Data.SaveBookings();
             return View(CurrentUser.User);    
         }
@@ -101,7 +110,7 @@ namespace UdlånsWeb.Controllers
             if(Data.GetBookings().Count != 0 || Data.GetBookings() != null)
             {
                 Data.GetBookings();
-                return View(Data.BookingViewModels);
+                return View(Data.BookingData);
             }
             else
             {

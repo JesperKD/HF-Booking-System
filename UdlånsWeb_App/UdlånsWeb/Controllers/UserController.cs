@@ -29,7 +29,7 @@ namespace UdlånsWeb.Controllers
                 return Redirect("Home/ErrorPage");
 
             //Gets the list of users 
-            UserViewModel userModel = Data.UserViewModel;
+            UserViewModel userModel = Data.UserData;
             if (userModel == null)
             {
                 //If there is no users make an empty list
@@ -56,7 +56,7 @@ namespace UdlånsWeb.Controllers
         {
             //Gets the selected user from UserPage 
             //Then sends it to data 
-            Data.UserViewModel.Users.Add(user);
+            Data.UserData.Users.Add(user);
             Data.SaveUsers();
             //After they user has been saved redirect to UserPage
             return Redirect("UserPage");

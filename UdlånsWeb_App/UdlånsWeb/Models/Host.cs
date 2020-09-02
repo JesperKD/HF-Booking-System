@@ -31,13 +31,6 @@ namespace UdlånsWeb.Models
         private static int id;
         public Host()
         {
-            HostViewModel viewModel = Data.HostViewModel;
-            viewModel.Hosts.Sort();
-            if(viewModel.Hosts.Last().Id > id)
-            {
-                id = viewModel.Hosts.Last().Id;
-                id++;
-            }
             Id = id;
             id++;
         }

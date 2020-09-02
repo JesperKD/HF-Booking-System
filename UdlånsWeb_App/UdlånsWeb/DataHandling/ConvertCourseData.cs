@@ -32,17 +32,16 @@ namespace UdlånsWeb.DataHandling
 
         public void RewriteCourseFile(CourseViewModel courseViewModel)
         {
-            List<string> itemsTosave = new List<string>();
             StringBuilder stringBuilder = new StringBuilder();
-            Encrypt = new Encrypt();
-            //Main props to save 
-            foreach (var item in courseViewModel.Courses)
-            {
-                stringBuilder.Append(Data.ConvertObjectToJson(item));
-                itemsTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
-            }
 
-            ToTxt.StringsToTxt(FILE_PATH + FILE_NAME, itemsTosave.ToArray());
+            //Main props to save 
+            foreach (var course in courseViewModel.Courses)
+            {
+                Encrypt = new Encrypt();
+                stringBuilder.Append(Data.ConvertObjectToJson(course));
+                stringBuilder.Append("|");
+            }
+            ToTxt.StringToTxt(FILE_PATH + FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted"));
         }
 
         public CourseViewModel GetCourses()
@@ -51,14 +50,19 @@ namespace UdlånsWeb.DataHandling
             try
             {
                 string[] rawCourse = FromTxt.StringsFromTxt(FILE_PATH + FILE_NAME);
-
                 foreach (string line in rawCourse)
                 {
                     Decrypt = new Decrypt();
-                    string raw = Decrypt.DecryptString(line, "SkPRingsted", 5);
+                    string raw = Decrypt.DecryptString(line, "SkPRingsted");
 
-                    Course course = (Course)Data.ConvertJsonToObejct(raw, "Course");
-                    courseViewModel.Courses.Add(course);
+                    foreach (var item in raw.Split("|"))
+                    {
+                        if (item.Length != 0)
+                        {
+                            Course course = (Course)Data.ConvertJsonToObejct(item, "Course");
+                            courseViewModel.Courses.Add(course);
+                        }
+                    }
                 }
             }
             catch (Exception ex)

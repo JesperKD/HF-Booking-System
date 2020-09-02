@@ -20,21 +20,17 @@ namespace UdlånsWeb.Controllers
 {
     public class CourseController : Controller
     {
-        private static User SelectedUser { get; set; }
-        private static Host SelectedItem { get; set; }
-        private static BookingViewModel bookingViewModel { get; set; }
-        private static BookingViewModel userBooking { get; set; }
-
         public IActionResult CourseSite()
         {
             if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("Home/ErrorPage");
 
-            
-            if (Data.CourseViewModel == null)
-                return View(new CourseViewModel());
+            Data.CourseData = Data.GetCourses();
+
+            if (Data.CourseData.Courses.Count != 0)
+                return View(Data.CourseData);
             else
-                return View(Data.CourseViewModel);
+                return View(new CourseViewModel());
         }
 
 
@@ -50,8 +46,9 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult AddCourse(Course course)
         {
-            Data.CourseViewModel.Courses.Add(course);
-            Data.SaveBookings();
+
+            Data.CourseData.Courses.Add(course);
+            Data.SaveCourses();
             return Redirect("CourseSite");
         }
         

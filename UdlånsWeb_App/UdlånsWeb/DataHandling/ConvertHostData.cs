@@ -28,16 +28,16 @@ namespace UdlånsWeb.DataHandling
 
         public void ReWriteHostFile(HostViewModel hostViewModel)
         {
-            List<string> itemsTosave = new List<string>();
             StringBuilder stringBuilder = new StringBuilder();
-            Encrypt = new Encrypt();
             //Main props to save
             foreach (var item in hostViewModel.Hosts)
             {
+                Encrypt = new Encrypt();
                 stringBuilder.Append(Data.ConvertObjectToJson(item));
-                itemsTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
+                stringBuilder.Append("|");
             }
-            ToTxt.StringsToTxt(FILE_PATH + FILE_NAME, itemsTosave.ToArray());
+
+            ToTxt.StringToTxt(FILE_PATH + FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted"));
         }
 
         public HostViewModel GetHosts()
@@ -46,16 +46,19 @@ namespace UdlånsWeb.DataHandling
             try
             {
                 string[] rawCourse = FromTxt.StringsFromTxt(FILE_PATH + FILE_NAME);
-
+                rawCourse.ToList();
                 foreach (string line in rawCourse)
                 {
-                    if (line != null)
-                    {
-                        Decrypt = new Decrypt();
-                        string raw = Decrypt.DecryptString(line, "SkPRingsted", 5);
+                    Decrypt = new Decrypt();
+                    string raw = Decrypt.DecryptString(line, "SkPRingsted");
 
-                        Host host = (Host)Data.ConvertJsonToObejct(raw, "Host");
-                        hostViewModel.Hosts.Add(host);
+                    foreach (var item in raw.Split("|"))
+                    {
+                        if (item.Length != 0)
+                        {
+                            Host host = (Host)Data.ConvertJsonToObejct(item, "Host");
+                            hostViewModel.Hosts.Add(host);
+                        }
                     }
                 }
             }

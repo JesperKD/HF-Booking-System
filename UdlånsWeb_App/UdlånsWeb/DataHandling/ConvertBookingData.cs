@@ -29,17 +29,15 @@ namespace UdlånsWeb.DataHandling
 
         public void RewriteBookingFile(List<BookingViewModel> bookings)
         {
-            List<string> itemsTosave = new List<string>();
             StringBuilder stringBuilder = new StringBuilder();
-            Encrypt = new Encrypt();
             //Main props to save 
-            foreach (var item in bookings)
+            foreach (var booking in bookings)
             {
-                stringBuilder.Append(Data.ConvertObjectToJson(item));
-                itemsTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
+                Encrypt = new Encrypt();
+                stringBuilder.Append(Data.ConvertObjectToJson(booking));
+                stringBuilder.Append("|");
             }
-
-            ToTxt.StringsToTxt(FILE_PATH + FILE_NAME, itemsTosave.ToArray());
+            ToTxt.StringToTxt(FILE_PATH + FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted"));
         }
 
         public List<BookingViewModel> GetBookings()
@@ -48,18 +46,19 @@ namespace UdlånsWeb.DataHandling
             try
             {
                 string[] rawCourse = FromTxt.StringsFromTxt(FILE_PATH + FILE_NAME);
-
                 foreach (string line in rawCourse)
                 {
-                    if (line != null)
+                    Decrypt = new Decrypt();
+                    string raw = Decrypt.DecryptString(line, "SkPRingsted");
+
+                    foreach (var item in raw.Split("|"))
                     {
-                        Decrypt = new Decrypt();
-                        string raw = Decrypt.DecryptString(line, "SkPRingsted", 5);
-
-                        BookingViewModel bookingViewModel = (BookingViewModel)Data.ConvertJsonToObejct(raw, "BookingViewModel");
-                        bookingViewModels.Add(bookingViewModel);
+                        if (item.Length != 0)
+                        {
+                            BookingViewModel bookingViewModel = (BookingViewModel)Data.ConvertJsonToObejct(item, "BookingViewModel");
+                            bookingViewModels.Add(bookingViewModel);
+                        }
                     }
-
                 }
             }
             catch (Exception ex)

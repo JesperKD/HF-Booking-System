@@ -22,10 +22,6 @@ namespace UdlånsWeb.Controllers
 {
     public class ItemController : Controller
     {
-        
-        
-        private static Host SelectedItem { get; set; }
-
         [HttpGet]
         public IActionResult AdminSite()
         {
@@ -35,7 +31,7 @@ namespace UdlånsWeb.Controllers
             HostViewModel itemModel = Data.GetHosts();
             try
             {
-                if (itemModel.Bookings != null || Data.BookingViewModels.Count != 0) 
+                if (itemModel.Bookings != null || Data.BookingData.Count != 0) 
                     itemModel.Bookings = Data.GetBookings();
 
                 if (itemModel == null)
@@ -76,7 +72,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult AddItem(Host host)
         {
-            Data.HostViewModel.Hosts.Add(host);
+            Data.HostData.Hosts.Add(host);
             Data.SaveHosts();
             return Redirect("AdminSite");
         }
@@ -103,7 +99,7 @@ namespace UdlånsWeb.Controllers
                     Data.DeleteBooking(booking);
                 }
             }
-            Data.HostViewModel.Hosts.Add(host);
+            Data.EditHost(host);
             return Redirect("AdminSite");
         }
 
@@ -130,6 +126,5 @@ namespace UdlånsWeb.Controllers
             Data.DeleteHost(host);
             return Redirect("AdminSite");
         }
-
     }
 }
