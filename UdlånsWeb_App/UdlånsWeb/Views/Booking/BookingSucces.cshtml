@@ -1,4 +1,45 @@
-﻿@model UdlånsWeb.Models.User
+﻿@model UdlånsWeb.Models.BookingViewModel
 
 <h5>Booking gennemført</h5>
-<h6>Mail vil blive senndt til: @if (Model.Email != null) { @Model.Email}</h6>
+<h6>
+    Mail vil blive sendt til: @if (Model.CurrentUser.Email != null) { Html.DisplayFor(x => Model.CurrentUser.Email); }
+</h6>
+
+<dl>
+    <dt>
+        Udlånt til:
+    </dt>
+    <dd>
+        @if (Model.CurrentUser.FirstName != null) { Html.DisplayFor(x => x.CurrentUser.FirstName); }
+    </dd>
+    <dt>
+        ____________________________________________________________________________________
+    </dt>
+
+    @foreach (var host in Model.HostsRentedForCourse)
+    {
+        <dt>
+            Navn på host:
+        </dt>
+        <dd>
+            @host.Name
+        </dd>
+
+        <dt>
+            Indleverings dato:
+        </dt>
+        <dd>
+            @host.TurnInDate
+        </dd>
+        <dt>
+            ____________________________________________________________________________________
+        </dt>
+    }
+
+</dl>
+<div>
+    @using (Html.BeginForm("Booking", "Home", FormMethod.Get))
+    {
+        <button type="submit">Godkend</button>
+    }
+</div>
