@@ -69,7 +69,7 @@ namespace UdlånsWeb.DataHandling
 
         }
 
-        public User ManuelLogin(string Initials)
+        public User ManuelLogin(string Initials, string pass)
         {
             User user = new User();
 

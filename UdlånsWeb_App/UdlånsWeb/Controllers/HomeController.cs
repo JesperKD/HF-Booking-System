@@ -42,10 +42,10 @@ namespace UdlånsWeb.Controllers
         }
 
         [HttpPost]
-        public IActionResult HomePage(string initials)
+        public IActionResult HomePage(Login login)
         {
             //Add logic for login
-            CurrentUser = Data.Convertlogindata.ManuelLogin(initials);
+            CurrentUser = Data.Convertlogindata.ManuelLogin(login.Initials, login.Password);
 
             if (CurrentUser == null)
                 return Redirect("ErrorPage");
