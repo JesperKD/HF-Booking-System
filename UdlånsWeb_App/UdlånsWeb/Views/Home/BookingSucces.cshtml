@@ -12,6 +12,9 @@
     <dd>
         @if (Model.CurrentUser.Name != null) { Html.DisplayFor(x => x.CurrentUser.Name); }
     </dd>
+    <dt>
+        ____________________________________________________________________________________
+    </dt>
 
     @foreach (var host in Model.HostRentedForCourse)
     {
@@ -28,6 +31,9 @@
         <dd>
             @host.TurnInDate
         </dd>
+        <dt>
+            ____________________________________________________________________________________
+        </dt>
     }
 
 </dl>
