@@ -500,6 +500,10 @@ namespace UdlånsWeb.Controllers
         {
             return Redirect("HomePage");
         }
+        public IActionResult PasswordConfirmation()
+        {
+            return View();
+        }
         #endregion
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
