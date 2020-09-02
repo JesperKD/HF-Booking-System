@@ -46,6 +46,9 @@ namespace UdlånsWeb.Controllers
         {
             //Add logic for login
             CurrentUser = Data.Convertlogindata.ManuelLogin(login.Initials, login.Password);
+            User user = new User();
+            user.Admin = true;
+            CurrentUser = user;
 
             if (CurrentUser == null)
                 return Redirect("ErrorPage");
@@ -295,7 +298,7 @@ namespace UdlånsWeb.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditUser(UserViewModel userList, int id)
+        public IActionResult EditUser()
         {
             if (CurrentUser == null || CurrentUser.Admin == false)
                 return Redirect("ErrorPage");
@@ -488,6 +491,14 @@ namespace UdlånsWeb.Controllers
         public IActionResult ResetPassword(string email)
         {
             string newPass = passwordGenerator.Generate();
+
+            User user = new User();
+            UserViewModel users = Data.ConvertUserData.GetUsers();
+            user = users.Users.Where(x => x.Email == email).FirstOrDefault();
+            user.Password = newPass;
+
+            Data.ConvertUserData.EditUser(user);
+            // send mail here with new pass
             return Redirect("HomePage");
         }
         [HttpGet]
@@ -498,6 +509,14 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult ChangePassword(ChangePassword change)
         {
+            // save user
+            User user = new User();
+            UserViewModel users = Data.ConvertUserData.GetUsers();
+
+            user = users.Users.Where(x => x.Initials == change.UserName && x.Email == change.Email).FirstOrDefault();
+
+            Data.ConvertUserData.EditUser(user);
+            // send mail
             return Redirect("HomePage");
         }
         public IActionResult PasswordConfirmation()

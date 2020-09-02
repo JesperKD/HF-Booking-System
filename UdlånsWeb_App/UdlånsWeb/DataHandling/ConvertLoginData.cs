@@ -8,6 +8,7 @@ using System.Web;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Razor.Language;
+using System.Security.Cryptography.X509Certificates;
 
 namespace UdlånsWeb.DataHandling
 {
@@ -76,9 +77,9 @@ namespace UdlånsWeb.DataHandling
             UserViewModel userModel = convertuserdata.GetUsers();
             try
             {
-                if (userModel.Users.Any(x => x.Initials == Initials.ToUpper()))
+                if (userModel.Users.Any(x => x.Initials == Initials.ToUpper() && x.Password == pass))
                 {
-                    user = userModel.Users.Where(x => x.Initials == Initials.ToUpper()).FirstOrDefault();
+                    user = userModel.Users.Where(x => x.Initials == Initials.ToUpper() && x.Password == pass).FirstOrDefault();
                     return user;
                 }
             }
