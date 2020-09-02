@@ -13,6 +13,7 @@ namespace UdlånsWeb.Models
         public string Email { get; set; }
         public bool Admin { get; set; }
         public int Id { get; set; }
+        public string Password { get; set; }
 
     }
 }

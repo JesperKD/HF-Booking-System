@@ -13,6 +13,7 @@ namespace UdlånsWeb.DataHandling
         FromTxt FromTxt = new FromTxt();
         Encrypt Encrypt;
         Decrypt Decrypt;
+        PasswordGenerator passwordGenerator = new PasswordGenerator();
         const string USER_FILE_NAME = "\\user.txt";
         const string FILE_PATH = "C:\\TestSite";
 
@@ -20,10 +21,10 @@ namespace UdlånsWeb.DataHandling
         {
             Encrypt = new Encrypt();
             //Save the user to file/database
-
+            string password = passwordGenerator.Generate();
             // rewrite to handle encryption
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append(user.Name + "," + user.Initials + "," + user.Email + "," + user.Admin + "," + 0);
+            stringBuilder.Append(user.Name + "," + user.Initials + "," + user.Email + "," + user.Admin + "," + 0 + "," + password);
 
             // change to correct path for file saving
             ToTxt.AppendStringToTxt(FILE_PATH + USER_FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5) + Environment.NewLine);
@@ -49,6 +50,7 @@ namespace UdlånsWeb.DataHandling
                     user.Email = userData[2];
                     user.Admin = Convert.ToBoolean(userData[3]);
                     user.Id = int.Parse(userData[4]);
+                    user.Password = userData[5];
                     userModel.Users.Add(user);
 
                 }
@@ -81,6 +83,7 @@ namespace UdlånsWeb.DataHandling
                     user.Email = userData[2];
                     user.Admin = Convert.ToBoolean(userData[3]);
                     user.Id = int.Parse(userData[4]);
+                    user.Password = userData[5];
                     userModel.Users.Add(user);
 
                 }
@@ -116,6 +119,7 @@ namespace UdlånsWeb.DataHandling
                 oUser.Email = userData[2];
                 oUser.Admin = Convert.ToBoolean(userData[3]);
                 oUser.Id = int.Parse(userData[4]);
+                oUser.Password = userData[5];
                 userModelOld.Users.Add(oUser);
             }
 
@@ -135,7 +139,7 @@ namespace UdlånsWeb.DataHandling
             foreach (User Item in userModelNew.Users)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(Item.Name + "," + Item.Initials + "," + Item.Email + "," + Item.Admin + "," + Item.Id);
+                stringBuilder.Append(Item.Name + "," + Item.Initials + "," + Item.Email + "," + Item.Admin + "," + Item.Id + "," + Item.Password);
 
                 Encrypt = new Encrypt();
                 usersTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
@@ -166,6 +170,7 @@ namespace UdlånsWeb.DataHandling
                     oUser.Email = userData[2];
                     oUser.Admin = Convert.ToBoolean(userData[3]);
                     oUser.Id = int.Parse(userData[4]);
+                    oUser.Password = userData[5];
                     userModel.Users.Add(oUser);
                 }
 
@@ -176,7 +181,7 @@ namespace UdlånsWeb.DataHandling
             }
 
             // finds the old user and removes it
-            User removeUser = userModel.Users.Where(x=> x.Name == user.Name && x.Email == user.Email).FirstOrDefault();
+            User removeUser = userModel.Users.Where(x => x.Name == user.Name && x.Email == user.Email).FirstOrDefault();
             userModel.Users.Remove(removeUser);
 
             // creates correct user string
@@ -185,7 +190,7 @@ namespace UdlånsWeb.DataHandling
             foreach (User Item in userModel.Users)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(Item.Name + "," + Item.Initials + "," + Item.Email + "," + Item.Admin + "," + Item.Id);
+                stringBuilder.Append(Item.Name + "," + Item.Initials + "," + Item.Email + "," + Item.Admin + "," + Item.Id + "," + Item.Password);
 
                 Encrypt = new Encrypt();
                 usersTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
