@@ -1,4 +1,4 @@
-﻿@model Login
+﻿@model User
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -12,7 +12,7 @@
         @Html.TextBoxFor(m => m.Initials)
 
         <label for="upass"><b>Password</b></label>
-        @Html.TextBoxFor(m => m.Password)
+        <input  type="password" asp-for="Password"/> 
 
         <button type="submit">Login</button>
     }
