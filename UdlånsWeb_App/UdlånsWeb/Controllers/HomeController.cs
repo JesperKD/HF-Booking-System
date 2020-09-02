@@ -164,7 +164,7 @@ namespace UdlånsWeb.Controllers
             //Make a booking save file
             List<Item> hosts = Data.ConvertItemData.GetItems().Items;
             List<Course> courses = Data.ConvertCourseData.GetCourses().Courses;
-            
+
             foreach (var item in userBooking.HostRentedForCourse)
             {
                 if (item.Rented == false)
@@ -475,6 +475,17 @@ namespace UdlånsWeb.Controllers
             return Redirect("CourseSite");
         }
         #endregion
+        #endregion
+
+        #region Password
+        public IActionResult ResetPassword()
+        {
+            return View();
+        }
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
         #endregion
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

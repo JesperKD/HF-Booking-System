@@ -16,14 +16,16 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <img src="~/Images/ZBCLogo.jpg" alt="zbc logo" style="width:50px; height:50px;" />
+                <a asp-controller="Home" asp-action="HomePage">
+                    <img src="~/Images/ZBCLogo.jpg" alt="zbc logo" style="width:50px; height:50px;" />
+                </a>
             </div>
             <ul class="navbar-nav flex-grow-1">
                 <li>
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="">Reset Password</a>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ResetPassword">Reset Password</a>
                 </li>
                 <li>
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="">Skift Password</a>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ChangePassword">Skift Password</a>
                 </li>
             </ul>
         </nav>
