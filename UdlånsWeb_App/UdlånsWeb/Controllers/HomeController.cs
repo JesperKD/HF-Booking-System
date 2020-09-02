@@ -118,12 +118,6 @@ namespace UdlånsWeb.Controllers
                     {
                         Defined = course.Defined
                     },
-
-                    //HostRentedForCourse = new Item()
-                    //{
-                    //    TurnInDate = DateTime.Now.Date,
-                    //    RentedDate = DateTime.Now.Date
-                    //},
                     RentDate = DateTime.Now.Date,
                 };
             }
@@ -190,10 +184,6 @@ namespace UdlånsWeb.Controllers
                             Data.ConvertItemData.EditItem(item);
                         }
                     }
-
-                    /*userBooking.HostRentedForCourse.Add(item*//*)*//* = item*/;
-                    //booking.RentedClient = convertlogindata.AutoLogin().Initials;
-                    //break;
                 }
             }
             Data.ConvertBookingData.SaveBooking(userBooking);
@@ -222,7 +212,6 @@ namespace UdlånsWeb.Controllers
             ItemViewModel itemModel = Data.ConvertItemData.GetItems();
             try
             {
-                //if (Data.ConvertBookingData.GetBookings() != null) itemModel.Bookings = Data.ConvertBookingData.GetBookings();
                 if (itemModel == null)
                 {
                     itemModel = new ItemViewModel();
@@ -232,9 +221,7 @@ namespace UdlånsWeb.Controllers
                     //if host is rented 
                     if (item.Rented == true)
                     {
-                        //check bookings for a turn in date 
-                        //foreach (var booking in itemModel.Bookings)
-                        //{
+                        //check hosts for a turn in date                         
                         foreach (var host in itemModel.Items)
                         {
                             if (host.TurnInDate == DateTime.Now.Date)
@@ -242,15 +229,6 @@ namespace UdlånsWeb.Controllers
                                 item.Rented = false;
                             }
                         }
-
-                        //checks if turn in date has run out and if the booking id macth the item/host id
-                        //if (booking.HostRentedForCourse.TurnInDate == DateTime.Now.Date && booking.Id == item.Id)
-                        //{
-                        //    //reset rented so the view model updates
-                        //    //Used by admin to show if host is used or not
-                        //    item.Rented = false;
-                        //}
-                        //}
                     }
 
                 }
@@ -483,7 +461,6 @@ namespace UdlånsWeb.Controllers
             if (CurrentUser == null || CurrentUser.Admin == false)
                 return Redirect("ErrorPage");
 
-            bookingViewModel.CourseModel = course.Courses[id];
             return View(course.Courses[id]);
         }
 
