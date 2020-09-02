@@ -33,6 +33,8 @@ namespace UdlånsWeb.DataHandling
             }
             return HostData;
         }
+
+
         /// <summary>
         /// Make sure to add the host to Data.HostViewModel.Hosts
         /// </summary>
@@ -121,6 +123,12 @@ namespace UdlånsWeb.DataHandling
             }
             return UserData;
         }
+
+        public static bool UserExist(User user)
+        {
+            return convertUserData.DoesUserExist(user);
+        }
+
         /// <summary>
         /// Saves the users in UserViewModel
         /// </summary>
@@ -138,7 +146,7 @@ namespace UdlånsWeb.DataHandling
         public static void EditUser(User user)
         {
             GetUsers();
-            User userToDelete = UserData.Users.Where(x => x.Id == user.Id).FirstOrDefault();
+            User userToDelete = UserData.Users.Where(x => x.Initials == user.Initials && x.Password == user.Password).FirstOrDefault();
             UserData.Users.Add(user);
             SaveUsers();
         }

@@ -68,5 +68,22 @@ namespace UdlånsWeb.DataHandling
             }
             return userViewModel;
         }
+        public bool DoesUserExist(User user)
+        {
+            UserViewModel userViewModel = GetUsers();
+
+            User userFound = userViewModel.Users.Where(x => x.Initials == user.Initials && x.Password == user.Password).FirstOrDefault();
+            if(userFound == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+
+        }
     }
+
+
 }
