@@ -24,6 +24,7 @@ namespace UdlånsWeb.Controllers
         Data Data = new Data();
         private static User SelectedUser { get; set; }
         private static User CurrentUser { get; set; }
+        private static PasswordGenerator passwordGenerator = new PasswordGenerator();
         private static Item SelectedItem { get; set; }
         private static BookingViewModel bookingViewModel { get; set; }
         private static BookingViewModel userBooking { get; set; }
@@ -478,9 +479,16 @@ namespace UdlånsWeb.Controllers
         #endregion
 
         #region Password
+        [HttpGet]
         public IActionResult ResetPassword()
         {
             return View();
+        }
+        [HttpPost]
+        public IActionResult ResetPassword(string email)
+        {
+            string newPass = passwordGenerator.Generate();
+            return Redirect("Home");
         }
         public IActionResult ChangePassword()
         {
