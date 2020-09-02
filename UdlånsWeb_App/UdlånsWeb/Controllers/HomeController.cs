@@ -488,11 +488,17 @@ namespace UdlånsWeb.Controllers
         public IActionResult ResetPassword(string email)
         {
             string newPass = passwordGenerator.Generate();
-            return Redirect("Home");
+            return Redirect("HomePage");
         }
+        [HttpGet]
         public IActionResult ChangePassword()
         {
             return View();
+        }
+        [HttpPost]
+        public IActionResult ChangePassword(ChangePassword change)
+        {
+            return Redirect("HomePage");
         }
         #endregion
 
