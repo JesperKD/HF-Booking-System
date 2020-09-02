@@ -76,7 +76,7 @@ namespace UdlånsWeb.Controllers
 
             foreach (var item in hosts)
             {
-                if (item.Rented == false && booking.NumberOfGroups >= allocated)
+                if (item.Rented == false && booking.NumberOfGroups > allocated)
                 {
 
                     //sets turnindate to day it was rented plus days its rented for aka turnindate
@@ -164,9 +164,8 @@ namespace UdlånsWeb.Controllers
             //Make a booking save file
             List<Item> hosts = Data.ConvertItemData.GetItems().Items;
             List<Course> courses = Data.ConvertCourseData.GetCourses().Courses;
-            User user = new User();
-
-            foreach (var item in hosts)
+            
+            foreach (var item in userBooking.HostRentedForCourse)
             {
                 if (item.Rented == false)
                 {
@@ -221,14 +220,19 @@ namespace UdlånsWeb.Controllers
                     //if host is rented 
                     if (item.Rented == true)
                     {
-                        //check hosts for a turn in date                         
-                        foreach (var host in itemModel.Items)
+                        if (item.TurnInDate <= DateTime.Now)
                         {
-                            if (host.TurnInDate == DateTime.Now.Date)
-                            {
-                                item.Rented = false;
-                            }
+                            item.Rented = false;
                         }
+
+                        ////check hosts for a turn in date                         
+                        //foreach (var host in itemModel.Items)
+                        //{
+                        //    if (host.TurnInDate == DateTime.Now.Date)
+                        //    {
+                        //        item.Rented = false;
+                        //    }
+                        //}
                     }
 
                 }
