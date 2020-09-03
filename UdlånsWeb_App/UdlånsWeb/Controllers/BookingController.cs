@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using System.Text;
 using UdlånsWeb.DataHandling;
 using UdlånsWeb.Models;
 
@@ -10,13 +12,14 @@ namespace UdlånsWeb.Controllers
     {
         private static BookingViewModel bookingViewModel { get; set; }
         private static BookingViewModel userBooking { get; set; }
-        
+        ConvertUserData ConvertUserData = new ConvertUserData();
+
         [HttpGet]
         public IActionResult BookingDefine()
         {
             if (CurrentUser.User == null)
                 return Redirect("Home/ErrorPage");
-            
+
             return View();
         }
         [HttpGet]
@@ -39,7 +42,7 @@ namespace UdlånsWeb.Controllers
                     RentDate = DateTime.Now.Date,
                 };
             }
-            
+
             bookingViewModel.CoursesForSelection = Data.GetCourses().Courses;
             bookingViewModel.CurrentUser = CurrentUser.User;
             return View(bookingViewModel);
@@ -70,7 +73,7 @@ namespace UdlånsWeb.Controllers
                 //Makes sure that there is enough hosts for the class
                 if (item.NumberOfPeoplePerHost >= availableSpotsForStudents && item.Rented == false)
                 {
-                    if(userBooking.CourseModel.Defined == false)
+                    if (userBooking.CourseModel.Defined == false)
                     {
                         item.Rented = true;
                         userBooking.TurnInDate = userBooking.RentDate.AddDays(userBooking.CourseModel.Duration);
@@ -87,12 +90,56 @@ namespace UdlånsWeb.Controllers
         public IActionResult BookingSucces()
         {
             Data.SaveHosts();
-            return View(CurrentUser.User);    
+
+            // send mail to user and admins
+            UserViewModel users = ConvertUserData.GetUsers();
+            UserViewModel mailRecipients = new UserViewModel();
+            foreach (User user in users.Users)
+            {
+                if (user.Email == CurrentUser.User.Email && user.Initials == CurrentUser.User.Initials)
+                {
+                    mailRecipients.Users.Add(user);
+                    continue;
+                }
+                if (user.Admin == true)
+                {
+                    mailRecipients.Users.Add(user);
+                    continue;
+                }
+            }
+            // New stringbuilder
+            StringBuilder stringBuilder = new StringBuilder();
+
+            // String for email
+            stringBuilder.Append("Booking summary:" + Environment.NewLine + "Lærer initialer: " + CurrentUser.User.Initials
+                + Environment.NewLine + "Fag: " + userBooking.CourseModel.Name + Environment.NewLine
+                + "Booket fra " + userBooking.HostsRentedForCourse.First().RentedDate + " - til " + userBooking.HostsRentedForCourse.First().TurnInDate
+                + Environment.NewLine + "Hostnavn       Ip      User        Password" + Environment.NewLine
+                );
+
+            foreach (var item in userBooking.HostsRentedForCourse)
+            {
+                stringBuilder.Append(item.Name + "       " + item.HostIp + "       " + item.UserName + "        " + item.Password + Environment.NewLine);
+            }
+
+            stringBuilder.Append("Antal grupper pr host [" + userBooking.CourseModel.NumberOfStudents + "]" + Environment.NewLine
+                + Environment.NewLine + "Adgang til serveren kan etableres via følgnde netværk:"
+                + "Trådløst (Når eleverne er på skolen) - Forbind til DataExpNet" + Environment.NewLine
+                + "(kode: Just@Salt&Vinegar666)" + Environment.NewLine
+                + "VPN (Når eleverne er hjemme) - Følg vejledningen til installation" + Environment.NewLine
+                + "af VPN forbindelsen og forbind hrefter med jeres ZBC initialer" + Environment.NewLine
+                + "(Kode: Just@Salt&Vinegar666)" + Environment.NewLine + Environment.NewLine
+                + "!!! Husk at bede dine elever om at ryde op på hostn inden" + Environment.NewLine
+                + "faget slutter !!!");
+
+            MailSending.Email(stringBuilder.ToString(), mailRecipients);
+
+            return View(CurrentUser.User);
         }
 
         public IActionResult Bookings()
         {
-            if(Data.GetHosts().Bookings.Count != 0 || Data.GetHosts().Bookings != null)
+            if (Data.GetHosts().Bookings.Count != 0 || Data.GetHosts().Bookings != null)
             {
                 Data.GetHosts();
                 return View(Data.HostData.Bookings);
