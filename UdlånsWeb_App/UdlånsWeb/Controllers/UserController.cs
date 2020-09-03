@@ -40,6 +40,7 @@ namespace UdlånsWeb.Controllers
         //This is for adding users
         public IActionResult AddUser(User user)
         {
+            IdControl.GiveIdToUser(user);
             //Gets the selected user from UserPage 
             //Then sends it to data 
             Data.UserData.Users.Add(user);

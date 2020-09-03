@@ -32,6 +32,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult AddCourse(Course course)
         {
+            IdControl.GiveIdToCourse(course);
             Data.GetCourses();
             Data.CourseData.Courses.Add(course);
             Data.SaveCourses();

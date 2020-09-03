@@ -8,6 +8,7 @@ namespace UdlånsWeb.DataHandling
 {
     public static class IdControl
     {
+//--------------------------------------------------------------------------------Host
         /// <summary>
         /// Gives the Host an id
         /// </summary>
@@ -22,13 +23,49 @@ namespace UdlånsWeb.DataHandling
         /// Checks if the host id already exist
         /// </summary>
         /// <returns></returns>
-        public static int GetUnUsedIdForHost()
+        private static int GetUnUsedIdForHost()
         {
             var hostmodel = Data.GetHosts().Hosts;
             if (hostmodel.Count != 0)
             {
                 hostmodel.Sort();
                 int highestIdNumber = hostmodel.Last().Id;
+                return highestIdNumber + 1;
+            }
+            return 0;
+        }
+//--------------------------------------------------------------------------------Course
+        public static Course GiveIdToCourse(Course course)
+        {
+            course.Id = GetUnUsedIdForCourse();
+            return course;
+        }
+
+        private static int GetUnUsedIdForCourse()
+        {
+            var courseModel = Data.GetCourses().Courses;
+            if (courseModel.Count != 0)
+            {
+                courseModel.Sort();
+                int highestIdNumber = courseModel.Last().Id;
+                return highestIdNumber + 1;
+            }
+            return 0;
+        }
+//--------------------------------------------------------------------------------User
+        public static User GiveIdToUser(User user)
+        {
+            user.Id = GetUnUsedIdForUser();
+            return user;
+        }
+
+        private static int GetUnUsedIdForUser()
+        {
+            var userModel = Data.GetUsers().Users;
+            if (userModel.Count != 0)
+            {
+                userModel.Sort();
+                int highestIdNumber = userModel.Last().Id;
                 return highestIdNumber + 1;
             }
             return 0;

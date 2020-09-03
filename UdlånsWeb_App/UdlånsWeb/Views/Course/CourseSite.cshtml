@@ -42,7 +42,7 @@
                                 @using (Html.BeginForm("EditCourse", "Course", FormMethod.Get))
                                 {
                                     @Html.ValidationSummary(true)
-                                    <input asp-for="Id" type="number" value="@i" hidden />
+                                    <input asp-for="Id" type="number" value="@Model.Courses[i].Id" hidden />
                                     <p hidden>@Html.EditorFor(m => m.Courses)</p>
                                     <button type="submit">Rediger</button>
                                 }
@@ -52,7 +52,7 @@
                                 @using (Html.BeginForm("DeleteCourse", "Course", FormMethod.Get))
                                 {
                                     @Html.ValidationSummary(true)
-                                    <input asp-for="Id" type="number" value="@i" hidden />
+                                    <input asp-for="Id" type="number" value="@Model.Courses[i].Id" hidden />
                                     <p hidden>@Html.EditorFor(m => m.Courses)</p>
                                     <button type="submit">Fjern</button>
                                 }
