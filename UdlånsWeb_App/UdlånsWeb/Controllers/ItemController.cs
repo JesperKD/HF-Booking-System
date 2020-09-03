@@ -59,7 +59,7 @@ namespace UdlånsWeb.Controllers
             {
                 if (host.Id == booking.Id)
                 {
-                    Data.DeleteBooking(booking);
+                    //Data.DeleteBooking(booking);
                 }
             }
             Data.EditHost(host);
@@ -84,7 +84,7 @@ namespace UdlånsWeb.Controllers
             {
                 if (host.Id == booking.Id)
                 {
-                    Data.DeleteBooking(booking);
+                    //Data.DeleteBooking(booking);
                 }
             }
             Data.DeleteHost(host);
