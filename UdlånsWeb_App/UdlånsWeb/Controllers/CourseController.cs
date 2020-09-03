@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using UdlånsWeb.DataHandling;
 using UdlånsWeb.Models;
 
@@ -32,7 +33,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult AddCourse(Course course)
         {
-
+            Data.GetCourses();
             Data.CourseData.Courses.Add(course);
             Data.SaveCourses();
             return Redirect("CourseSite");

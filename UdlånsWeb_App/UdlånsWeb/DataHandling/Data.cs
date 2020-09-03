@@ -13,7 +13,7 @@ namespace UdlånsWeb.DataHandling
         private static ConvertHostData convertHostData { get; set; } = new ConvertHostData();
         private static ConvertUserData convertUserData { get; set; } = new ConvertUserData();
         private static ConvertLoginData convertlogindata { get; set; } = new ConvertLoginData();
-        
+
 
         public static CourseViewModel CourseData { get; set; }
         public static HostViewModel HostData { get; set; }
@@ -22,8 +22,8 @@ namespace UdlånsWeb.DataHandling
 
         #region Host
         public static HostViewModel GetHosts()
-        {          
-            HostData = convertHostData.GetHosts();      
+        {
+            HostData = convertHostData.GetHosts();
             return HostData;
         }
 
@@ -47,7 +47,7 @@ namespace UdlånsWeb.DataHandling
 
             foreach (var booking in HostData.Bookings)
             {
-                if(booking.Id == host.Id)
+                if (booking.Id == host.Id)
                 {
 
                 }
@@ -133,6 +133,7 @@ namespace UdlånsWeb.DataHandling
             }
             return CourseData;
         }
+
         /// <summary>
         /// Saves the users in UserViewModel
         /// </summary>

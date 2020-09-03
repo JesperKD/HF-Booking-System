@@ -16,7 +16,7 @@ namespace UdlånsWeb.Controllers
                 return Redirect("ErrorPage");
 
             Data.GetHosts();
-            Data.HostData.Bookings = Data.GetBookings();
+            Data.HostData.Bookings = Data.GetHosts().Bookings;
 
             return View(Data.HostData);
         }
@@ -52,12 +52,12 @@ namespace UdlånsWeb.Controllers
         public IActionResult EditItem(Host host)
         {
             //Checks after a booking on the host and delete it aswell
-            List<BookingViewModel> bookingViewModel = Data.GetBookings();
+            List<BookingViewModel> bookingViewModel = Data.GetHosts().Bookings;
             foreach (var booking in bookingViewModel)
             {
                 if (host.Id == booking.Id)
                 {
-                    Data.DeleteBooking(booking);
+                    //Data.DeleteBooking(booking);
                 }
             }
             Data.EditHost(host);
@@ -76,12 +76,12 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult DeleteItem(Host host)
         {
-            List<BookingViewModel> bookingViewModel = Data.GetBookings();
+            List<BookingViewModel> bookingViewModel = Data.GetHosts().Bookings;
             foreach (var booking in bookingViewModel)
             {
                 if (host.Id == booking.Id)
                 {
-                    Data.DeleteBooking(booking);
+                    //Data.DeleteBooking(booking);
                 }
             }
             Data.DeleteHost(host);
