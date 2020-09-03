@@ -56,6 +56,7 @@ namespace UdlånsWeb.Controllers
             else
                 return Redirect("Home/Booking");
         }
+        #endregion
         #region Booking
         [HttpGet]
         public IActionResult InfoPage()
@@ -232,7 +233,6 @@ namespace UdlånsWeb.Controllers
 
             return View(userBooking);
         }
-        #endregion
         #endregion
 
         public IActionResult Privacy()
