@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using UdlånsWeb.DataHandling;
 using UdlånsWeb.Models;
 
@@ -22,6 +23,7 @@ namespace UdlånsWeb.Controllers
                 userModel = new UserViewModel();
             }
             //returns the user view model
+            userModel.Users.Sort();
             return View(userModel);
         }
    
@@ -56,7 +58,9 @@ namespace UdlånsWeb.Controllers
             if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("Home/ErrorPage");
 
-            return View(userViewModel.Users[id]);
+            User userToEdit = userViewModel.Users.Where(x => x.Id == id).FirstOrDefault();
+
+            return View(userToEdit);
         }
         [HttpPost]
         public IActionResult EditUser(User user)
@@ -72,8 +76,10 @@ namespace UdlånsWeb.Controllers
             if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("Home/ErrorPage");
 
+            User userToDelete = userViewModel.Users.Where(x => x.Id == id).FirstOrDefault();
+
             //Sends the selected user to the delete view
-            return View(userViewModel.Users[id]);
+            return View(userToDelete);
         }
         [HttpPost]
         public IActionResult DeleteUser(User user)

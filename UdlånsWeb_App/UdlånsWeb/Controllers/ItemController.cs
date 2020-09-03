@@ -18,7 +18,7 @@ namespace UdlånsWeb.Controllers
 
             Data.GetHosts();
             Data.HostData.Bookings = Data.GetHosts().Bookings;
-
+            Data.HostData.Hosts.Sort();
             return View(Data.HostData);
         }
 
@@ -47,7 +47,8 @@ namespace UdlånsWeb.Controllers
             if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("Home/ErrorPage");
 
-            return View(item.Hosts[id]);
+            Host hostToEdit = item.Hosts.Where(x => x.Id == id).FirstOrDefault();
+            return View(hostToEdit);
         }
 
         [HttpPost]
@@ -59,7 +60,7 @@ namespace UdlånsWeb.Controllers
             {
                 if (host.Id == booking.Id)
                 {
-                    //Data.DeleteBooking(booking);
+                    Data.DeleteBooking(booking);
                 }
             }
             Data.EditHost(host);
@@ -84,7 +85,7 @@ namespace UdlånsWeb.Controllers
             {
                 if (host.Id == booking.Id)
                 {
-                    //Data.DeleteBooking(booking);
+                    Data.DeleteBooking(booking);
                 }
             }
             Data.DeleteHost(host);

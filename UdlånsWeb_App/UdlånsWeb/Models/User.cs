@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace UdlånsWeb.Models
 {
-    public class User
+    public class User : IComparable<User>
     {
         [DisplayName("Fornavn")]
         public string FirstName { get; set; }
@@ -20,5 +21,12 @@ namespace UdlånsWeb.Models
         public bool Admin { get; set; }
         public int Id { get; set; }
 
+        public int CompareTo(User other)
+        {
+            if (other == null)
+                return 1;
+            else
+             return this.Id.CompareTo(other.Id);
+        }
     }
 }

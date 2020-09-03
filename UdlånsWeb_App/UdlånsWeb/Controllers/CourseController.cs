@@ -12,7 +12,7 @@ namespace UdlånsWeb.Controllers
                 return Redirect("Home/ErrorPage");
 
             Data.CourseData = Data.GetCourses();
-
+            Data.CourseData.Courses.Sort();
             if (Data.CourseData.Courses.Count != 0)
                 return View(Data.CourseData);
             else
