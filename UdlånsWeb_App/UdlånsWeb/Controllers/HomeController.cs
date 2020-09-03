@@ -578,6 +578,7 @@ namespace UdlånsWeb.Controllers
             UserViewModel recipient = new UserViewModel();
             recipient.Users.Add(user);
 
+            MailSending.Email(stringBuilder.ToString(), recipient);
 
             return Redirect("HomePage");
         }
