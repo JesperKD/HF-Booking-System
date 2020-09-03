@@ -19,7 +19,6 @@ namespace UdlånsWeb.Controllers
                 return View(new CourseViewModel());
         }
 
-
         [HttpGet]
         public IActionResult AddCourse()
         {
