@@ -36,7 +36,7 @@ namespace UdlånsWeb.DataHandling
                     itemID++;
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
 
             }
@@ -152,8 +152,8 @@ namespace UdlånsWeb.DataHandling
                     oItem.UserName = itemData[2];
                     oItem.VmWareVersion = itemData[3];
                     oItem.HostIp = itemData[4];
-                    oItem.Rented = Convert.ToBoolean(itemData[5]);
-                    item.Id = int.Parse(itemData[6]);
+                    oItem.Rented = Convert.ToBoolean(itemData[6]);
+                    oItem.Id = int.Parse(itemData[7]);
                     itemModel.Items.Add(oItem);
                 }
 
@@ -170,10 +170,10 @@ namespace UdlånsWeb.DataHandling
             // creates correct user string
             List<string> itemsTosave = new List<string>();
 
-            foreach (Item Item in itemModel.Items)
+            foreach (Item host in itemModel.Items)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(item.HostName + "," + item.HostPassword + "," + item.UserName + "," + item.VmWareVersion + "," + item.HostIp + "," + "," + item.Rented);
+                stringBuilder.Append(host.HostName + "," + host.HostPassword + "," + host.UserName + "," + host.VmWareVersion + "," + host.HostIp + "," + "," + host.Rented + "," + host.Id + "," + host.TurnInDate);
 
                 Encrypt = new Encrypt();
                 itemsTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));

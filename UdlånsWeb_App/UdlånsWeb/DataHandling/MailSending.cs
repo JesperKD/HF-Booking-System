@@ -10,7 +10,7 @@ namespace UdlånsWeb.DataHandling
 {
     public class MailSending
     {
-        public static void Email(string MailContent, List<User> Recipients)
+        public static void Email(string MailContent, UserViewModel Recipients)
         {
             // rewrite to zbc mail instead
             // rewrite to handle multiple admins
@@ -18,8 +18,8 @@ namespace UdlånsWeb.DataHandling
             {
                 MailMessage message = new MailMessage();
                 SmtpClient smtp = new SmtpClient();
-                message.From = new MailAddress("FromMailAddress");
-                foreach (User user in Recipients)
+                message.From = new MailAddress("NoReply@zbc.dk");
+                foreach (User user in Recipients.Users)
                 {
                     if (user.Admin == true)
                     {
@@ -31,13 +31,12 @@ namespace UdlånsWeb.DataHandling
                     }
                 }
                 message.Subject = "Lån af host";
-                message.IsBodyHtml = true; //to make message body as html  
+                //message.IsBodyHtml = true; //to make message body as html  
                 message.Body = MailContent;
-                smtp.Port = 587;
-                smtp.Host = "smtp.gmail.com"; //for gmail host  
+                smtp.Port = 25;
+                smtp.Host = "mail.efif.dk"; //for gmail host  
                 smtp.EnableSsl = true;
                 smtp.UseDefaultCredentials = false;
-                smtp.Credentials = new NetworkCredential("FromMailAddress", "password"); //Credentials to login to email 
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtp.Send(message);
             }
