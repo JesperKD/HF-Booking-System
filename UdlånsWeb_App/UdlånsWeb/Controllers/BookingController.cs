@@ -73,13 +73,15 @@ namespace UdlånsWeb.Controllers
                     if(userBooking.CourseModel.Defined == false)
                     {
                         item.Rented = true;
+                        userBooking.Id = item.Id;
                         userBooking.TurnInDate = userBooking.RentDate.AddDays(userBooking.CourseModel.Duration);
-                        booking.HostsRentedForCourse.Add(item);
+                        userBooking.HostsRentedForCourse.Add(item);
                     }
                     availableSpotsForStudents += item.NumberOfPeoplePerHost - availableSpotsForStudents;
                     userBooking.CurrentUser = CurrentUser.User;
                 }
             }
+            
             Data.HostData.Bookings.Add(userBooking);
             return View(userBooking);
         }
@@ -87,7 +89,7 @@ namespace UdlånsWeb.Controllers
         public IActionResult BookingSucces()
         {
             Data.SaveHosts();
-            return View(CurrentUser.User);    
+            return View(userBooking);    
         }
 
         public IActionResult Bookings()

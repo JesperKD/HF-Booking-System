@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UdlånsWeb.DataHandling;
+using UdlånsWeb.DataHandling.DataCheckUp;
 using UdlånsWeb.Models;
 
 
@@ -20,6 +21,7 @@ namespace UdlånsWeb.Controllers
             Data.HostData.Bookings = Data.GetHosts().Bookings;
             Data.HostData.Hosts.Sort();
             return View(Data.HostData);
+
         }
 
         [HttpGet]

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using UdlånsWeb.DataHandling;
+using UdlånsWeb.DataHandling.DataCheckUp;
 using UdlånsWeb.Models;
 
 namespace UdlånsWeb.Controllers

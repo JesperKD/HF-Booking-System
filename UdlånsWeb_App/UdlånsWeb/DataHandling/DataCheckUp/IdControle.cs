@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UdlånsWeb.Models;
 
-namespace UdlånsWeb.DataHandling
+namespace UdlånsWeb.DataHandling.DataCheckUp
 {
     public static class IdControl
     {
