@@ -513,8 +513,16 @@ namespace UdlånsWeb.Controllers
             UserViewModel users = Data.ConvertUserData.GetUsers();
 
             user = users.Users.Where(x => x.Initials == change.UserName && x.Email == change.Email).FirstOrDefault();
+            if (user.Initials != null && user.Email != null && user.Password == change.OldPassword)
+            {
+                user.Password = change.NewPassword;
+                Data.ConvertUserData.EditUser(user);
+            }
+            else
+            {
+                return Redirect("ErrorPage");
+            }
 
-            Data.ConvertUserData.EditUser(user);
             // send mail
             return Redirect("HomePage");
         }
