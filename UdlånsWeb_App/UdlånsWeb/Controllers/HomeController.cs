@@ -538,6 +538,14 @@ namespace UdlånsWeb.Controllers
 
             Data.ConvertUserData.EditUser(user);
             // send mail here with new pass
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append("Nyt password" + Environment.NewLine + Environment.NewLine + "Dit nye password er: " + user.Password);
+
+            UserViewModel recipient = new UserViewModel();
+            recipient.Users.Add(user);
+
+            MailSending.Email(stringBuilder.ToString(), recipient);
+
             return Redirect("HomePage");
         }
         [HttpGet]
@@ -564,6 +572,13 @@ namespace UdlånsWeb.Controllers
             }
 
             // send mail
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append("Ændring af password" + Environment.NewLine + Environment.NewLine + "Dit password er nu blevet ændret til: " + user.Password);
+
+            UserViewModel recipient = new UserViewModel();
+            recipient.Users.Add(user);
+
+
             return Redirect("HomePage");
         }
         public IActionResult PasswordConfirmation()
