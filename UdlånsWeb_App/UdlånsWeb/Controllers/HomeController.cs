@@ -46,9 +46,6 @@ namespace UdlånsWeb.Controllers
         {
             //Add logic for login
             CurrentUser = Data.Convertlogindata.ManuelLogin(login.Initials, login.Password);
-            User user = new User();
-            user.Admin = true;
-            CurrentUser = user;
 
             if (CurrentUser == null)
                 return Redirect("ErrorPage");
@@ -276,6 +273,7 @@ namespace UdlånsWeb.Controllers
         public IActionResult UserPage(UserViewModel user, int id)
         {
             SelectedUser = user.Users[id];
+            SelectedUser.Id = id;
             return Redirect("EditUser");
         }
 
@@ -308,6 +306,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult EditUser(User user)
         {
+            user.Id = SelectedUser.Id;
             Data.ConvertUserData.EditUser(user);
             return Redirect("UserPage");
         }

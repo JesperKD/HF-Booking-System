@@ -124,7 +124,7 @@ namespace UdlånsWeb.DataHandling
             }
 
             // finds the old user and removes it
-            User OldUser = userModelOld.Users.Where(x => x.Id == user.Id).FirstOrDefault();
+            User OldUser = userModelOld.Users[user.Id];
             userModelOld.Users.Remove(OldUser);
 
             // creates new list from old, and inserts edited user at index Id
