@@ -15,27 +15,12 @@ namespace UdlånsWeb.DataHandling
         Decrypt Decrypt;
         const string FILE_NAME = "\\host.txt";
         const string FILE_PATH = "C:\\TestSite";
-
-        public void SaveHostAdd(Host host)
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-            Encrypt = new Encrypt();
-            //Main props to save 
-
-            stringBuilder.Append(Data.ConvertObjectToJson(host));
-            ToTxt.AppendStringToTxt(FILE_PATH + FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5) + Environment.NewLine);
-        }
-
         public void ReWriteHostFile(HostViewModel hostViewModel)
         {
             StringBuilder stringBuilder = new StringBuilder();
             //Main props to save
-            foreach (var item in hostViewModel.Hosts)
-            {
-                Encrypt = new Encrypt();
-                stringBuilder.Append(Data.ConvertObjectToJson(item));
-                stringBuilder.Append("|");
-            }
+            Encrypt = new Encrypt();
+            stringBuilder.Append(Data.ConvertObjectToJson(hostViewModel));
 
             ToTxt.StringToTxt(FILE_PATH + FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted"));
         }
@@ -45,22 +30,13 @@ namespace UdlånsWeb.DataHandling
             HostViewModel hostViewModel = new HostViewModel();
             try
             {
-                string[] rawCourse = FromTxt.StringsFromTxt(FILE_PATH + FILE_NAME);
-                rawCourse.ToList();
-                foreach (string line in rawCourse)
-                {
-                    Decrypt = new Decrypt();
-                    string raw = Decrypt.DecryptString(line, "SkPRingsted");
+                string[] rawFile = FromTxt.StringsFromTxt(FILE_PATH + FILE_NAME);
 
-                    foreach (var item in raw.Split("|"))
-                    {
-                        if (item.Length != 0)
-                        {
-                            Host host = (Host)Data.ConvertJsonToObejct(item, "Host");
-                            hostViewModel.Hosts.Add(host);
-                        }
-                    }
-                }
+                Decrypt = new Decrypt();
+                string raw = Decrypt.DecryptString(rawFile[0], "SkPRingsted");
+
+                hostViewModel = (HostViewModel)Data.ConvertJsonToObejct(raw, "HostViewModel");
+
             }
             catch (Exception ex)
             {

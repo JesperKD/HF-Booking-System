@@ -29,11 +29,7 @@ namespace UdlånsWeb.Models
         public bool Rented { get; set; }
         public int Id { get; set; }
         private static int id;
-        public Host()
-        {
-            Id = id;
-            id++;
-        }
+       
         public int CompareTo(Host other)
         {
             if (other == null)

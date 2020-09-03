@@ -13,7 +13,7 @@ namespace UdlånsWeb.DataHandling
         private static ConvertHostData convertHostData { get; set; } = new ConvertHostData();
         private static ConvertUserData convertUserData { get; set; } = new ConvertUserData();
         private static ConvertLoginData convertlogindata { get; set; } = new ConvertLoginData();
-        private static ConvertBookingData convertBookingData { get; set; } = new ConvertBookingData();
+        
 
         public static CourseViewModel CourseData { get; set; }
         public static HostViewModel HostData { get; set; }
@@ -22,18 +22,10 @@ namespace UdlånsWeb.DataHandling
 
         #region Host
         public static HostViewModel GetHosts()
-        {
-            if (convertHostData.GetHosts().Hosts.Count != 0)
-            {
-                HostData = convertHostData.GetHosts();
-            }
-            else
-            {
-                HostData = new HostViewModel();
-            }
+        {          
+            HostData = convertHostData.GetHosts();      
             return HostData;
         }
-
 
         /// <summary>
         /// Make sure to add the host to Data.HostViewModel.Hosts
@@ -52,6 +44,15 @@ namespace UdlånsWeb.DataHandling
             HostData = convertHostData.GetHosts();
             //Finds the user getting deleted
             Host hostGettingDeleted = HostData.Hosts.Where(x => x.Id == host.Id).FirstOrDefault();
+
+            foreach (var booking in HostData.Bookings)
+            {
+                if(booking.Id == host.Id)
+                {
+
+                }
+            }
+
             //Deletes the old host data from the file
             HostData.Hosts.Remove(hostGettingDeleted);
             //Overrides the file with all the hosts
@@ -71,40 +72,6 @@ namespace UdlånsWeb.DataHandling
             convertHostData.ReWriteHostFile(HostData);
         }
         #endregion
-
-
-        #region Booking
-        public static List<BookingViewModel> GetBookings()
-        {
-            if (convertBookingData.GetBookings().Count != 0)
-            {
-                BookingData = convertBookingData.GetBookings();
-            }
-            else
-            {
-                BookingData = new List<BookingViewModel>();
-            }
-            return BookingData;
-        }
-        public static void SaveBookings()
-        {
-            convertBookingData.RewriteBookingFile(BookingData);
-        }
-        public static void DeleteBooking(BookingViewModel bookingViewModel)
-        {
-            BookingViewModel modelToDelete = GetBookings().Where(x => x.Id == bookingViewModel.Id).FirstOrDefault();
-            BookingData.Remove(modelToDelete);
-            SaveBookings();
-        }
-        public static void EditBooking(BookingViewModel bookingViewModel)
-        {
-            BookingViewModel modelToDelete = GetBookings().Where(x => x.Id == bookingViewModel.Id).FirstOrDefault();
-            BookingData.Remove(modelToDelete);
-            BookingData.Add(bookingViewModel);
-            SaveBookings();
-        }
-        #endregion
-
 
         #region User
         /// <summary>
@@ -214,13 +181,9 @@ namespace UdlånsWeb.DataHandling
         {
             switch (type)
             {
-                case "Host":
-                    Host host = JsonConvert.DeserializeObject<Host>(jsonString);
-                    return host;
-
-                case "BookingViewModel":
-                    BookingViewModel bookingViewModel = JsonConvert.DeserializeObject<BookingViewModel>(jsonString);
-                    return bookingViewModel;
+                case "HostViewModel":
+                    HostViewModel hostViewModel = JsonConvert.DeserializeObject<HostViewModel>(jsonString);
+                    return hostViewModel;
 
                 case "User":
                     User user = JsonConvert.DeserializeObject<User>(jsonString);

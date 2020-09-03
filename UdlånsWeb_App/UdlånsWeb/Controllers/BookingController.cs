@@ -1,18 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components.Routing;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Mvc.ViewFeatures.Buffers;
-using Microsoft.AspNetCore.Razor.Language.Extensions;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Mvc;
 using UdlånsWeb.DataHandling;
 using UdlånsWeb.Models;
 
@@ -29,8 +17,6 @@ namespace UdlånsWeb.Controllers
             if (CurrentUser.User == null)
                 return Redirect("Home/ErrorPage");
             
-            
-
             return View();
         }
         [HttpGet]
@@ -82,35 +68,34 @@ namespace UdlånsWeb.Controllers
             foreach (var item in hostViewModel.Hosts)
             {
                 //Makes sure that there is enough hosts for the class
-                if (item.NumberOfPeoplePerHost >= availableSpotsForStudents)
+                if (item.NumberOfPeoplePerHost >= availableSpotsForStudents && item.Rented == false)
                 {
                     if(userBooking.CourseModel.Defined == false)
                     {
+                        item.Rented = true;
                         userBooking.TurnInDate = userBooking.RentDate.AddDays(userBooking.CourseModel.Duration);
+                        booking.HostsRentedForCourse.Add(item);
                     }
-
                     availableSpotsForStudents += item.NumberOfPeoplePerHost - availableSpotsForStudents;
                     userBooking.CurrentUser = CurrentUser.User;
                 }
             }
-
-            Data.BookingData.Add(userBooking);
+            Data.HostData.Bookings.Add(userBooking);
             return View(userBooking);
         }
 
         public IActionResult BookingSucces()
         {
-            
-            Data.SaveBookings();
+            Data.SaveHosts();
             return View(CurrentUser.User);    
         }
 
         public IActionResult Bookings()
         {
-            if(Data.GetBookings().Count != 0 || Data.GetBookings() != null)
+            if(Data.GetHosts().Bookings.Count != 0 || Data.GetHosts().Bookings != null)
             {
-                Data.GetBookings();
-                return View(Data.BookingData);
+                Data.GetHosts();
+                return View(Data.HostData.Bookings);
             }
             else
             {

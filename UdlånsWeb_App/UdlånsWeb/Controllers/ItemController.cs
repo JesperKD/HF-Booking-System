@@ -14,37 +14,11 @@ namespace UdlånsWeb.Controllers
         {
             if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("ErrorPage");
-            
-            HostViewModel itemModel = Data.GetHosts();
-            try
-            {
-                if (itemModel.Bookings != null || Data.BookingData.Count != 0) 
-                    itemModel.Bookings = Data.GetBookings();
 
-                if (itemModel == null)
-                {
-                    itemModel = new HostViewModel();
-                }
-                foreach (var item in itemModel.Hosts)
-                {
-                    //if host is rented 
-                    if (item.Rented == true)
-                    {
-                        foreach (var booking in itemModel.Bookings)
-                        {
-                            if(booking.Id == item.Id && booking.TurnInDate >= DateTime.Now)
-                            {
-                                item.Rented = false;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return View(new HostViewModel());
-            }
-            return View(itemModel);
+            Data.GetHosts();
+            Data.HostData.Bookings = Data.GetBookings();
+
+            return View(Data.HostData);
         }
 
         [HttpGet]

@@ -18,10 +18,6 @@ namespace UdlånsWeb.Models
         public List<Host> HostsRentedForCourse { get; set; } = new List<Host>();
         public Course CourseModel { get; set; } = new Course();
         [DisplayName("Alle fag")]
-        public List<Course> CoursesForSelection { get; set; } = new List<Course>();
-        public BookingViewModel()
-        {
-
-        }
+        public List<Course> CoursesForSelection { get; set; } = new List<Course>();       
     }
 }

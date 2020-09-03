@@ -54,7 +54,6 @@ namespace UdlånsWeb.DataHandling
                 {
                     Decrypt = new Decrypt();
                     string raw = Decrypt.DecryptString(line, "SkPRingsted");
-
                     foreach (var item in raw.Split("|"))
                     {
                         if (item.Length != 0)
