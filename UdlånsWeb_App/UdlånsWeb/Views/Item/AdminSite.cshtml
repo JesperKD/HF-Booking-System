@@ -93,7 +93,7 @@
                                     @using (Html.BeginForm("DeleteItem", "Item", FormMethod.Get))
                                     {
                                         @Html.ValidationSummary(true)
-                                        <input asp-for="Id" type="number" value="@i" hidden />
+                                        <input asp-for="Id" type="number" value="@Model.Hosts[i].Id" hidden />
                                         <button type="submit">Fjern</button>
                                         <p hidden>@Html.EditorFor(m => m.Hosts)</p>
                                     }
@@ -189,7 +189,7 @@
                                     @using (Html.BeginForm("DeleteItem", "Item", FormMethod.Get))
                                     {
                                         @Html.ValidationSummary(true)
-                                        <input asp-for="Id" type="number" value="@i" hidden />
+                                        <input asp-for="Id" type="number" value="@Model.Hosts[i].Id" hidden />
                                         <p hidden>@Html.EditorFor(m => m.Hosts)</p>
                                         <button type="submit">Fjern</button>
                                     }

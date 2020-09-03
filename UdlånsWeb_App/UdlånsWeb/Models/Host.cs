@@ -25,11 +25,16 @@ namespace UdlånsWeb.Models
         [DisplayName("Lånes fra")]
         public DateTime RentedDate { get; set; }
         [DisplayName("Lånes til")]
-        public DateTime TurnInDate { get; set; }
+        public DateTime TurnInDate { get; set; }   
         public bool Rented { get; set; }
         public int Id { get; set; }
-        private static int id;
-       
+        
+       /// <summary>
+       /// This method is used for sorting lists of hosts 
+       /// so it only matches the id of the host
+       /// </summary>
+       /// <param name="other"></param>
+       /// <returns></returns>
         public int CompareTo(Host other)
         {
             if (other == null)

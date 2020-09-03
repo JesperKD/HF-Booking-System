@@ -28,7 +28,7 @@ namespace UdlånsWeb.DataHandling
 
         public void ReWriteUserFile(UserViewModel userViewModel)
         {
-             StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new StringBuilder();
             //Main props to save
             foreach (var item in userViewModel.Users)
             {
@@ -73,7 +73,7 @@ namespace UdlånsWeb.DataHandling
             UserViewModel userViewModel = GetUsers();
 
             User userFound = userViewModel.Users.Where(x => x.Initials == user.Initials && x.Password == user.Password).FirstOrDefault();
-            if(userFound == null)
+            if (userFound == null)
             {
                 return false;
             }
@@ -81,9 +81,6 @@ namespace UdlånsWeb.DataHandling
             {
                 return true;
             }
-
         }
     }
-
-
 }

@@ -19,7 +19,27 @@ namespace UdlånsWeb.DataHandling
         public static HostViewModel HostData { get; set; }
         public static UserViewModel UserData { get; set; }
         public static List<BookingViewModel> BookingData { get; set; }
+        #region Booking
+        public static void DeleteBooking (BookingViewModel bookingViewModel)
+        {
+            Data.HostData.Bookings = Data.GetHosts().Bookings;
 
+            BookingViewModel bookingToDelete = Data.HostData.Bookings.Where(x => x.Id == bookingViewModel.Id).FirstOrDefault();
+            Data.HostData.Bookings.Remove(bookingToDelete);
+            Data.SaveHosts();
+        }
+
+        public static void EditBooking(BookingViewModel bookingViewModel)
+        {
+            Data.HostData.Bookings = Data.GetHosts().Bookings;
+
+            BookingViewModel bookingToDelete = Data.HostData.Bookings.Where(x => x.Id == bookingViewModel.Id).FirstOrDefault();
+            Data.HostData.Bookings.Remove(bookingToDelete);
+            Data.HostData.Bookings.Add(bookingViewModel);
+            Data.SaveHosts();
+        }
+
+        #endregion
         #region Host
         public static HostViewModel GetHosts()
         {          
@@ -47,15 +67,15 @@ namespace UdlånsWeb.DataHandling
 
             foreach (var booking in HostData.Bookings)
             {
-                if(booking.Id == host.Id)
+                if(booking.Id == hostGettingDeleted.Id)
                 {
-
+                    Data.DeleteBooking(booking);
                 }
             }
 
             //Deletes the old host data from the file
             HostData.Hosts.Remove(hostGettingDeleted);
-            //Overrides the file with all the hosts
+            //Overrides the file with all the hosts                    
             convertHostData.ReWriteHostFile(HostData);
         }
         public static void EditHost(Host host)
@@ -157,6 +177,8 @@ namespace UdlånsWeb.DataHandling
             SaveUsers();
         }
         #endregion
+
+
 
         /// <summary>
         /// Makes object fx. Host, User or Course to a Json formated string 
