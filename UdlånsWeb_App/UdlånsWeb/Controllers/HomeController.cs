@@ -435,7 +435,6 @@ namespace UdlånsWeb.Controllers
                 return Redirect("ErrorPage");
 
             ItemViewModel items = Data.ConvertItemData.GetItems();
-            items.Items[id].Id = id + 1;
 
             Item item = items.Items[id];
 
@@ -519,7 +518,7 @@ namespace UdlånsWeb.Controllers
             CourseViewModel course = Data.ConvertCourseData.GetCourses();
 
 
-            Data.ConvertCourseData.EditCourse(changed,id);
+            Data.ConvertCourseData.EditCourse(changed, id);
             return Redirect("CourseSite");
         }
         #endregion

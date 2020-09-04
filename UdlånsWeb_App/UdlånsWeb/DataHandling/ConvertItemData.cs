@@ -108,7 +108,7 @@ namespace UdlånsWeb.DataHandling
             }
 
             // finds the old item and removes it
-            Item OldItem = itemModelOld.Items.Where(x => x.Id == item.Id).FirstOrDefault();
+            Item OldItem = itemModelOld.Items[item.Id];
             itemModelOld.Items.Remove(OldItem);
 
             // creates new list from old, and inserts edited item at index Id
