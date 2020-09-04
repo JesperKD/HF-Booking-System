@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using UdlånsWeb.DataHandling;
 using UdlånsWeb.DataHandling.DataCheckUp;
 using UdlånsWeb.Models;
@@ -40,12 +41,14 @@ namespace UdlånsWeb.Controllers
         }
         
         [HttpGet]
-        public IActionResult EditCourse(CourseViewModel course)
+        public IActionResult EditCourse(int id)
         {
             if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("Home/ErrorPage");
-            
-            return View(course.Courses[course.Id]);
+
+            Data.GetCourses();
+            Course courseForEdit = Data.CourseData.Courses.Where(x => x.Id == id).FirstOrDefault();
+            return View(courseForEdit);
         }
 
         [HttpPost]
@@ -56,12 +59,14 @@ namespace UdlånsWeb.Controllers
         }
 
         [HttpGet]
-        public IActionResult DeleteCourse(CourseViewModel courseView)
+        public IActionResult DeleteCourse(int id)
         {
             if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("Home/ErrorPage");
+            Data.GetCourses();
+            Course courseForDelete = Data.CourseData.Courses.Where(x => x.Id == id).FirstOrDefault();
 
-            return View(courseView.Courses[courseView.Id]);
+            return View(courseForDelete);
         }
 
         [HttpPost]

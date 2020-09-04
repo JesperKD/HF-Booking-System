@@ -54,12 +54,12 @@ namespace UdlånsWeb.Controllers
 
 
         [HttpGet]
-        public IActionResult EditUser(UserViewModel userViewModel, int id)
+        public IActionResult EditUser(int id)
         {
             if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("Home/ErrorPage");
-
-            User userToEdit = userViewModel.Users.Where(x => x.Id == id).FirstOrDefault();
+            Data.GetUsers();
+            User userToEdit = Data.UserData.Users.Where(x => x.Id == id).FirstOrDefault();
 
             return View(userToEdit);
         }
@@ -70,14 +70,13 @@ namespace UdlånsWeb.Controllers
             return Redirect("UserPage");
         }
 
-
         [HttpGet]
-        public IActionResult DeleteUser(UserViewModel userViewModel, int id)
+        public IActionResult DeleteUser(int id)
         {
             if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("Home/ErrorPage");
-
-            User userToDelete = userViewModel.Users.Where(x => x.Id == id).FirstOrDefault();
+            Data.GetUsers();
+            User userToDelete = Data.UserData.Users.Where(x => x.Id == id).FirstOrDefault();
 
             //Sends the selected user to the delete view
             return View(userToDelete);

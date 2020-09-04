@@ -134,6 +134,7 @@ namespace UdlånsWeb.DataHandling
         {
             GetUsers();
             User userToDelete = UserData.Users.Where(x => x.Initials == user.Initials && x.Password == user.Password).FirstOrDefault();
+            UserData.Users.Remove(userToDelete);
             UserData.Users.Add(user);
             SaveUsers();
         }

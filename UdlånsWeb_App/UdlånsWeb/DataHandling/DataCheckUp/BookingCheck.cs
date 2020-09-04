@@ -11,20 +11,22 @@ namespace UdlånsWeb.DataHandling.DataCheckUp
         public static void CheckBooking()
         {
             HostViewModel hostViewModel = Data.GetHosts();
-            
+
             Host host = hostViewModel.Hosts.Where(x => x.Rented == true).FirstOrDefault();
-            foreach (var item in hostViewModel.Bookings)
+            if (host != null)
             {
-                if (item.Id == host.Id)
+                foreach (var booking in hostViewModel.Bookings)
                 {
-                    if (item.TurnInDate == DateTime.Now)
+                    if (booking.Id == host.Id)
                     {
-                        host.Rented = false;
-                        Data.DeleteBooking(item);
+                        if (booking.TurnInDate == DateTime.Now)
+                        {
+                            host.Rented = false;
+                            Data.DeleteBooking(booking);
+                        }
                     }
                 }
             }
-
         }
     }
 }

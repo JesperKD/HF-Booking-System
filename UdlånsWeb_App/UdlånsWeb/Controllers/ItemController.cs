@@ -16,7 +16,8 @@ namespace UdlånsWeb.Controllers
         {
             if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("ErrorPage");
-
+       
+            BookingCheck.CheckBooking();
             Data.GetHosts();
             Data.HostData.Bookings = Data.GetHosts().Bookings;
             Data.HostData.Hosts.Sort();
@@ -44,12 +45,12 @@ namespace UdlånsWeb.Controllers
 
         // item is null
         [HttpGet]
-        public IActionResult EditItem(HostViewModel item, int id)
+        public IActionResult EditItem(int id)
         {
             if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("Home/ErrorPage");
 
-            Host hostToEdit = item.Hosts.Where(x => x.Id == id).FirstOrDefault();
+            Host hostToEdit = Data.HostData.Hosts.Where(x => x.Id == id).FirstOrDefault();
             return View(hostToEdit);
         }
 
@@ -70,13 +71,13 @@ namespace UdlånsWeb.Controllers
         }
 
         [HttpGet]
-        public IActionResult DeleteItem(HostViewModel item, int id)
+        public IActionResult DeleteItem(int id)
         {
             if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("Home/ErrorPage");
 
-            Host host = item.Hosts.Where(x => x.Id == item.Id).FirstOrDefault();
-            return View(host);
+            Host hostToDelete = Data.HostData.Hosts.Where(x => x.Id == id).FirstOrDefault();
+            return View(hostToDelete);
         }
 
         [HttpPost]

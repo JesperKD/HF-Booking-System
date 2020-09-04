@@ -43,7 +43,6 @@
                                 {
                                     @Html.ValidationSummary(true)
                                     <input asp-for="Id" type="number" value="@Model.Courses[i].Id" hidden />
-                                    <p hidden>@Html.EditorFor(m => m.Courses)</p>
                                     <button type="submit">Rediger</button>
                                 }
 
@@ -53,7 +52,6 @@
                                 {
                                     @Html.ValidationSummary(true)
                                     <input asp-for="Id" type="number" value="@Model.Courses[i].Id" hidden />
-                                    <p hidden>@Html.EditorFor(m => m.Courses)</p>
                                     <button type="submit">Fjern</button>
                                 }
 

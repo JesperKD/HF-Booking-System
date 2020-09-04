@@ -31,8 +31,6 @@ namespace UdlånsWeb.Controllers
                 {
                     CourseModel = new Course()
                     {
-                        Name = course.Name,
-                        CourseNumber = course.CourseNumber,
                         Defined = course.Defined
                     },
 
@@ -41,7 +39,6 @@ namespace UdlånsWeb.Controllers
             }
             
             bookingViewModel.CoursesForSelection = Data.GetCourses().Courses;
-            bookingViewModel.CurrentUser = CurrentUser.User;
             return View(bookingViewModel);
         }
 
@@ -58,10 +55,11 @@ namespace UdlånsWeb.Controllers
             booking.CourseModel = course;
             //Adds the booking to userBooking for save later
             userBooking = booking;
+            userBooking.CurrentUser = CurrentUser.User;
             return Redirect("ConfirmBooking");
         }
 
-        public IActionResult ConfirmBooking(BookingViewModel booking)
+        public IActionResult ConfirmBooking()
         {
             int availableSpotsForStudents = userBooking.CourseModel.NumberOfStudents;
             var hostViewModel = Data.GetHosts();
@@ -81,7 +79,7 @@ namespace UdlånsWeb.Controllers
                     userBooking.CurrentUser = CurrentUser.User;
                 }
             }
-            
+            userBooking.CurrentUser = CurrentUser.User;
             Data.HostData.Bookings.Add(userBooking);
             return View(userBooking);
         }

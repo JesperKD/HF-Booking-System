@@ -10,11 +10,11 @@
         Udlånt til:
     </dt>
     <dd>
-        @if (Model.CurrentUser.FirstName != null) { Html.DisplayFor(x => x.CurrentUser.FirstName); }
+        @if (Model.CurrentUser.Initials != null) { Html.DisplayFor(x => x.CurrentUser.Initials); }
     </dd>
-    <dt>
-        ____________________________________________________________________________________
-    </dt>
+    <dd>
+      <hr />
+    </dd>
 
     @foreach (var host in Model.HostsRentedForCourse)
     {
@@ -29,16 +29,16 @@
             Indleverings dato:
         </dt>
         <dd>
-            @host.TurnInDate
+            @Model.TurnInDate
         </dd>
-        <dt>
-            ____________________________________________________________________________________
-        </dt>
+        <dd>
+           <hr />
+        </dd>
     }
 
 </dl>
 <div>
-    @using (Html.BeginForm("Booking", "Home", FormMethod.Get))
+    @using (Html.BeginForm("BookingDefine", "Booking", FormMethod.Get))
     {
         <button type="submit">Godkend</button>
     }
