@@ -176,7 +176,7 @@ namespace UdlånsWeb.DataHandling
             Course courseToDelete = CourseData.Courses.Where(x => x.Id == course.Id).FirstOrDefault();
             CourseData.Courses.Remove(courseToDelete);
             CourseData.Courses.Add(course);
-            SaveUsers();
+            SaveCourses();
         }
         #endregion
 
