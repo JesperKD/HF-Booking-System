@@ -57,6 +57,7 @@ namespace UdlånsWeb.Controllers
                 return Redirect("Home/Booking");
         }
         #endregion
+
         #region Booking
         [HttpGet]
         public IActionResult InfoPage()
@@ -309,10 +310,12 @@ namespace UdlånsWeb.Controllers
 
         //Need to find a way around this
         [HttpPost]
-        public IActionResult UserPage(UserViewModel user, int id)
+        public IActionResult UserPage(int id)
         {
-            SelectedUser = user.Users[id];
+            UserViewModel users = Data.ConvertUserData.GetUsers();
+            SelectedUser = users.Users[id];
             SelectedUser.Id = id;
+
             return Redirect("EditUser");
         }
 
@@ -429,8 +432,11 @@ namespace UdlånsWeb.Controllers
                 return Redirect("ErrorPage");
 
             ItemViewModel items = Data.ConvertItemData.GetItems();
+            items.Items[id].Id = id + 1;
 
-            return View(items.Items[id]);
+            Item item = items.Items[id];
+
+            return View(item);
         }
 
         [HttpPost]
@@ -441,10 +447,17 @@ namespace UdlånsWeb.Controllers
             List<BookingViewModel> bookings = Data.ConvertBookingData.GetBookings();
             foreach (var booking in bookings)
             {
-                if (item.Id == booking.Id)
+                foreach (Item h in booking.HostRentedForCourse)
                 {
-                    Data.ConvertBookingData.DeleteBooking(booking);
+                    if (h.Id-1 == item.Id)
+                    {
+                        foreach (Item host in booking.HostRentedForCourse)
+                        {
+                            host.Rented = false;
+                        }
+                    }
                 }
+                Data.ConvertBookingData.DeleteBooking(booking);
             }
             return Redirect("AdminSite");
         }

@@ -43,33 +43,6 @@
                                 <dd>
                                     @Model.Items[i].VmWareVersion<br />
                                 </dd>
-                                @*@if (Model.Bookings.Count != 0 && Model.Items[i].Rented == true)
-                                {
-                                    <dt>
-                                        Lånt til:
-                                    </dt>
-                                    <dd>
-                                        @for (int j = 0; j < Model.Bookings.Count; j++)
-                                        {
-                                            if(Model.Bookings[j].Id == Model.Items[i].Id)
-                                            {
-                                                @Model.Bookings[j].RentedClient
-                                            }
-                                        }
-                                    </dd>
-                                    <dt>
-                                        Lejning udløber:
-                                    </dt>
-                                    <dd>
-                                        @for (int j = 0; j < Model.Bookings.Count; j++)
-                                        {
-                                            if(Model.Bookings[j].Id == Model.Items[i].Id)
-                                            {
-                                                @Model.Items[i].TurnInDate
-                                            }
-                                        }
-                                    </dd>
-                                }*@
                             </dl>
 
                             <ul style="display: inline-block; list-style-type:none;">
@@ -78,7 +51,6 @@
                                     {
                                         @Html.ValidationSummary(true)
                                         <input asp-for="Id" type="number" value="@i" hidden />
-                                        @*<p hidden>@Html.EditorFor(m => m.Items)</p>*@
                                         <button type="submit">Rediger</button>
                                     }
 
@@ -88,7 +60,6 @@
                                     {
                                         <input asp-for="Id" type="number" value="@i" hidden />
                                         <button type="submit">Fjern</button>
-                                        @*<p hidden>@Html.EditorFor(m => m.Items)</p>*@
                                     }
 
                                 </li>
@@ -132,33 +103,6 @@
                                 <dd>
                                     @Model.Items[i].VmWareVersion<br />
                                 </dd>
-                                @*@if (Model.Bookings.Count != 0 && Model.Items[i].Rented == true)
-                                {
-                                    <dt>
-                                        Lånt til:
-                                    </dt>
-                                    <dd>
-                                        @for (int j = 0; j < Model.Bookings.Count; j++)
-                                        {
-                                            if (Model.Bookings[j].Id == Model.Items[i].Id)
-                                            {
-                                                @Model.Bookings[j].RentedClient
-                                            }
-                                        }
-                                    </dd>
-                                    <dt>
-                                        Lejning udløber:
-                                    </dt>
-                                    <dd>
-                                        @for (int j = 0; j < Model.Bookings.Count; j++)
-                                        {
-                                            if (Model.Bookings[j].Id == Model.Items[i].Id)
-                                            {
-                                                @Model.Items[i].TurnInDate
-                                            }
-                                        }
-                                    </dd>
-                                }*@
                             </dl>
 
                             <ul style="display: inline-block; list-style-type:none;">
@@ -175,8 +119,8 @@
                                 <li style="margin-left: 10px; display: inline-block; list-style-type: none;">
                                     @using (Html.BeginForm("DeleteItem", "Home", FormMethod.Get))
                                     {
+                                        <input asp-for="Id" type="number" value="@i" hidden />
                                         <button type="submit">Fjern</button>
-                                        <p hidden>@Html.EditorFor(m => m.Items)</p>
                                     }
 
                                 </li>
