@@ -78,7 +78,7 @@ namespace UdlånsWeb.DataHandling
                 oCourse.NumberOfGroupsPerHost = int.Parse(courseData[1]);
                 oCourse.Duration = int.Parse(courseData[2]);
                 oCourse.Defined = Convert.ToBoolean(courseData[3]);
-                
+
                 courseModelOld.Courses.Add(oCourse);
             }
 
@@ -96,10 +96,10 @@ namespace UdlånsWeb.DataHandling
             List<string> coursesTosave = new List<string>();
 
             // makes each item into a new string
-            foreach (Course xcourse in CourseModelNew.Courses)
+            foreach (Course subject in CourseModelNew.Courses)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(course.Name + "," + course.NumberOfGroupsPerHost + "," + course.Duration + "," + course.Defined);
+                stringBuilder.Append(subject.Name + "," + subject.NumberOfGroupsPerHost + "," + subject.Duration + "," + subject.Defined);
 
                 Encrypt = new Encrypt();
                 coursesTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
@@ -123,7 +123,7 @@ namespace UdlånsWeb.DataHandling
                     string raw = Decrypt.DecryptString(Line, "SkPRingsted", 5);
                     string[] courseData = raw.Split(',');
                     Models.Course oCourse = new Course();
-                    oCourse.Name = courseData[0];           
+                    oCourse.Name = courseData[0];
                     oCourse.NumberOfGroupsPerHost = int.Parse(courseData[1]);
                     oCourse.Duration = int.Parse(courseData[2]);
                     oCourse.Defined = Convert.ToBoolean(courseData[3]);
@@ -143,10 +143,10 @@ namespace UdlånsWeb.DataHandling
             // creates correct user string
             List<string> coursesTosave = new List<string>();
 
-            foreach (Course coursex in courseModel.Courses)
+            foreach (Course subject in courseModel.Courses)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(course.Name + "," + course.NumberOfGroupsPerHost + "," + course.Duration + "," + course.Defined);
+                stringBuilder.Append(subject.Name + "," + subject.NumberOfGroupsPerHost + "," + subject.Duration + "," + subject.Defined);
 
                 Encrypt = new Encrypt();
                 coursesTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));

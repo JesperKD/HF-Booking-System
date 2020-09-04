@@ -355,13 +355,16 @@ namespace UdlånsWeb.Controllers
 
 
         [HttpGet]
-        public IActionResult DeleteUser(UserViewModel user, int id)
+        public IActionResult DeleteUser(int id)
         {
             if (CurrentUser == null || CurrentUser.Admin == false)
                 return Redirect("ErrorPage");
 
             //Sends the right user to the delete view
-            SelectedUser = user.Users[id];
+            UserViewModel users = Data.ConvertUserData.GetUsers();
+            SelectedUser = users.Users[id];
+
+
             return View(SelectedUser);
         }
         [HttpPost]
@@ -449,7 +452,7 @@ namespace UdlånsWeb.Controllers
             {
                 foreach (Item h in booking.HostRentedForCourse)
                 {
-                    if (h.Id-1 == item.Id)
+                    if (h.Id - 1 == item.Id)
                     {
                         foreach (Item host in booking.HostRentedForCourse)
                         {
@@ -500,10 +503,12 @@ namespace UdlånsWeb.Controllers
 
         #region Edit Course
         [HttpGet]
-        public IActionResult EditCourse(CourseViewModel course, int id)
+        public IActionResult EditCourse(int id)
         {
             if (CurrentUser == null || CurrentUser.Admin == false)
                 return Redirect("ErrorPage");
+
+            CourseViewModel course = Data.ConvertCourseData.GetCourses();
 
             return View(course.Courses[id]);
         }
@@ -518,10 +523,12 @@ namespace UdlånsWeb.Controllers
 
         #region Delete Course
         [HttpGet]
-        public IActionResult DeleteCourse(CourseViewModel course, int id)
+        public IActionResult DeleteCourse(int id)
         {
             if (CurrentUser == null || CurrentUser.Admin == false)
                 return Redirect("ErrorPage");
+
+            CourseViewModel course = Data.ConvertCourseData.GetCourses();
 
             return View(course.Courses[id]);
         }
