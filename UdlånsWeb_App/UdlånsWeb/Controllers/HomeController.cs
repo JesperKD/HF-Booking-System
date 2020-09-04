@@ -256,27 +256,19 @@ namespace UdlånsWeb.Controllers
                 {
                     itemModel = new ItemViewModel();
                 }
-                foreach (var item in itemModel.Items)
-                {
-                    //if host is rented 
-                    if (item.Rented == true)
-                    {
-                        if (item.TurnInDate <= DateTime.Now)
-                        {
-                            item.Rented = false;
-                        }
+                //foreach (var item in itemModel.Items)
+                //{
+                //    //if host is rented 
+                //    if (item.Rented == true)
+                //    {
+                //        // håndter manuel bookning
+                //        if (item.TurnInDate <= DateTime.Now)
+                //        {
+                //            item.Rented = false;
+                //        }                       
+                //    }
 
-                        ////check hosts for a turn in date                         
-                        //foreach (var host in itemModel.Items)
-                        //{
-                        //    if (host.TurnInDate == DateTime.Now.Date)
-                        //    {
-                        //        item.Rented = false;
-                        //    }
-                        //}
-                    }
-
-                }
+                //}
             }
             catch (Exception)
             {
