@@ -394,12 +394,14 @@ namespace UdlånsWeb.Controllers
 
         #region Edit Item
         [HttpGet]
-        public IActionResult EditItem(ItemViewModel item, int id)
+        public IActionResult EditItem(int id)
         {
             if (CurrentUser == null || CurrentUser.Admin == false)
                 return Redirect("ErrorPage");
 
-            return View(item.Items[id]);
+            ItemViewModel items = Data.ConvertItemData.GetItems();
+
+            return View(items.Items[id]);
         }
 
         [HttpPost]
@@ -421,13 +423,14 @@ namespace UdlånsWeb.Controllers
 
         #region Delete Item 
         [HttpGet]
-        public IActionResult DeleteItem(ItemViewModel item, int id)
+        public IActionResult DeleteItem(int id)
         {
             if (CurrentUser == null || CurrentUser.Admin == false)
                 return Redirect("ErrorPage");
 
-            SelectedItem = item.Items[id];
-            return View(SelectedItem);
+            ItemViewModel items = Data.ConvertItemData.GetItems();
+
+            return View(items.Items[id]);
         }
 
         [HttpPost]

@@ -78,7 +78,7 @@
                                     {
                                         @Html.ValidationSummary(true)
                                         <input asp-for="Id" type="number" value="@i" hidden />
-                                        <p hidden>@Html.EditorFor(m => m.Items)</p>
+                                        @*<p hidden>@Html.EditorFor(m => m.Items)</p>*@
                                         <button type="submit">Rediger</button>
                                     }
 
@@ -86,8 +86,9 @@
                                 <li style="margin-left: 10px; display: inline-block; list-style-type: none;">
                                     @using (Html.BeginForm("DeleteItem", "Home", FormMethod.Get))
                                     {
+                                        <input asp-for="Id" type="number" value="@i" hidden />
                                         <button type="submit">Fjern</button>
-                                        <p hidden>@Html.EditorFor(m => m.Items)</p>
+                                        @*<p hidden>@Html.EditorFor(m => m.Items)</p>*@
                                     }
 
                                 </li>

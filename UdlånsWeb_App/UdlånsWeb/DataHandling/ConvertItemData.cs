@@ -164,7 +164,7 @@ namespace UdlånsWeb.DataHandling
             }
 
             // finds the old item and removes it
-            Item removeUser = itemModel.Items.Where(x => x.HostName == item.HostName && x.HostIp == item.HostIp && x.Id == item.Id).First();
+            Item removeUser = itemModel.Items.Where(x => x.HostName == item.HostName && x.HostIp == item.HostIp && x.Id == item.Id).FirstOrDefault();
             itemModel.Items.Remove(removeUser);
 
             // creates correct user string
