@@ -30,7 +30,7 @@ namespace UdlånsWeb.DataHandling
                         message.To.Add(user.Email);
                     }
                 }
-                message.Subject = "Lån af host";
+                message.Subject = "Host Udlåns System";
                 //message.IsBodyHtml = true; //to make message body as html  
                 message.Body = MailContent;
                 smtp.Port = 25;
