@@ -68,15 +68,14 @@ namespace UdlånsWeb.Controllers
                 //Makes sure that there is enough hosts for the class
                 if (item.NumberOfPeoplePerHost >= availableSpotsForStudents && item.Rented == false)
                 {
-                    if(userBooking.CourseModel.Defined == false)
+                    if(userBooking.CourseModel.Defined == false && userBooking.CourseModel.NumberOfStudents >= availableSpotsForStudents)
                     {
                         item.Rented = true;
                         userBooking.Id = item.Id;
                         userBooking.TurnInDate = userBooking.RentDate.AddDays(userBooking.CourseModel.Duration);
                         userBooking.HostsRentedForCourse.Add(item);
+                        availableSpotsForStudents += item.NumberOfPeoplePerHost - availableSpotsForStudents;
                     }
-                    availableSpotsForStudents += item.NumberOfPeoplePerHost - availableSpotsForStudents;
-                    userBooking.CurrentUser = CurrentUser.User;
                 }
             }
             userBooking.CurrentUser = CurrentUser.User;

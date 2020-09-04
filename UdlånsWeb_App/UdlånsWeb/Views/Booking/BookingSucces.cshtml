@@ -2,7 +2,7 @@
 
 <h5>Booking gennemført</h5>
 <h6>
-    Mail vil blive sendt til: @if (Model.CurrentUser.Email != null) { Html.DisplayFor(x => Model.CurrentUser.Email); }
+    Mail vil blive sendt til: @if (Model.CurrentUser.Email != null) { @Html.DisplayFor(x => Model.CurrentUser.Email); }
 </h6>
 
 <dl>
@@ -10,7 +10,7 @@
         Udlånt til:
     </dt>
     <dd>
-        @if (Model.CurrentUser.Initials != null) { Html.DisplayFor(x => x.CurrentUser.Initials); }
+        @if (Model.CurrentUser.Initials != null) { @Html.DisplayFor(x => x.CurrentUser.Initials); }
     </dd>
     <dd>
       <hr />

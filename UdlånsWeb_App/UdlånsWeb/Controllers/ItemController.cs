@@ -22,7 +22,6 @@ namespace UdlånsWeb.Controllers
             Data.HostData.Bookings = Data.GetHosts().Bookings;
             Data.HostData.Hosts.Sort();
             return View(Data.HostData);
-
         }
 
         [HttpGet]
