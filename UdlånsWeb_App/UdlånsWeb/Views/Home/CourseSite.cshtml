@@ -30,7 +30,6 @@
                                 {
                                     @Html.ValidationSummary(true)
                                     <input asp-for="Id" type="number" value="@i" hidden />
-                                    <p hidden>@Html.EditorFor(m => m.Courses)</p>
                                     <button type="submit">Rediger</button>
                                 }
 
@@ -40,7 +39,6 @@
                                 {
                                     <input asp-for="Id" type="number" value="@i" hidden />
                                     <button type="submit">Fjern</button>
-                                    <p hidden>@Html.EditorFor(m => m.Courses)</p>
                                 }
 
                             </li>
