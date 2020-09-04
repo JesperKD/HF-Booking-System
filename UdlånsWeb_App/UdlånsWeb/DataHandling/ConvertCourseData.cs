@@ -83,7 +83,7 @@ namespace UdlånsWeb.DataHandling
             }
 
             // finds the old item and removes it
-            Course OldCourse = courseModelOld.Courses.Where(x => x.Name == course.Name).FirstOrDefault();
+            Course OldCourse = courseModelOld.Courses.Where(x => x.Id == course.Id).FirstOrDefault();
             courseModelOld.Courses.Remove(OldCourse);
 
             // creates new list from old, and inserts edited item at index Id
