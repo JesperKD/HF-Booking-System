@@ -13,6 +13,7 @@ namespace UdlånsWeb.DataHandling
         private static ConvertHostData convertHostData { get; set; } = new ConvertHostData();
         private static ConvertUserData convertUserData { get; set; } = new ConvertUserData();
         private static ConvertLoginData convertlogindata { get; set; } = new ConvertLoginData();
+        private static MailSending mailsending { get; set; } = new MailSending();
         
 
         public static CourseViewModel CourseData { get; set; }
