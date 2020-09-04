@@ -514,9 +514,12 @@ namespace UdlånsWeb.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditCourse(Course course)
+        public IActionResult EditCourse(Course changed, int id)
         {
-            Data.ConvertCourseData.EditCourse(course);
+            CourseViewModel course = Data.ConvertCourseData.GetCourses();
+
+
+            Data.ConvertCourseData.EditCourse(changed,id);
             return Redirect("CourseSite");
         }
         #endregion

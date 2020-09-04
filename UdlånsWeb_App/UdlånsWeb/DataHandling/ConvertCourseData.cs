@@ -60,7 +60,7 @@ namespace UdlånsWeb.DataHandling
             }
         }
 
-        public void EditCourse(Course course)
+        public void EditCourse(Course course, int id)
         {
             //Logic for Edit Item
             var courseModelOld = new CourseViewModel();
@@ -83,13 +83,13 @@ namespace UdlånsWeb.DataHandling
             }
 
             // finds the old item and removes it
-            Course OldCourse = courseModelOld.Courses.Where(x => x.Id == course.Id).FirstOrDefault();
+            Course OldCourse = courseModelOld.Courses[id];
             courseModelOld.Courses.Remove(OldCourse);
 
             // creates new list from old, and inserts edited item at index Id
             CourseViewModel CourseModelNew = new CourseViewModel();
             CourseModelNew = courseModelOld;
-            CourseModelNew.Courses.Insert(course.Id, course);
+            CourseModelNew.Courses.Insert(id, course);
 
 
             // creates correct item string
