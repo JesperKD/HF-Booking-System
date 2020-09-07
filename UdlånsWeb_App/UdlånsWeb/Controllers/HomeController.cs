@@ -74,6 +74,16 @@ namespace UdlånsWeb.Controllers
             //Make a booking save file
             List<Item> hosts = Data.ConvertItemData.GetItems().Items;
             List<Course> courses = Data.ConvertCourseData.GetCourses().Courses;
+            List<BookingViewModel> bookings = Data.ConvertBookingData.GetBookings();
+
+            if (bookings == null)
+            {
+                booking.Id = 0;
+            }
+            else
+            {
+                booking.Id = bookings.Count;
+            }
 
             int allocated = 0;
 
@@ -87,16 +97,14 @@ namespace UdlånsWeb.Controllers
                     {
                         if (booking.CourseModel.Name == course.Name)
                         {
-                            booking.Id = item.Id;
+                            // fjern den her
+                            //booking.Id = item.Id;
                             booking.CourseModel.NumberOfGroupsPerHost = course.NumberOfGroupsPerHost;
                         }
                     }
 
                     allocated += booking.CourseModel.NumberOfGroupsPerHost;
                     booking.HostRentedForCourse.Add(item);
-                    //booking.RentedClient = convertlogindata.AutoLogin().Initials;
-
-                    //break;
                 }
             }
             userBooking = booking;
@@ -161,6 +169,7 @@ namespace UdlånsWeb.Controllers
             return View(userBooking);
         }
 
+        // need a get and post
         public IActionResult BookingSucces()
         {
             //Make a booking save file
@@ -261,7 +270,7 @@ namespace UdlånsWeb.Controllers
                     //if host is rented 
                     if (item.Rented == true)
                     {
-                        if (item.TurnInDate <= DateTime.Now)
+                        if (item.TurnInDate < DateTime.Now)
                         {
                             item.Rented = false;
                             Data.ConvertItemData.EditItem(item);
@@ -407,18 +416,33 @@ namespace UdlånsWeb.Controllers
         {
             //Checks after a booking on the host and delete it aswell
             List<BookingViewModel> bookings = Data.ConvertBookingData.GetBookings();
+            var items = Data.ConvertItemData.GetItems();
             foreach (var booking in bookings)
             {
-                if (item.Id == booking.Id)
+                foreach (var host in booking.HostRentedForCourse)
                 {
-                    Data.ConvertBookingData.DeleteBooking(booking);
+                    if (host.HostName == item.HostName)
+                    {
+                        foreach (var hosts in booking.HostRentedForCourse)
+                        {
+                            Item edit = items.Items.Where(x => x.HostName == hosts.HostName && x.Id == hosts.Id).FirstOrDefault();
+                            edit.Rented = false;
+                            // doesnt get the entire host..
+                            Data.ConvertItemData.EditItem(edit);
+                        }
+                        Data.ConvertBookingData.DeleteBooking(booking);
+                        break;
+                    }
                 }
             }
-            if (item.TurnInDate == DateTime.Parse("01-01-0001 00:00:00"))
+            if (item.TurnInDate == DateTime.Parse("01-01-0001 00:00:00") && item.Rented == true)
             {
                 item.TurnInDate = DateTime.Now.AddYears(1);
             }
-            Data.ConvertItemData.EditItem(item);
+            else
+            {
+                Data.ConvertItemData.EditItem(item);
+            }
             return Redirect("AdminSite");
         }
         #endregion
@@ -445,17 +469,14 @@ namespace UdlånsWeb.Controllers
             List<BookingViewModel> bookings = Data.ConvertBookingData.GetBookings();
             foreach (var booking in bookings)
             {
-                foreach (Item h in booking.HostRentedForCourse)
+                foreach (var host in booking.HostRentedForCourse)
                 {
-                    if (h.Id - 1 == item.Id)
+                    if (host.HostName == item.HostName)
                     {
-                        foreach (Item host in booking.HostRentedForCourse)
-                        {
-                            host.Rented = false;
-                        }
+                        Data.ConvertBookingData.DeleteBooking(booking);
+                        break;
                     }
                 }
-                Data.ConvertBookingData.DeleteBooking(booking);
             }
             return Redirect("AdminSite");
         }
