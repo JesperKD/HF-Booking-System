@@ -256,19 +256,19 @@ namespace UdlånsWeb.Controllers
                 {
                     itemModel = new ItemViewModel();
                 }
-                //foreach (var item in itemModel.Items)
-                //{
-                //    //if host is rented 
-                //    if (item.Rented == true)
-                //    {
-                //        // håndter manuel bookning
-                //        if (item.TurnInDate <= DateTime.Now)
-                //        {
-                //            item.Rented = false;
-                //        }                       
-                //    }
+                foreach (var item in itemModel.Items)
+                {
+                    //if host is rented 
+                    if (item.Rented == true)
+                    {
+                        if (item.TurnInDate <= DateTime.Now)
+                        {
+                            item.Rented = false;
+                            Data.ConvertItemData.EditItem(item);
+                        }
+                    }
 
-                //}
+                }
             }
             catch (Exception)
             {
@@ -413,6 +413,10 @@ namespace UdlånsWeb.Controllers
                 {
                     Data.ConvertBookingData.DeleteBooking(booking);
                 }
+            }
+            if (item.TurnInDate == DateTime.Parse("01-01-0001 00:00:00"))
+            {
+                item.TurnInDate = DateTime.Now.AddYears(1);
             }
             Data.ConvertItemData.EditItem(item);
             return Redirect("AdminSite");
