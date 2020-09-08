@@ -52,6 +52,7 @@ namespace UdlånsWeb.DataHandling
                     string raw = Decrypt.DecryptString(line, "SkPRingsted", 5);
                     string[] courseData = raw.Split(',');
                     BookingViewModel booking = new BookingViewModel();
+                    booking.Id = int.Parse(courseData[0]);
                     booking.RentedClient = courseData[1];
 
                     booking.HostRentedForCourse.Add(new Item() { HostName = courseData[2], Id = int.Parse(courseData[3]), TurnInDate = DateTime.Parse(courseData[4]) });

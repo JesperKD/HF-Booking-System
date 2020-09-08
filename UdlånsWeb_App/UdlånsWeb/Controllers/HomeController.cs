@@ -226,7 +226,7 @@ namespace UdlånsWeb.Controllers
 
             foreach (var item in userBooking.HostRentedForCourse)
             {
-                stringBuilder.Append(item.HostName + "       " + item.HostIp + "       " + item.UserName + "        " + item.HostPassword + Environment.NewLine);
+                stringBuilder.Append(item.HostName + "          " + item.HostIp + "         " + item.UserName + "            " + item.HostPassword + Environment.NewLine);
             }
 
             stringBuilder.Append("Antal grupper pr host [" + userBooking.CourseModel.NumberOfGroupsPerHost + "]" + Environment.NewLine
