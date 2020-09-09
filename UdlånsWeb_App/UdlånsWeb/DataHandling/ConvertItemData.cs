@@ -119,14 +119,16 @@ namespace UdlånsWeb.DataHandling
             // creates correct item string
             List<string> itemsTosave = new List<string>();
 
+            int id = 0;
             // makes each item into a new string
             foreach (Item Item in ItemModelNew.Items)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(Item.HostName + "," + Item.HostPassword + "," + Item.UserName + "," + Item.VmWareVersion + "," + Item.HostIp + "," + "," + Item.Rented + "," + Item.Id + "," + Item.TurnInDate);
+                stringBuilder.Append(Item.HostName + "," + Item.HostPassword + "," + Item.UserName + "," + Item.VmWareVersion + "," + Item.HostIp + "," + "," + Item.Rented + "," + id + "," + Item.TurnInDate);
 
                 Encrypt = new Encrypt();
                 itemsTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
+                id++;
             }
             // overrides file with new strings
             ToTxt.StringsToTxt(FILE_PATH + ITEM_FILE_NAME, itemsTosave.ToArray());
@@ -170,13 +172,15 @@ namespace UdlånsWeb.DataHandling
             // creates correct user string
             List<string> itemsTosave = new List<string>();
 
+            int id = 0;
             foreach (Item host in itemModel.Items)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(host.HostName + "," + host.HostPassword + "," + host.UserName + "," + host.VmWareVersion + "," + host.HostIp + "," + "," + host.Rented + "," + host.Id + "," + host.TurnInDate);
+                stringBuilder.Append(host.HostName + "," + host.HostPassword + "," + host.UserName + "," + host.VmWareVersion + "," + host.HostIp + "," + "," + host.Rented + "," + id + "," + host.TurnInDate);
 
                 Encrypt = new Encrypt();
                 itemsTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
+                id++;
             }
 
             // overrides file with new strings
