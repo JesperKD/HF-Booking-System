@@ -270,7 +270,7 @@ namespace UdlånsWeb.Controllers
                     //if host is rented 
                     if (item.Rented == true)
                     {
-                        if (item.TurnInDate < DateTime.Now)
+                        if (item.TurnInDate < DateTime.Now && item.TurnInDate != DateTime.Parse("01 - 01 - 0001 00:00:00"))
                         {
                             item.Rented = false;
                             Data.ConvertItemData.EditItem(item);
@@ -464,20 +464,28 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult DeleteItem(Item item)
         {
-            Data.ConvertItemData.DeleteItem(item);
             //Checks after a booking on the host and delete it aswell
             List<BookingViewModel> bookings = Data.ConvertBookingData.GetBookings();
+            var items = Data.ConvertItemData.GetItems();
             foreach (var booking in bookings)
             {
                 foreach (var host in booking.HostRentedForCourse)
                 {
                     if (host.HostName == item.HostName)
                     {
+                        foreach (var hosts in booking.HostRentedForCourse)
+                        {
+                            Item edit = items.Items.Where(x => x.HostName == hosts.HostName && x.Id == hosts.Id).FirstOrDefault();
+                            edit.Rented = false;
+                            // doesnt get the entire host..
+                            Data.ConvertItemData.EditItem(edit);
+                        }
                         Data.ConvertBookingData.DeleteBooking(booking);
                         break;
                     }
                 }
             }
+            Data.ConvertItemData.DeleteItem(item);
             return Redirect("AdminSite");
         }
         #endregion
