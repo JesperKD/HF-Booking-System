@@ -472,7 +472,7 @@ namespace UdlånsWeb.Controllers
             {
                 foreach (var host in booking.HostRentedForCourse)
                 {
-                    if (host.HostName == item.HostName)
+                    if (host.HostName == item.HostName && host.Id == item.Id)
                     {
                         foreach (var hosts in booking.HostRentedForCourse)
                         {
