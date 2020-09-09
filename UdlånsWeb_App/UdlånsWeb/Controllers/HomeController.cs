@@ -421,7 +421,7 @@ namespace UdlånsWeb.Controllers
             {
                 foreach (var host in booking.HostRentedForCourse)
                 {
-                    if (host.HostName == item.HostName)
+                    if (host.HostName == item.HostName && host.Id == item.Id)
                     {
                         foreach (var hosts in booking.HostRentedForCourse)
                         {
@@ -438,6 +438,7 @@ namespace UdlånsWeb.Controllers
             if (item.TurnInDate == DateTime.Parse("01-01-0001 00:00:00") && item.Rented == true)
             {
                 item.TurnInDate = DateTime.Now.AddYears(1);
+                Data.ConvertItemData.EditItem(item);
             }
             else
             {
