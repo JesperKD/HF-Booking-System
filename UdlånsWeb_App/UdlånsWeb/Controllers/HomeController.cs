@@ -71,7 +71,6 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult InfoPage(BookingViewModel booking)
         {
-            //Make a booking save file
             List<Item> hosts = Data.ConvertItemData.GetItems().Items;
             List<Course> courses = Data.ConvertCourseData.GetCourses().Courses;
             List<BookingViewModel> bookings = Data.ConvertBookingData.GetBookings();
@@ -89,7 +88,17 @@ namespace UdlånsWeb.Controllers
 
             foreach (var item in hosts)
             {
-                if (item.Rented == false && booking.NumberOfGroups > allocated)
+                if (item.Rented == true)
+                {
+                    item.InUse = false;
+                    Data.ConvertItemData.EditItem(item);
+                }
+                if (item.RentedDate < DateTime.Now.Date)
+                {
+                    item.InUse = false;
+                    Data.ConvertItemData.EditItem(item);
+                }
+                if (item.InUse == false && item.Rented == false && booking.NumberOfGroups > allocated)
                 {
 
                     //sets turnindate to day it was rented plus days its rented for aka turnindate
@@ -97,13 +106,14 @@ namespace UdlånsWeb.Controllers
                     {
                         if (booking.CourseModel.Name == course.Name)
                         {
-                            // fjern den her
-                            //booking.Id = item.Id;
                             booking.CourseModel.NumberOfGroupsPerHost = course.NumberOfGroupsPerHost;
                         }
                     }
 
                     allocated += booking.CourseModel.NumberOfGroupsPerHost;
+                    item.InUse = true;
+                    item.RentedDate = booking.RentDate;
+                    Data.ConvertItemData.EditItem(item);
                     booking.HostRentedForCourse.Add(item);
                 }
             }
@@ -168,6 +178,18 @@ namespace UdlånsWeb.Controllers
             }
             return View(userBooking);
         }
+
+        public IActionResult ResetBooking()
+        {
+            foreach (var item in userBooking.HostRentedForCourse)
+            {
+                item.InUse = false;
+                Data.ConvertItemData.EditItem(item);
+            }
+            return Redirect("Booking");
+        }
+
+
 
         // need a get and post
         public IActionResult BookingSucces()
@@ -394,6 +416,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult AddItem(Item item)
         {
+            item.InUse = false;
             Data.ConvertItemData.AddItem(item);
             return Redirect("AdminSite");
         }
@@ -428,6 +451,7 @@ namespace UdlånsWeb.Controllers
                         {
                             Item edit = items.Items.Where(x => x.HostName == hosts.HostName && x.Id == hosts.Id).FirstOrDefault();
                             edit.Rented = false;
+                            edit.InUse = false;
                             // doesnt get the entire host..
                             Data.ConvertItemData.EditItem(edit);
                         }

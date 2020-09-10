@@ -24,6 +24,6 @@ namespace UdlånsWeb.Models
         public DateTime TurnInDate { get; set; }
         public bool Rented { get; set; }
         public int Id { get; set; }
-
+        public bool InUse { get; set; }
     }
 }
