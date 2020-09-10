@@ -407,8 +407,9 @@ namespace UdlånsWeb.Controllers
                 return Redirect("ErrorPage");
 
             ItemViewModel items = Data.ConvertItemData.GetItems();
+            Item item = items.Items.Where(x => x.Id == id).FirstOrDefault();
 
-            return View(items.Items[id]);
+            return View(item);
         }
 
         [HttpPost]
@@ -457,7 +458,7 @@ namespace UdlånsWeb.Controllers
 
             ItemViewModel items = Data.ConvertItemData.GetItems();
 
-            Item item = items.Items[id];
+            Item item = items.Items.Where(x => x.Id == id).First();
 
             return View(item);
         }

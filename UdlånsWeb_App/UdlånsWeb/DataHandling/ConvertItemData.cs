@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using UdlånsWeb.Models;
@@ -23,17 +24,10 @@ namespace UdlånsWeb.DataHandling
             int itemID = 0;
             try
             {
-                if (GetItems().Items.Count > 0)
+                ItemViewModel items = GetItems();
+                if (items != null && items.Items.Count > 0)
                 {
-                    for (int i = 0; i < GetItems().Items.Count; i++)
-                    {
-                        itemID++;
-                    }
-                }
-
-                if (itemID == GetItems().Items.LastOrDefault().Id)
-                {
-                    itemID++;
+                    itemID = items.Items.Last().Id + 1;
                 }
             }
             catch (Exception)
@@ -108,27 +102,31 @@ namespace UdlånsWeb.DataHandling
             }
 
             // finds the old item and removes it
-            Item OldItem = itemModelOld.Items[item.Id];
+            Item OldItem = itemModelOld.Items.Where(x => x.Id == item.Id).FirstOrDefault();
             itemModelOld.Items.Remove(OldItem);
 
             // creates new list from old, and inserts edited item at index Id
             ItemViewModel ItemModelNew = new ItemViewModel();
             ItemModelNew = itemModelOld;
-            ItemModelNew.Items.Insert(item.Id, item);
+
+
+            ItemModelNew.Items.Add(item);
+
+            ItemModelNew.Items = ItemModelNew.Items.OrderBy(x => x.Id).ToList();
 
             // creates correct item string
             List<string> itemsTosave = new List<string>();
 
-            int id = 0;
+            //int id = 0;
             // makes each item into a new string
             foreach (Item Item in ItemModelNew.Items)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(Item.HostName + "," + Item.HostPassword + "," + Item.UserName + "," + Item.VmWareVersion + "," + Item.HostIp + "," + "," + Item.Rented + "," + id + "," + Item.TurnInDate);
+                stringBuilder.Append(Item.HostName + "," + Item.HostPassword + "," + Item.UserName + "," + Item.VmWareVersion + "," + Item.HostIp + "," + "," + Item.Rented + "," + Item.Id + "," + Item.TurnInDate);
 
                 Encrypt = new Encrypt();
                 itemsTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
-                id++;
+                //id++;
             }
             // overrides file with new strings
             ToTxt.StringsToTxt(FILE_PATH + ITEM_FILE_NAME, itemsTosave.ToArray());
@@ -166,21 +164,21 @@ namespace UdlånsWeb.DataHandling
             }
 
             // finds the old item and removes it
-            Item removeUser = itemModel.Items[item.Id];
+            Item removeUser = itemModel.Items.Where(x => x.Id == item.Id).FirstOrDefault();
             itemModel.Items.Remove(removeUser);
 
             // creates correct user string
             List<string> itemsTosave = new List<string>();
 
-            int id = 0;
+            //int id = 0;
             foreach (Item host in itemModel.Items)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(host.HostName + "," + host.HostPassword + "," + host.UserName + "," + host.VmWareVersion + "," + host.HostIp + "," + "," + host.Rented + "," + id + "," + host.TurnInDate);
+                stringBuilder.Append(host.HostName + "," + host.HostPassword + "," + host.UserName + "," + host.VmWareVersion + "," + host.HostIp + "," + "," + host.Rented + "," + host.Id + "," + host.TurnInDate);
 
                 Encrypt = new Encrypt();
                 itemsTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
-                id++;
+                //id++;
             }
 
             // overrides file with new strings
