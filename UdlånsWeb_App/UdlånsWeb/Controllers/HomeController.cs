@@ -48,7 +48,7 @@ namespace UdlånsWeb.Controllers
             CurrentUser = Data.Convertlogindata.ManuelLogin(login.Initials, login.Password);
 
             if (CurrentUser == null)
-                return Redirect("ErrorPage");
+                return Redirect("/Home/ErrorPage");
 
             if (CurrentUser.Admin == true)
                 return Redirect("/Home/AdminSite");
