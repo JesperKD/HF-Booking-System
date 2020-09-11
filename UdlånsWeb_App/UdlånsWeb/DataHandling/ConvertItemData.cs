@@ -124,17 +124,15 @@ namespace UdlånsWeb.DataHandling
             // creates correct item string
             List<string> itemsTosave = new List<string>();
 
-            //int id = 0;
             // makes each item into a new string
             foreach (Item Item in ItemModelNew.Items)
             {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.Append(Item.HostName + "," + Item.HostPassword + "," + Item.UserName + "," + Item.VmWareVersion + "," + Item.HostIp + ","
-                    + "," + Item.Rented + "," + Item.Id + "," + Item.TurnInDate + "," + item.InUse + "," + item.RentedDate);
+                    + "," + Item.Rented + "," + Item.Id + "," + Item.TurnInDate + "," + Item.InUse + "," + Item.RentedDate);
 
                 Encrypt = new Encrypt();
                 itemsTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
-                //id++;
             }
             // overrides file with new strings
             ToTxt.StringsToTxt(FILE_PATH + ITEM_FILE_NAME, itemsTosave.ToArray());

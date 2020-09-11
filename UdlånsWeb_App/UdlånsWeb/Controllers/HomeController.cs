@@ -100,7 +100,6 @@ namespace UdlånsWeb.Controllers
                 }
                 if (item.InUse == false && item.Rented == false && booking.NumberOfGroups > allocated)
                 {
-
                     //sets turnindate to day it was rented plus days its rented for aka turnindate
                     foreach (var course in courses)
                     {
