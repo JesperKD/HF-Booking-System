@@ -19,6 +19,7 @@ namespace UdlånsWeb.DataHandling.DataCheckUp
             host.Id = GetUnUsedIdForHost();
             return host;
         }
+
         /// <summary>
         /// Checks if the host id already exist
         /// </summary>
@@ -34,6 +35,7 @@ namespace UdlånsWeb.DataHandling.DataCheckUp
             }
             return 0;
         }
+
 //--------------------------------------------------------------------------------Course
         public static Course GiveIdToCourse(Course course)
         {
@@ -52,6 +54,7 @@ namespace UdlånsWeb.DataHandling.DataCheckUp
             }
             return 0;
         }
+
 //--------------------------------------------------------------------------------User
         public static User GiveIdToUser(User user)
         {

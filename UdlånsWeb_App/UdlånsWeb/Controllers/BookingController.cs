@@ -19,6 +19,7 @@ namespace UdlånsWeb.Controllers
             
             return View();
         }
+
         [HttpGet]
         public IActionResult InfoPage(Course course)
         {

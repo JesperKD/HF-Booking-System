@@ -20,6 +20,7 @@ namespace UdlånsWeb.DataHandling
         public static HostViewModel HostData { get; set; }
         public static UserViewModel UserData { get; set; }
         public static List<BookingViewModel> BookingData { get; set; }
+
         #region Booking
         public static void DeleteBooking (BookingViewModel bookingViewModel)
         {
@@ -41,6 +42,7 @@ namespace UdlånsWeb.DataHandling
         }
 
         #endregion
+
         #region Host
         public static HostViewModel GetHosts()
         {          
@@ -141,7 +143,6 @@ namespace UdlånsWeb.DataHandling
         }
         #endregion
 
-
         #region Course
         public static CourseViewModel GetCourses()
         {
@@ -155,6 +156,7 @@ namespace UdlånsWeb.DataHandling
             }
             return CourseData;
         }
+
         /// <summary>
         /// Saves the users in UserViewModel
         /// </summary>
@@ -180,8 +182,6 @@ namespace UdlånsWeb.DataHandling
         }
         #endregion
 
-
-
         /// <summary>
         /// Makes object fx. Host, User or Course to a Json formated string 
         /// </summary>
@@ -192,7 +192,6 @@ namespace UdlånsWeb.DataHandling
             string jsonString = JsonConvert.SerializeObject(modelOrType);
             return jsonString;
         }
-
 
         /// <summary>
         /// Takes a Json formated string and converts it to the selected object 
