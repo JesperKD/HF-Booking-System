@@ -68,6 +68,7 @@ namespace UdlånsWeb.DataHandling
             }
             return userViewModel;
         }
+
         public bool DoesUserExist(User user)
         {
             UserViewModel userViewModel = GetUsers();
