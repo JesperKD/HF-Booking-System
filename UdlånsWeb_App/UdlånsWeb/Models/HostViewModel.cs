@@ -12,6 +12,7 @@ namespace UdlånsWeb.Models
         public int Id { get; set; }
         public List<Host> Hosts { get; set; }
         public List<BookingViewModel> Bookings { get; set; }
+        public string SearchInput { get; set; }
         public HostViewModel()
         {
             Hosts = new List<Host>();

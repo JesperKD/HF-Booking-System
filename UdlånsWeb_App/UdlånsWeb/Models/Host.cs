@@ -9,7 +9,7 @@ using UdlånsWeb.DataHandling;
 
 namespace UdlånsWeb.Models
 {
-    public class Host : IComparable<Host>
+    public class Host : IComparable<Host>, IEquatable<Host>
     {
         [DisplayName("Host Navn")]
         public string Name { get; set; }
@@ -41,6 +41,14 @@ namespace UdlånsWeb.Models
                 return 1;
             else
                 return this.Id.CompareTo(other.Id);
+        }
+
+        public bool Equals(Host other)
+        {
+            if (other.Name == this.Name)
+                return true;
+            else
+                return false;
         }
     }
 }

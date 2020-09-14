@@ -12,16 +12,30 @@ namespace UdlånsWeb.Controllers
     public class ItemController : Controller
     {
         [HttpGet]
-        public IActionResult AdminSite()
+        public IActionResult AdminSite(string searchInput)
         {
             if (CurrentUser.User == null || CurrentUser.User.Admin == false)
                 return Redirect("ErrorPage");
-       
             BookingCheck.CheckBooking();
             Data.GetHosts();
-            Data.HostData.Bookings = Data.GetHosts().Bookings;
-            Data.HostData.Hosts.Sort();
-            return View(Data.HostData);
+            if (string.IsNullOrEmpty(searchInput))
+            {
+                Data.HostData.Bookings = Data.GetHosts().Bookings;
+                Data.HostData.Hosts.Sort();
+                return View(Data.HostData);
+            }
+            else
+            {
+                HostViewModel model = new HostViewModel();
+                foreach (var host in Data.HostData.Hosts)
+                {
+                    if (host.Name.Contains(searchInput))
+                    {
+                        model.Hosts.Add(host);
+                    }
+                }
+                return View(model);
+            }
         }
 
         [HttpGet]
