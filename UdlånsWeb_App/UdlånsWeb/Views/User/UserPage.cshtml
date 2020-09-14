@@ -9,10 +9,23 @@
         {
 
             <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 py-2">
-                <button name="CollapButton" type="button" class="collapsible bg-success text-white" value="">@Model.Users[i].FirstName  @Model.Users[i].LastName</button>
+                <button name="CollapButton" type="button" class="collapsible bg-success text-white" value="">@Model.Users[i].FirstName</button>
                 <div class="content" style="border : solid 2px black;">
                     <div>
                         <dl style="margin: 0px 10px 0px 0px;">
+                            <dt>
+                                @Html.DisplayNameFor(x => x.Users[i].FirstName)
+                            </dt>
+                            <dd>
+                                @Model.Users[i].FirstName
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(x => x.Users[i].LastName)
+                            </dt>
+                            <dd>
+                                @Model.Users[i].LastName
+                            </dd>
 
                             <dt>
                                 Initialer:
@@ -20,12 +33,14 @@
                             <dd>
                                 @Model.Users[i].Initials<br />
                             </dd>
+
                             <dt>
                                 Email:
                             </dt>
                             <dd>
                                 @Model.Users[i].Email<br />
                             </dd>
+
                             <dt>
                                 Admin:
                             </dt>

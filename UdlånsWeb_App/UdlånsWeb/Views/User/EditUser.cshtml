@@ -26,6 +26,12 @@
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <br />
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Initials" class="control-label"></label>
                 <br />
                 <input asp-for="Initials" class="form-control" />
@@ -36,6 +42,12 @@
                 <br />
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="Id" class="control-label"></label>
+                <br />
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">

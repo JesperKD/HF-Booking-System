@@ -26,6 +26,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult HomePage(User user)
         {
+            
             //Checks if the user exist in the file 
             if (Data.UserExist(user))
             {

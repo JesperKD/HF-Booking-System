@@ -101,6 +101,7 @@ namespace UdlånsWeb.DataHandling
         /// <returns></returns>
         public static UserViewModel GetUsers()
         {
+            UserData = new UserViewModel();
             if (convertUserData.GetUsers() != null)
             {
                 UserData = convertUserData.GetUsers();
