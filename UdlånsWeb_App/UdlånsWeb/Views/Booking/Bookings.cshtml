@@ -8,38 +8,41 @@
 <h1>Booking oversigt</h1>
 @for (int i = 0; i < Model.Bookings.Count; i++)
 {
-    <table class="table-bordered" width="250">
+<div class="table-responsive">
+    <table class="table-bordered w-100 p-3" style="text-align:center;">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Fag</th>
-                <th scope="col">Lejer</th>
+                <th class="col-xs-1">#</th>
+                <th class="col-xs-3">Fag</th>
+                <th class="col-xs-2">Lejer</th>
                 @if (Model.Bookings[i].HostsRentedForCourse.Count > 1)
                     @for (int j = 0; j < Model.Bookings[i].HostsRentedForCourse.Count; j++)
                     {
-                        <th scope="col">#@j Hosts</th>
+                        <th class="col-xs-3">#@j + 1 Hosts</th>
                     }
                     else
                     {
-                        <th scope="col">Hosts</th>
+                        <th class="col-xs-3">Hosts</th>
                     }
 
-                <th scope="col">Indleverings dato</th>
+                <th class="col-xs-3">Indleverings dato</th>
             </tr>
         </thead>
 
         <tbody>
             <tr>
-                <th scope="row">@i</th>
-                <td>@Model.Bookings[i].CourseModel.Name</td>
-                <td>@Model.Bookings[i].CurrentUser.FirstName</td>
+                <th class="col-xs-1">@i</th>
+                <td class="col-xs-3">@Model.Bookings[i].CourseModel.Name</td>
+                <td class="col-xs-3">@Model.Bookings[i].CurrentUser.FirstName</td>
 
                 @for (int k = 0; k < Model.Bookings[i].HostsRentedForCourse.Count; k++)
                 {
-                    <td>@Model.Bookings[i].HostsRentedForCourse[k].Name</td>
+                    <td class="col-xs-3">@Model.Bookings[i].HostsRentedForCourse[k].Name</td>
                 }
-                <td>@Model.Bookings[i].TurnInDate</td>
+                <td class="col-xs-3">@Model.Bookings[i].TurnInDate</td>
             </tr>
         </tbody>
     </table>
+</div>
+<br />
 }
