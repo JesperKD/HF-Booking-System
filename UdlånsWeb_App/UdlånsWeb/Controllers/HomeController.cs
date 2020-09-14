@@ -188,7 +188,15 @@ namespace UdlånsWeb.Controllers
             return Redirect("Booking");
         }
 
-
+        public IActionResult ResetBookingHome()
+        {
+            foreach (var item in userBooking.HostRentedForCourse)
+            {
+                item.InUse = false;
+                Data.ConvertItemData.EditItem(item);
+            }
+            return Redirect("HomePage");
+        }
 
         // need a get and post
         public IActionResult BookingSucces()
