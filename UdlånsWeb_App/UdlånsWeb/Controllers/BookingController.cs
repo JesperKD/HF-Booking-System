@@ -92,16 +92,16 @@ namespace UdlånsWeb.Controllers
 
         public IActionResult Bookings()
         {
-            if(Data.GetHosts().Bookings.Count != 0 || Data.GetHosts().Bookings != null)
+            Data.HostData = Data.GetHosts();
+            if(Data.HostData.Bookings != null || Data.HostData.Bookings.Count != 0)
             {
-                Data.GetHosts();
-                return View(Data.HostData.Bookings);
+                return View(Data.HostData);
             }
             else
             {
-                return View(new BookingViewModel());
+                return View(new HostViewModel());
             }
-        }
 
+        }
     }
 }

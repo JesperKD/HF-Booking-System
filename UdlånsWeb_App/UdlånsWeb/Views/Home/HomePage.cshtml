@@ -12,7 +12,7 @@
         @Html.TextBoxFor(m => m.Initials)
 
         <label for="upass"><b>Password</b></label>
-        <input  type="password" asp-for="Password"/> 
+        <input  type="password" asp-for="Password" required autocomplete="on" maxlength="16"/> 
 
         <button type="submit">Login</button>
     }

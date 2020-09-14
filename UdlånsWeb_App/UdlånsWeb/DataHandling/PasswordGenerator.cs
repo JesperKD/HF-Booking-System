@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UdlånsWeb.Models;
 
 namespace UdlånsWeb.DataHandling
 {
-    public class PasswordGenerator
+    public static class PasswordGenerator
     {
-        public string Generate()
+        public static User Generate(User user)
         {
             string result = string.Empty;
             Random random = new Random();
@@ -15,8 +16,8 @@ namespace UdlånsWeb.DataHandling
             {
                 result += random.Next(0, 10);
             }
-
-            return result;
+            user.Password = result;
+            return user;
         }
     }
 }
