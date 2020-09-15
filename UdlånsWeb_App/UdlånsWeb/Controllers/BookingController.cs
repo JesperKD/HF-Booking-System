@@ -47,7 +47,7 @@ namespace UdlånsWeb.Controllers
         public IActionResult InfoPage(BookingViewModel booking)
         {
             //Finds the course matching the chosen course name
-            Course course = Data.GetCourses().Courses.Where(x => x.Id == booking.CourseModel.Id).FirstOrDefault();
+            Course course = Data.GetCourses().Courses.Where(x => x.Name == booking.CourseModel.Name).FirstOrDefault();
             //Sets the course defined to user choise
             course.Defined = booking.CourseModel.Defined;
             //Sets the number of students for the selected course
