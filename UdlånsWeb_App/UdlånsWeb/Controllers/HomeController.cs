@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Linq;
 using UdlånsWeb.DataHandling;
+using UdlånsWeb.DataHandling.DataCheckUp;
 using UdlånsWeb.Models;
 
 namespace UdlånsWeb.Controllers
@@ -20,6 +21,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult HomePage()
         {
+            BookingCheck.CheckBooking();
             return View();
         }
 
