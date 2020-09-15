@@ -78,7 +78,8 @@ namespace UdlånsWeb.DataHandling
 
             //Deletes the old host data from the file
             HostData.Hosts.Remove(hostGettingDeleted);
-            //Overrides the file with all the hosts                    
+            //Overrides the file with all the hosts    
+            HostData.Hosts.Sort();
             convertHostData.ReWriteHostFile(HostData);
         }
         public static void EditHost(Host host)
@@ -91,6 +92,7 @@ namespace UdlånsWeb.DataHandling
             HostData.Hosts.Remove(hostGettingDeleted);
             //Adds the new edited host to the host view model
             HostData.Hosts.Add(host);
+            HostData.Hosts.Sort();
             //Overrides the file with all the hosts
             convertHostData.ReWriteHostFile(HostData);
         }

@@ -66,14 +66,25 @@ namespace UdlånsWeb.Controllers
             var hostViewModel = Data.GetHosts();
             foreach (var item in hostViewModel.Hosts)
             {
+                if(availableSpotsForStudents >= userBooking.CourseModel.NumberOfStudents)
+                {
+                    break;
+                }
                 //Makes sure that there is enough hosts for the class
                 if (item.NumberOfPeoplePerHost >= availableSpotsForStudents && item.Rented == false)
                 {
-                    if(userBooking.CourseModel.Defined == false && userBooking.CourseModel.NumberOfStudents >= availableSpotsForStudents)
+                    if(userBooking.CourseModel.Defined == false)
                     {
                         item.Rented = true;
                         userBooking.Id = item.Id;
                         userBooking.TurnInDate = userBooking.RentDate.AddDays(userBooking.CourseModel.Duration);
+                        userBooking.HostsRentedForCourse.Add(item);
+                        availableSpotsForStudents += item.NumberOfPeoplePerHost - availableSpotsForStudents;
+                    }
+                    else
+                    {
+                        item.Rented = true;
+                        userBooking.Id = item.Id;
                         userBooking.HostsRentedForCourse.Add(item);
                         availableSpotsForStudents += item.NumberOfPeoplePerHost - availableSpotsForStudents;
                     }
