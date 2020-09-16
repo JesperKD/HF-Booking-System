@@ -190,12 +190,19 @@ namespace UdlånsWeb.Controllers
 
         public IActionResult ResetBookingHome()
         {
-            foreach (var item in userBooking.HostRentedForCourse)
+            try
             {
-                item.InUse = false;
-                Data.ConvertItemData.EditItem(item);
+                foreach (var item in userBooking.HostRentedForCourse)
+                {
+                    item.InUse = false;
+                    Data.ConvertItemData.EditItem(item);
+                }
+                return Redirect("HomePage");
             }
-            return Redirect("HomePage");
+            catch (Exception)
+            {
+                return Redirect("HomePage");
+            }
         }
 
         // need a get and post
