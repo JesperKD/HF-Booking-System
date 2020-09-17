@@ -9,5 +9,6 @@ namespace UdlånsWeb.Models
     {
         public string Initials { get; set; }
         public string Password { get; set; }
+        public bool Valid { get; set; }
     }
 }

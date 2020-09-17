@@ -39,7 +39,7 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult HomePage()
         {
-            return View();
+            return View(new Login() { Valid = true });
         }
 
         [HttpPost]
@@ -48,14 +48,21 @@ namespace UdlånsWeb.Controllers
             //Add logic for login
             CurrentUser = Data.Convertlogindata.ManuelLogin(login.Initials, login.Password);
 
-            if (CurrentUser == null)
+            try
+            {
+                if (CurrentUser == null)
+                    return View(login);
+
+                if (CurrentUser.Admin == true)
+                    return Redirect("/Home/AdminSite");
+
+                else
+                    return Redirect("Home/Booking");
+            }
+            catch (Exception)
+            {
                 return Redirect("/Home/ErrorPage");
-
-            if (CurrentUser.Admin == true)
-                return Redirect("/Home/AdminSite");
-
-            else
-                return Redirect("Home/Booking");
+            }
         }
         #endregion
 
