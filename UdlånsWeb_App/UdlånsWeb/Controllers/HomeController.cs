@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Buffers;
 using Microsoft.AspNetCore.Razor.Language.Extensions;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using UdlånsWeb.DataHandling;
@@ -660,8 +661,9 @@ namespace UdlånsWeb.Controllers
                 }
                 else
                 {
-                    // make a red not on new pass telling the user
+                    // make a red note on new pass telling the user
                     // that the password requires upper- & lowercase and numbers
+                    return Redirect("ChangePassword");
                 }
             }
             else
