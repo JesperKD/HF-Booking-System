@@ -38,7 +38,7 @@ namespace UdlånsWeb.DataHandling
 
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append(item.HostName + "," + item.HostPassword + "," + item.UserName + "," + item.VmWareVersion + "," + item.HostIp + "," + "," + item.Rented + "," + itemID
-                + "," + item.TurnInDate + "," + item.InUse + "," + item.RentedDate);
+                + "," + item.TurnInDate + "," + item.InUse + "," + item.RentedDate + "," + item.Description);
 
             ToTxt.AppendStringToTxt(FILE_PATH + ITEM_FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5) + Environment.NewLine);
         }
@@ -66,6 +66,7 @@ namespace UdlånsWeb.DataHandling
                     item.Id = int.Parse(itemData[7]);
                     item.InUse = bool.Parse(itemData[9]);
                     item.RentedDate = DateTime.Parse(itemData[10]);
+                    item.Description = itemData[11];
                     if (itemData[6] != null) item.TurnInDate = DateTime.Parse(itemData[8]);
 
                     itemModel.Items.Add(item);
@@ -103,6 +104,7 @@ namespace UdlånsWeb.DataHandling
                 oItem.Id = int.Parse(itemData[7]);
                 oItem.InUse = bool.Parse(itemData[9]);
                 oItem.RentedDate = DateTime.Parse(itemData[10]);
+                oItem.Description = itemData[11];
                 if (itemData[6] != null) oItem.TurnInDate = DateTime.Parse(itemData[8]);
 
                 itemModelOld.Items.Add(oItem);
@@ -129,7 +131,7 @@ namespace UdlånsWeb.DataHandling
             {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.Append(Item.HostName + "," + Item.HostPassword + "," + Item.UserName + "," + Item.VmWareVersion + "," + Item.HostIp + ","
-                    + "," + Item.Rented + "," + Item.Id + "," + Item.TurnInDate + "," + Item.InUse + "," + Item.RentedDate);
+                    + "," + Item.Rented + "," + Item.Id + "," + Item.TurnInDate + "," + Item.InUse + "," + Item.RentedDate + ","+item.Description);
 
                 Encrypt = new Encrypt();
                 itemsTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
@@ -162,6 +164,7 @@ namespace UdlånsWeb.DataHandling
                     oItem.Id = int.Parse(itemData[7]);
                     oItem.InUse = bool.Parse(itemData[9]);
                     oItem.RentedDate = DateTime.Parse(itemData[10]);
+                    oItem.Description = itemData[11];
                     if (itemData[6] != null) oItem.TurnInDate = DateTime.Parse(itemData[8]);
                     itemModel.Items.Add(oItem);
                 }
@@ -184,7 +187,7 @@ namespace UdlånsWeb.DataHandling
             {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.Append(host.HostName + "," + host.HostPassword + "," + host.UserName + "," + host.VmWareVersion + "," + host.HostIp + "," + "," + host.Rented
-                    + "," + host.Id + "," + host.TurnInDate + "," + host.InUse + "," + host.RentedDate);
+                    + "," + host.Id + "," + host.TurnInDate + "," + host.InUse + "," + host.RentedDate + "," + host.Description);
 
                 Encrypt = new Encrypt();
                 itemsTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));

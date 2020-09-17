@@ -650,7 +650,7 @@ namespace UdlånsWeb.Controllers
             User user = new User();
             UserViewModel users = Data.ConvertUserData.GetUsers();
 
-            user = users.Users.Where(x => x.Initials == change.UserName.ToUpper() && x.Email == change.Email).FirstOrDefault();
+            user = users.Users.Where(x => x.Initials == change.Initials.ToUpper() && x.Email == change.Email).FirstOrDefault();
             if (user.Initials != null && user.Email != null && user.Password == change.OldPassword)
             {
                 user.Password = change.NewPassword;

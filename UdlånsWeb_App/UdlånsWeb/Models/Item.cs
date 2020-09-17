@@ -25,5 +25,6 @@ namespace UdlånsWeb.Models
         public bool Rented { get; set; }
         public int Id { get; set; }
         public bool InUse { get; set; }
+        public string Description { get; set; }
     }
 }
