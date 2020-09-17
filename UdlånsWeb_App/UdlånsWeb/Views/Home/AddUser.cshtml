@@ -3,8 +3,9 @@
     ViewData["Title"] = "AddUser";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-<h2>Tilføj ny bruger</h2>
 
+<h1>Opret Bruger</h1>
+<hr />
 @using (Html.BeginForm("AddUser"))
 {
     <div>
@@ -17,8 +18,8 @@
     <br />
     @Html.TextBoxFor(u => u.Initials, new { @class = "form-control", placeholder = "Initialer" })
     <br />
-    <p>Admin</p>
-    <div>
+    <div class="row">
+        <p>Admin</p>
         @Html.CheckBoxFor(u => u.Admin)
     </div>
     <button type="submit">Tilføj bruger</button>
