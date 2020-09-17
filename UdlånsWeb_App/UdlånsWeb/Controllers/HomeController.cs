@@ -640,12 +640,12 @@ namespace UdlånsWeb.Controllers
             return Redirect("HomePage");
         }
         [HttpGet]
-        public IActionResult ChangePassword()
+        public IActionResult ChangePassword(ChangePassword change)
         {
-            return View();
+            return View(change);
         }
         [HttpPost]
-        public IActionResult ChangePassword(ChangePassword change)
+        public IActionResult ChangePassword(ChangePassword change, bool test)
         {
             // save user
             User user = new User();
@@ -654,6 +654,7 @@ namespace UdlånsWeb.Controllers
             user = users.Users.Where(x => x.Initials == change.Initials.ToUpper() && x.Email == change.Email).FirstOrDefault();
             if (user.Initials != null && user.Email != null && user.Password == change.OldPassword)
             {
+                change.Valid = true;
                 if (change.NewPassword.Any(char.IsUpper) && change.NewPassword.Any(char.IsLower) && change.NewPassword.Any(char.IsDigit))
                 {
                     user.Password = change.NewPassword;
@@ -663,7 +664,8 @@ namespace UdlånsWeb.Controllers
                 {
                     // make a red note on new pass telling the user
                     // that the password requires upper- & lowercase and numbers
-                    return Redirect("ChangePassword");
+
+                    return RedirectToAction("ChangePassword", new ChangePassword() { Valid = false });
                 }
             }
             else
