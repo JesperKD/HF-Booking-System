@@ -653,8 +653,16 @@ namespace UdlånsWeb.Controllers
             user = users.Users.Where(x => x.Initials == change.Initials.ToUpper() && x.Email == change.Email).FirstOrDefault();
             if (user.Initials != null && user.Email != null && user.Password == change.OldPassword)
             {
-                user.Password = change.NewPassword;
-                Data.ConvertUserData.EditUser(user);
+                if (change.NewPassword.Any(char.IsUpper) && change.NewPassword.Any(char.IsLower) && change.NewPassword.Any(char.IsDigit))
+                {
+                    user.Password = change.NewPassword;
+                    Data.ConvertUserData.EditUser(user);
+                }
+                else
+                {
+                    // make a red not on new pass telling the user
+                    // that the password requires upper- & lowercase and numbers
+                }
             }
             else
             {
