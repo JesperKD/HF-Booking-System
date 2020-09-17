@@ -665,7 +665,8 @@ namespace UdlånsWeb.Controllers
                     // make a red note on new pass telling the user
                     // that the password requires upper- & lowercase and numbers
 
-                    return RedirectToAction("ChangePassword", new ChangePassword() { Valid = false });
+                    change.Valid = false;
+                    return View(change);
                 }
             }
             else
