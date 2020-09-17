@@ -6,23 +6,42 @@
 
 <h1>Opret Bruger</h1>
 <hr />
-@using (Html.BeginForm("AddUser"))
-{
-    <div>
-        @Html.TextBoxFor(u => u.Name, new { @class = "form-control", placeholder = "Navn" })
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="AddItem">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Initials" class="control-label"></label>
+                <input asp-for="Initials" class="form-control" />
+                <span asp-validation-for="Initials" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label asp-for="Admin" class="control-label"></label>
+                <input asp-for="Admin" type="checkbox" class="form-control" />
+                <span asp-validation-for="Admin" class="text-danger"></span>
+            </div>
+            <div hidden class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Opret" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
-    <br />
-    <div>
-        @Html.TextBoxFor(u => u.Email, new { @class = "form-control", placeholder = "Email" })
-    </div>
-    <br />
-    @Html.TextBoxFor(u => u.Initials, new { @class = "form-control", placeholder = "Initialer" })
-    <br />
-    <div class="row">
-        <p>Admin</p>
-        @Html.CheckBoxFor(u => u.Admin)
-    </div>
-    <button type="submit">Tilføj bruger</button>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-
-
