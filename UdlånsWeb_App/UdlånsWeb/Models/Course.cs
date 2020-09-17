@@ -18,5 +18,6 @@ namespace UdlånsWeb.Models
         public int Duration { get; set; }
         public bool Defined { get; set; }
         public int Id { get; set; }
+        public string Description { get; set; }
     }
 }
