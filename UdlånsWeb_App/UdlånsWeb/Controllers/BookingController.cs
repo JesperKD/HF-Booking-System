@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using System.Text;
 using UdlånsWeb.DataHandling;
 using UdlånsWeb.Models;
 
@@ -98,8 +99,53 @@ namespace UdlånsWeb.Controllers
         public IActionResult BookingSucces()
         {
             Data.SaveHosts();
-            return View(userBooking);    
+
+            // send mail to user and admins
+            UserViewModel users = Data.GetUsers();
+            UserViewModel mailRecipients = new UserViewModel();
+            foreach (User user in users.Users)
+            {
+                if (user.Email == CurrentUser.User.Email && user.Initials == CurrentUser.User.Initials)
+                {
+                    mailRecipients.Users.Add(user);
+                    continue;
+                }
+                if (user.Admin == true)
+                {
+                    mailRecipients.Users.Add(user);
+                    continue;
+                }
+            }
+            // New stringbuilder
+            StringBuilder stringBuilder = new StringBuilder();
+
+            // String for email
+            stringBuilder.Append("Booking summary:" + Environment.NewLine + "Lærer initialer: " + CurrentUser.User.Initials
+                + Environment.NewLine + "Fag: " + userBooking.CourseModel.Name + Environment.NewLine
+                + "Booket fra " + userBooking.HostsRentedForCourse.First().RentedDate + " - til " + userBooking.HostsRentedForCourse.First().TurnInDate
+                + Environment.NewLine + "Hostnavn       Ip      User        Password" + Environment.NewLine
+                );
+
+            foreach (var item in userBooking.HostsRentedForCourse)
+            {
+                stringBuilder.Append(item.Name + "          " + item.HostIp + "         " + item.UserName + "            " + item.Password + Environment.NewLine);
+            }
+
+            stringBuilder.Append("Antal elever [" + userBooking.CourseModel.NumberOfStudents + "]" + Environment.NewLine
+                + Environment.NewLine + "Adgang til serveren kan etableres via følgnde netværk:"
+                + "Trådløst (Når eleverne er på skolen) - Forbind til DataExpNet" + Environment.NewLine
+                + "(kode: Just@Salt&Vinegar666)" + Environment.NewLine
+                + "VPN (Når eleverne er hjemme) - Følg vejledningen til installation" + Environment.NewLine
+                + "af VPN forbindelsen og forbind hrefter med jeres ZBC initialer" + Environment.NewLine
+                + "(Kode: Just@Salt&Vinegar666)" + Environment.NewLine + Environment.NewLine
+                + "!!! Husk at bede dine elever om at ryde op på hostn inden" + Environment.NewLine
+                + "faget slutter !!!");
+
+            MailSending.Email(stringBuilder.ToString(), mailRecipients);
+
+            return View(userBooking);
         }
+    
 
         public IActionResult Bookings()
         {
