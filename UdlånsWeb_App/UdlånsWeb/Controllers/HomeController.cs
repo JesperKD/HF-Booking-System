@@ -168,6 +168,47 @@ namespace UdlånsWeb.Controllers
             return Redirect("InfoPage");
         }
 
+        [HttpGet]
+        public IActionResult AdminBooking()
+        {
+            if (CurrentUser == null)
+                return Redirect("ErrorPage");
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AdminBooking(Course course)
+        {
+            if (bookingViewModel == null)
+            {
+                bookingViewModel = new BookingViewModel
+                {
+                    CourseModel = new Course()
+                    {
+                        Defined = course.Defined
+                    },
+                    RentDate = DateTime.Now.Date,
+                };
+            }
+            try
+            {
+                bookingViewModel.CoursesForSelection = Data.ConvertCourseData.GetCourses().Courses;
+
+            }
+            catch (Exception e)
+            {
+
+
+            }
+            finally
+            {
+                if (bookingViewModel == null)
+                    bookingViewModel.CoursesForSelection = new List<Course>();
+            }
+
+            return Redirect("InfoPage");
+        }
 
         public IActionResult ConfirmBooking(BookingViewModel booking)
         {
