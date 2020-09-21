@@ -3,14 +3,14 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="imgcontainer">
+<div class="imgcontainer d-flex justify-content-center">
     <img src="~/Images/ZBCLogo.jpg" height="150" width="150" />
 </div>
 @if (!Model.Valid)
 {
     <p style="color:red">Bruger oplysningerne er forkerte</p>
 }
-<div class="container">
+<div class="container d-flex justify-content-center">
     @using (Html.BeginForm("HomePage", "Home", FormMethod.Post))
     {
         <label for="uname"><b>Initialer</b></label>
