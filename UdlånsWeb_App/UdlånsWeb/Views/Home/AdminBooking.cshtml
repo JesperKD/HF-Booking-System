@@ -1,0 +1,15 @@
+﻿@model UdlånsWeb.Models.Course
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@using (Html.BeginForm("AdminBooking", "Home", FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+    @Html.CheckBoxFor(m => m.Defined)
+    <label>Sæt Kryds hvis du vil sætte manuel slutdato.</label>
+    <br />
+    <button type="submit">Fortsæt</button>
+
+}
