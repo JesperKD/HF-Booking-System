@@ -369,6 +369,10 @@ namespace UdlånsWeb.Controllers
         public IActionResult AddUser(User user)
         {
             Data.ConvertUserData.AddUser(user);
+            UserViewModel recipients = new UserViewModel();
+            recipients.Users.Add(user);
+            MailSending.Email("Du er nu blevet oprettet i Host udlånssystemet.\nDette er dine oplysninger:" +
+                "Initialer: " + user.Initials + "\n Passwrd: " + user.Password, recipients);
             return Redirect("/Home/UserPage");
         }
 
