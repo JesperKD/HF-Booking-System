@@ -75,7 +75,6 @@ namespace UdlånsWeb.Controllers
 
             return View(bookingViewModel);
         }
-
         [HttpPost]
         public IActionResult InfoPage(BookingViewModel booking)
         {
@@ -127,6 +126,67 @@ namespace UdlånsWeb.Controllers
             userBooking = booking;
             return Redirect("ConfirmBooking");
         }
+
+        [HttpGet]
+        public IActionResult AdminInfoPage()
+        {
+            if (CurrentUser == null)
+                return Redirect("ErrorPage");
+
+            return View(bookingViewModel);
+        }
+        [HttpPost]
+        public IActionResult AdminInfoPage(BookingViewModel booking)
+        {
+            List<Item> hosts = Data.ConvertItemData.GetItems().Items;
+            List<Course> courses = Data.ConvertCourseData.GetCourses().Courses;
+            List<BookingViewModel> bookings = Data.ConvertBookingData.GetBookings();
+
+            if (bookings == null)
+            {
+                booking.Id = 0;
+            }
+            else
+            {
+                booking.Id = bookings.Count;
+            }
+
+            int allocated = 0;
+
+            foreach (var item in hosts)
+            {
+                if (item.Rented == true)
+                {
+                    item.InUse = false;
+                    Data.ConvertItemData.EditItem(item);
+                }
+                if (item.RentedDate < DateTime.Now.Date)
+                {
+                    item.InUse = false;
+                    Data.ConvertItemData.EditItem(item);
+                }
+                if (item.InUse == false && item.Rented == false && booking.NumberOfGroups > allocated)
+                {
+                    //sets turnindate to day it was rented plus days its rented for aka turnindate
+                    foreach (var course in courses)
+                    {
+                        if (booking.CourseModel.Name == course.Name)
+                        {
+                            booking.CourseModel.NumberOfGroupsPerHost = course.NumberOfGroupsPerHost;
+                        }
+                    }
+
+                    allocated += booking.CourseModel.NumberOfGroupsPerHost;
+                    item.InUse = true;
+                    item.RentedDate = booking.RentDate;
+                    Data.ConvertItemData.EditItem(item);
+                    booking.HostRentedForCourse.Add(item);
+                }
+            }
+            userBooking = booking;
+            return Redirect("ConfirmBooking");
+        }
+
         [HttpGet]
         public IActionResult Booking()
         {
@@ -176,7 +236,6 @@ namespace UdlånsWeb.Controllers
 
             return View();
         }
-
         [HttpPost]
         public IActionResult AdminBooking(Course course)
         {
@@ -207,7 +266,7 @@ namespace UdlånsWeb.Controllers
                     bookingViewModel.CoursesForSelection = new List<Course>();
             }
 
-            return Redirect("InfoPage");
+            return Redirect("AdminInfoPage");
         }
 
         public IActionResult ConfirmBooking(BookingViewModel booking)

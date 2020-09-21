@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-@using (Html.BeginForm("Booking", "Home", FormMethod.Post))
+@using (Html.BeginForm("AdminBooking", "Home", FormMethod.Post))
 {
     @Html.ValidationSummary(true)
     @Html.CheckBoxFor(m => m.Defined)
