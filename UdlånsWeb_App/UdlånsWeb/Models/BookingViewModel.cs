@@ -21,5 +21,6 @@ namespace UdlånsWeb.Models
         public Course CourseModel { get; set; } = new Course();
         [DisplayName("Alle fag")]
         public List<Course> CoursesForSelection { get; set; } = new List<Course>();
+        public DateTime CustomTurninDate { get; set; }
     }
 }

@@ -57,7 +57,7 @@ namespace UdlånsWeb.Controllers
                     return Redirect("/Home/AdminSite");
 
                 else
-                    return Redirect("Home/Booking");
+                    return Redirect("Home/InfoPage");
             }
             catch (Exception)
             {
@@ -73,8 +73,25 @@ namespace UdlånsWeb.Controllers
             if (CurrentUser == null)
                 return Redirect("ErrorPage");
 
+            bookingViewModel = new BookingViewModel();
+            try
+            {
+                bookingViewModel.CoursesForSelection = Data.ConvertCourseData.GetCourses().Courses;
+
+            }
+            catch (Exception e)
+            {
+
+
+            }
+            finally
+            {
+                if (bookingViewModel == null)
+                    bookingViewModel.CoursesForSelection = new List<Course>();
+            }
             return View(bookingViewModel);
         }
+
         [HttpPost]
         public IActionResult InfoPage(BookingViewModel booking)
         {
@@ -187,6 +204,7 @@ namespace UdlånsWeb.Controllers
             return Redirect("ConfirmBooking");
         }
 
+        #region unused
         [HttpGet]
         public IActionResult Booking()
         {
@@ -227,6 +245,7 @@ namespace UdlånsWeb.Controllers
 
             return Redirect("InfoPage");
         }
+        #endregion
 
         [HttpGet]
         public IActionResult AdminBooking()
@@ -324,7 +343,6 @@ namespace UdlånsWeb.Controllers
             {
                 if (item.Rented == false)
                 {
-
                     //sets the host to rented
                     item.Rented = true;
                     //sets the hosts renteddate to the day it was rented
@@ -334,7 +352,14 @@ namespace UdlånsWeb.Controllers
                     {
                         if (userBooking.CourseModel.Name == course.Name)
                         {
-                            item.TurnInDate = userBooking.RentDate.AddDays(course.Duration);
+                            if (userBooking.CustomTurninDate != null)
+                            {
+                                item.TurnInDate = userBooking.CustomTurninDate;
+                            }
+                            else
+                            {
+                                item.TurnInDate = userBooking.RentDate.AddDays(course.Duration);
+                            }
                             Data.ConvertItemData.EditItem(item);
                         }
                     }

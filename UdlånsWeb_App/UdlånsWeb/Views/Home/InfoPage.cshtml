@@ -3,9 +3,14 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div class="container">
     <div style="width:250px">
         <form asp-action="InfoPage">
+
+            <div>
+                <input type="checkbox" id="cBox" onclick="myfunction();" />
+            </div>
 
             <label asp-for="@Model.CourseModel.Name" class="control-label"></label>
             <br />
@@ -18,13 +23,21 @@
             </select>
             <span asp-validation-for="@Model.CourseModel.Name"></span>
             <br />
-
             <label asp-for="@Model.RentDate" class="control-label"></label>
             <br />
-
             <input asp-for="@Model.RentDate" class="form-control" />
             <span asp-validation-for="@Model.RentDate" class="text-danger"></span>
             <br />
+
+            <div id="testing" style="display:none">
+                <p style="color:red">Ulla er fræk</p>
+                <label asp-for="@Model.CustomTurninDate" class="control-label"></label>
+                <br />
+                <input asp-for="@Model.CustomTurninDate" class="form-control" />
+                <span asp-validation-for="@Model.CustomTurninDate" class="text-danger"></span>
+                <br />
+            </div>
+
             @if (Model.CourseModel.Defined == true)
             {
                 @foreach (var host in Model.HostRentedForCourse)
@@ -53,6 +66,16 @@
     </div>
 </div>
 
+<script>
+    function myfunction() {
+        if (document.getElementById('cBox').checked) {
+            $("#testing").show();
+        }
+        else {
+            $("#testing").hide();
+        }
+    }
+</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
