@@ -3,36 +3,84 @@
     ViewData["Title"] = "UserPage";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-@for (int i = 0; i < Model.Users.Count; i++)
-{
-    <div style="border-bottom:solid 2px black;">
-        <dl>
-            <dt>
-                Navn:
-            </dt>
-            <dd>
-                @Model.Users[i].Name
-                <br />
-                @using (Html.BeginForm())
-                {
-                    @Html.ValidationSummary(true)
-                    <input asp-for="Id" type="number" value="@i" hidden />
-                    <input class="submitButton" type="submit" value="Rediger" />
-                }
-                @using (Html.BeginForm("DeleteUser", "Home", FormMethod.Get))
-                {
-                    @Html.ValidationSummary(true)
-                    <input asp-for="Id" type="number" value="@i" hidden />
-                    <input class="submitButton" type="submit" value="Fjern" />
-                }
-            </dd>
-        </dl>
 
-    </div>
-    <br />
-}
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
 
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
 
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
 
+<body>
+    <h2>Bruger Liste</h2>
+
+    <table>
+        <tr>
+            <th>Navn</th>
+            <th>Initialer</th>
+            <th>Email</th>
+            <th>Rettigheder</th>
+        </tr>
+        @for (int i = 0; i < Model.Users.Count; i++)
+        {
+            if (Model.Users[i].Admin == true)
+            {
+
+                <tr>
+                    <td>@Model.Users[i].Name</td>
+                    <td>@Model.Users[i].Initials</td>
+                    <td>@Model.Users[i].Email</td>
+                    <td>Administrator</td>
+                    <td>
+                        @using (Html.BeginForm("EditUser", "Home", FormMethod.Get))
+                        {
+                            @Html.ValidationSummary(true)
+                            <input asp-for="Id" type="number" value="@i" hidden />
+                            <button type="submit">Rediger</button>
+                        }
+                        @using (Html.BeginForm("DeleteUser", "Home", FormMethod.Get))
+                        {
+                            <input asp-for="Id" type="number" value="@i" hidden />
+                            <button type="submit">Fjern</button>
+                        }
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td>@Model.Users[i].Name</td>
+                    <td>@Model.Users[i].Initials</td>
+                    <td>@Model.Users[i].Email</td>
+                    <td>Alm Bruger</td>
+                    <td>
+                        @using (Html.BeginForm("EditUser", "Home", FormMethod.Get))
+                        {
+                            @Html.ValidationSummary(true)
+                            <input asp-for="Id" type="number" value="@i" hidden />
+                            <button type="submit">Rediger</button>
+                        }
+                        @using (Html.BeginForm("DeleteUser", "Home", FormMethod.Get))
+                        {
+                            <input asp-for="Id" type="number" value="@i" hidden />
+                            <button type="submit">Fjern</button>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</body>
 
 
