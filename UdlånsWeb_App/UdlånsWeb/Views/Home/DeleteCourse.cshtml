@@ -9,8 +9,7 @@
 
 <h3>Sikker på du gerne vil slette dette fag?</h3>
 <div class="row">
-    <div class="col-md-4">
-
+    <div class="col-md-5">
         <form asp-action="DeleteCourse">
             <div class="form-group">
                 <div class="form-group">
@@ -32,6 +31,13 @@
                     <br />
                     <input asp-for="Duration" class="form-control" />
                     <span asp-validation-for="Duration" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <br />  
+                    <textarea rows="4" cols="50" input asp-for="Description" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">

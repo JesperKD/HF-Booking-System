@@ -31,6 +31,7 @@
             <th>Fag</th>
             <th>Grupper pr Host</th>
             <th>Varighed i dage</th>
+            <th>Beskrivelse</th>
         </tr>
         @for (int i = 0; i < Model.Courses.Count; i++)
         {
@@ -38,6 +39,7 @@
                 <td>@Model.Courses[i].Name</td>
                 <td>@Model.Courses[i].NumberOfGroupsPerHost</td>
                 <td>@Model.Courses[i].Duration</td>
+                <td>@Model.Courses[i].Description</td>
                 <td>
                     @using (Html.BeginForm("EditCourse", "Home", FormMethod.Get))
                     {
