@@ -1,18 +1,16 @@
 ﻿@model UdlånsWeb.Models.User
 
 @{
-    Layout = null;
+    ViewData["Title"] = "EditUser";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
-<!DOCTYPE html>
-<html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>EditUser</title>
+    <title>Rediger Bruger</title>
 </head>
 <body>
 
-    <h4>User</h4>
+    <h4>Rediger Bruger</h4>
     <hr />
     <div class="row">
         <div class="col-md-4">
@@ -55,7 +53,7 @@
     </div>
 
     <div>
-        <a asp-action="UserPage">Back to List</a>
+        <a asp-action="UserPage">Tilbage til bruger oversigt</a>
     </div>
 
     @section Scripts {
