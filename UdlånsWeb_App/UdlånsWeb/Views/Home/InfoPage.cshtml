@@ -37,20 +37,6 @@
                 <span asp-validation-for="@Model.CustomTurninDate" class="text-danger"></span>
                 <br />
             </div>
-
-            @if (Model.CourseModel.Defined == true)
-            {
-                @foreach (var host in Model.HostRentedForCourse)
-                {
-                    <label asp-for="@host.TurnInDate" class="control-label"></label>
-                    <br />
-                    <input asp-for="@host.TurnInDate" class="form-control" />
-                    <span asp-validation-for="@host.TurnInDate" class="text-danger"></span>
-                    <br />
-                }
-            }
-
-
             <label asp-for="@Model.NumberOfGroups" class="control-label"></label>
             <br />
 

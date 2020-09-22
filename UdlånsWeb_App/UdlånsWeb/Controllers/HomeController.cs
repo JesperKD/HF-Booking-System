@@ -74,6 +74,8 @@ namespace UdlånsWeb.Controllers
                 return Redirect("ErrorPage");
 
             bookingViewModel = new BookingViewModel();
+            bookingViewModel.RentDate = DateTime.Now.Date;
+            bookingViewModel.CustomTurninDate = DateTime.Now.Date;
             try
             {
                 bookingViewModel.CoursesForSelection = Data.ConvertCourseData.GetCourses().Courses;
@@ -296,7 +298,14 @@ namespace UdlånsWeb.Controllers
                 {
                     foreach (Item host in userBooking.HostRentedForCourse)
                     {
-                        host.TurnInDate = userBooking.RentDate.AddDays(item.Duration);
+                        if (userBooking.CustomTurninDate != DateTime.MinValue)
+                        {
+                            host.TurnInDate = userBooking.CustomTurninDate;
+                        }
+                        else
+                        {
+                            host.TurnInDate = userBooking.RentDate.AddDays(item.Duration);
+                        }
                     }
                     userBooking.CurrentUser = CurrentUser;
                     userBooking.RentedClient = userBooking.CurrentUser.Initials;
