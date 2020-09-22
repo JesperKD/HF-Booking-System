@@ -24,9 +24,11 @@ namespace UdlånsWeb.Models
         public DateTime RentedDate { get; set; }
         [DisplayName("Lånes til")]
         public DateTime TurnInDate { get; set; }
+        [DisplayName("Udlånt")]
         public bool Rented { get; set; }
         public int Id { get; set; }
         public bool InUse { get; set; }
+        [DisplayName("Beskrivelse")]
         public string Description { get; set; }
     }
 }
