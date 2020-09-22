@@ -152,6 +152,25 @@ namespace UdlånsWeb.Controllers
             if (CurrentUser == null)
                 return Redirect("ErrorPage");
 
+            bookingViewModel = new BookingViewModel();
+            bookingViewModel.RentDate = DateTime.Now.Date;
+            bookingViewModel.CustomTurninDate = DateTime.Now.Date;
+            try
+            {
+                bookingViewModel.CoursesForSelection = Data.ConvertCourseData.GetCourses().Courses;
+
+            }
+            catch (Exception e)
+            {
+
+
+            }
+            finally
+            {
+                if (bookingViewModel == null)
+                    bookingViewModel.CoursesForSelection = new List<Course>();
+            }
+
             return View(bookingViewModel);
         }
         [HttpPost]
@@ -247,7 +266,6 @@ namespace UdlånsWeb.Controllers
 
             return Redirect("InfoPage");
         }
-        #endregion
 
         [HttpGet]
         public IActionResult AdminBooking()
@@ -289,6 +307,7 @@ namespace UdlånsWeb.Controllers
 
             return Redirect("AdminInfoPage");
         }
+        #endregion
 
         public IActionResult ConfirmBooking(BookingViewModel booking)
         {
@@ -298,7 +317,7 @@ namespace UdlånsWeb.Controllers
                 {
                     foreach (Item host in userBooking.HostRentedForCourse)
                     {
-                        if (userBooking.CustomTurninDate != DateTime.MinValue)
+                        if (userBooking.CustomTurninDate != DateTime.MinValue && userBooking.CustomTurninDate > DateTime.Now.Date)
                         {
                             host.TurnInDate = userBooking.CustomTurninDate;
                         }

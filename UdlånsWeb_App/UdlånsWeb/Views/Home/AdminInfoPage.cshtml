@@ -7,6 +7,13 @@
     <div style="width:250px">
         <form asp-action="InfoPage">
 
+            <div>
+                <label>
+                    Tryk her for at sætte en anden varighed af faget
+                    <input type="checkbox" id="cBox" onclick="myfunction();" />
+                </label>
+            </div>
+
             <label asp-for="@Model.CourseModel.Name" class="control-label"></label>
             <br />
             <select asp-for="@Model.CourseModel.Name">
@@ -25,17 +32,14 @@
             <input asp-for="@Model.RentDate" class="form-control" />
             <span asp-validation-for="@Model.RentDate" class="text-danger"></span>
             <br />
-            @if (Model.CourseModel.Defined == true)
-            {
-                @foreach (var host in Model.HostRentedForCourse)
-                {
-                    <label asp-for="@host.TurnInDate" class="control-label"></label>
-                    <br />
-                    <input asp-for="@host.TurnInDate" class="form-control" />
-                    <span asp-validation-for="@host.TurnInDate" class="text-danger"></span>
-                    <br />
-                }
-            }
+
+            <div id="testing" style="display:none">
+                <label asp-for="@Model.CustomTurninDate" class="control-label"></label>
+                <br />
+                <input asp-for="@Model.CustomTurninDate" class="form-control" />
+                <span asp-validation-for="@Model.CustomTurninDate" class="text-danger"></span>
+                <br />
+            </div>
 
 
             <label asp-for="@Model.NumberOfGroups" class="control-label"></label>
@@ -53,6 +57,16 @@
     </div>
 </div>
 
+<script>
+    function myfunction() {
+        if (document.getElementById('cBox').checked) {
+            $("#testing").show();
+        }
+        else {
+            $("#testing").hide();
+        }
+    }
+</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

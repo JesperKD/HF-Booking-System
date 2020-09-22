@@ -9,7 +9,10 @@
         <form asp-action="InfoPage">
 
             <div>
-                <input type="checkbox" id="cBox" onclick="myfunction();" />
+                <label>
+                    Tryk her for at sætte en anden varighed af faget    
+                    <input type="checkbox" id="cBox" onclick="myfunction();" />
+                </label>
             </div>
 
             <label asp-for="@Model.CourseModel.Name" class="control-label"></label>
@@ -30,7 +33,6 @@
             <br />
 
             <div id="testing" style="display:none">
-                <p style="color:red">Ulla er fræk</p>
                 <label asp-for="@Model.CustomTurninDate" class="control-label"></label>
                 <br />
                 <input asp-for="@Model.CustomTurninDate" class="form-control" />
