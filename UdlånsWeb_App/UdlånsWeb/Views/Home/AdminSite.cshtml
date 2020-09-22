@@ -31,6 +31,7 @@
             <th>IP Adresse</th>
             <th>vmWare Version</th>
             <th>Status</th>
+            <th>Udlånt Til</th>
         </tr>
         @for (int i = 0; i < Model.Items.Count; i++)
         {
@@ -41,6 +42,7 @@
                     <td>@Model.Items[i].HostIp</td>
                     <td>@Model.Items[i].VmWareVersion</td>
                     <td>Udlånt</td>
+                    <td>@Model.Items[i].TurnInDate</td>
                     <td>
                         @using (Html.BeginForm("EditItem", "Home", FormMethod.Get))
                         {
@@ -63,6 +65,7 @@
                     <td>@Model.Items[i].HostIp</td>
                     <td>@Model.Items[i].VmWareVersion</td>
                     <td>Ledig</td>
+                    <td></td>
                     <td>
                         @using (Html.BeginForm("EditItem", "Home", FormMethod.Get))
                         {
