@@ -23,34 +23,61 @@
 </style>
 
 <body>
-    <h2>Liste af Fag</h2>
+    <h2>Liste af Hosts</h2>
 
     <table>
         <tr>
             <th>Navn</th>
             <th>IP Adresse</th>
             <th>vmWare Version</th>
+            <th>Status</th>
         </tr>
         @for (int i = 0; i < Model.Items.Count; i++)
         {
-            <tr>
-                <td>@Model.Items[i].HostName</td>
-                <td>@Model.Items[i].HostIp</td>
-                <td>@Model.Items[i].VmWareVersion</td>
-                <td>
-                    @using (Html.BeginForm("EditItem", "Home", FormMethod.Get))
-                    {
-                        @Html.ValidationSummary(true)
-                        <input asp-for="Id" type="number" value="@i" hidden />
-                        <button type="submit">Rediger</button>
-                    }
-                    @using (Html.BeginForm("DeleteItem", "Home", FormMethod.Get))
-                    {
-                        <input asp-for="Id" type="number" value="@i" hidden />
-                        <button type="submit">Fjern</button>
-                    }
-                </td>
-            </tr>
+            if (Model.Items[i].Rented == true)
+            {
+                <tr class="bg-danger">
+                    <td>@Model.Items[i].HostName</td>
+                    <td>@Model.Items[i].HostIp</td>
+                    <td>@Model.Items[i].VmWareVersion</td>
+                    <td>Udlånt</td>
+                    <td>
+                        @using (Html.BeginForm("EditItem", "Home", FormMethod.Get))
+                        {
+                            @Html.ValidationSummary(true)
+                            <input asp-for="Id" type="number" value="@i" hidden />
+                            <button type="submit">Rediger</button>
+                        }
+                        @using (Html.BeginForm("DeleteItem", "Home", FormMethod.Get))
+                        {
+                            <input asp-for="Id" type="number" value="@i" hidden />
+                            <button type="submit">Fjern</button>
+                        }
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td>@Model.Items[i].HostName</td>
+                    <td>@Model.Items[i].HostIp</td>
+                    <td>@Model.Items[i].VmWareVersion</td>
+                    <td>Ledig</td>
+                    <td>
+                        @using (Html.BeginForm("EditItem", "Home", FormMethod.Get))
+                        {
+                            @Html.ValidationSummary(true)
+                            <input asp-for="Id" type="number" value="@i" hidden />
+                            <button type="submit">Rediger</button>
+                        }
+                        @using (Html.BeginForm("DeleteItem", "Home", FormMethod.Get))
+                        {
+                            <input asp-for="Id" type="number" value="@i" hidden />
+                            <button type="submit">Fjern</button>
+                        }
+                    </td>
+                </tr>
+            }
         }
     </table>
 </body>
