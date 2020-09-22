@@ -50,11 +50,10 @@
                     <span asp-validation-for="VmWareVersion" class="text-danger"></span>
                 </div>
                 
-                <div class="form-group">
-                    <label asp-for="Rented" class="control-label"></label>
-                    <br />
-                    <input asp-for="Rented" class="form-control" />
-                    <span asp-validation-for="Rented" class="text-danger"></span>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Rented" /> @Html.DisplayNameFor(model => model.Rented)
+                    </label>
                 </div>
 
                 <input asp-for="Id" hidden />
