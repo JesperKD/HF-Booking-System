@@ -806,6 +806,9 @@ namespace UdlånsWeb.Controllers
         [HttpGet]
         public IActionResult ChangePassword(ChangePassword change)
         {
+            change.Initials = CurrentUser.Initials;
+            change.Email = CurrentUser.Email;
+            change.OldPassword = CurrentUser.Password;
             return View(change);
         }
         [HttpPost]
