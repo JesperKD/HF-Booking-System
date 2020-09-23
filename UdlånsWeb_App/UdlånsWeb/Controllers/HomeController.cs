@@ -222,7 +222,7 @@ namespace UdlånsWeb.Controllers
                 }
             }
             userBooking = booking;
-            return Redirect("ConfirmBooking");
+            return Redirect("ConfirmAdminBooking");
         }
 
         #region unused
@@ -333,6 +333,30 @@ namespace UdlånsWeb.Controllers
             return View(userBooking);
         }
 
+        public IActionResult ConfirmAdminBooking(BookingViewModel booking)
+        {
+            foreach (var item in Data.ConvertCourseData.GetCourses().Courses)
+            {
+                if (item.Name == userBooking.CourseModel.Name)
+                {
+                    foreach (Item host in userBooking.HostRentedForCourse)
+                    {
+                        if (userBooking.CustomTurninDate != DateTime.MinValue && userBooking.CustomTurninDate > DateTime.Now.Date)
+                        {
+                            host.TurnInDate = userBooking.CustomTurninDate;
+                        }
+                        else
+                        {
+                            host.TurnInDate = userBooking.RentDate.AddDays(item.Duration);
+                        }
+                    }
+                    userBooking.CurrentUser = CurrentUser;
+                    userBooking.RentedClient = userBooking.CurrentUser.Initials;
+                }
+            }
+            return View(userBooking);
+        }
+
         public IActionResult ResetBooking()
         {
             foreach (var item in userBooking.HostRentedForCourse)
@@ -341,6 +365,16 @@ namespace UdlånsWeb.Controllers
                 Data.ConvertItemData.EditItem(item);
             }
             return Redirect("Booking");
+        }
+
+        public IActionResult ResetAdminBooking()
+        {
+            foreach (var item in userBooking.HostRentedForCourse)
+            {
+                item.InUse = false;
+                Data.ConvertItemData.EditItem(item);
+            }
+            return Redirect("AdminBooking");
         }
 
         public IActionResult ResetBookingHome()

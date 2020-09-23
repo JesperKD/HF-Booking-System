@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "ConfirmBooking";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h1>Er du sikker på at du vil Booke dette?</h1>
@@ -42,7 +43,7 @@
     </dl>
     <button type="submit" accesskey="sb">Godkend</button>
 }
-@using (Html.BeginForm("ResetBooking", "Home", FormMethod.Get))
+@using (Html.BeginForm("ResetAdminBooking", "Home", FormMethod.Get))
 {
     <button type="submit">Afvis</button>
 }
