@@ -131,7 +131,7 @@ namespace UdlånsWeb.DataHandling
             {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.Append(Item.HostName + "," + Item.HostPassword + "," + Item.UserName + "," + Item.VmWareVersion + "," + Item.HostIp + ","
-                    + "," + Item.Rented + "," + Item.Id + "," + Item.TurnInDate + "," + Item.InUse + "," + Item.RentedDate + ","+item.Description);
+                    + "," + Item.Rented + "," + Item.Id + "," + Item.TurnInDate + "," + Item.InUse + "," + Item.RentedDate + ","+Item.Description);
 
                 Encrypt = new Encrypt();
                 itemsTosave.Add(Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5));
