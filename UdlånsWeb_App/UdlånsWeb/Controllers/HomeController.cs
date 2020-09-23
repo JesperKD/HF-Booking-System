@@ -467,7 +467,7 @@ namespace UdlånsWeb.Controllers
                     //if host is rented 
                     if (item.Rented == true)
                     {
-                        if (item.TurnInDate < DateTime.Now && item.TurnInDate != DateTime.Parse("01 - 01 - 0001 00:00:00"))
+                        if (item.TurnInDate < DateTime.Now.Date && item.TurnInDate != DateTime.Parse("01 - 01 - 0001 00:00:00"))
                         {
                             item.Rented = false;
                             Data.ConvertItemData.EditItem(item);
