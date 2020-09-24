@@ -652,6 +652,7 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult AddUser(User user)
         {
+            user.Password = passwordGenerator.Generate();
             Data.ConvertUserData.AddUser(user);
             UserViewModel recipients = new UserViewModel();
             recipients.Users.Add(user);
