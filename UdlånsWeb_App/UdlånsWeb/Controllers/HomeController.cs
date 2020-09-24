@@ -489,6 +489,23 @@ namespace UdlånsWeb.Controllers
             if (CurrentUser == null || CurrentUser.Admin == false)
                 return Redirect("ErrorPage");
 
+            List<BookingViewModel> bookings = Data.ConvertBookingData.GetBookings();
+            var items = Data.ConvertItemData.GetItems();
+            foreach (var booking in bookings)
+            {
+                if (booking.HostRentedForCourse.FirstOrDefault().TurnInDate < DateTime.Now.Date)
+                {
+                    foreach (Item item in booking.HostRentedForCourse)
+                    {
+                        Item edit = items.Items.Where(x => x.HostName == item.HostName && x.Id == item.Id).FirstOrDefault();
+                        edit.Rented = false;
+                        edit.InUse = false;
+                        Data.ConvertItemData.EditItem(edit);
+                    }
+                    Data.ConvertBookingData.DeleteBooking(booking);
+                }
+            }
+
             ItemViewModel itemModel = Data.ConvertItemData.GetItems();
             try
             {
