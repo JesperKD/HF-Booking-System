@@ -20,7 +20,7 @@ namespace UdlånsWeb.Controllers
             Data.GetHosts();
             if (string.IsNullOrEmpty(searchInput))
             {
-                Data.HostData.Bookings = Data.GetHosts().Bookings;
+
                 Data.HostData.Hosts.Sort();
                 return View(Data.HostData);
             }

@@ -3,207 +3,108 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewData["Title"] = "AdminSite";
 }
+<div class="container-fluid">
+    @using (Html.BeginForm("AdminSite", "Item", FormMethod.Get))
+    {
+        @Html.ValidationSummary(true)
 
+        <input asp-for="SearchInput" type="text" />
+        <button type="submit">Søg</button>
+    }
 
-    <div class="container-fluid">
-        @using (Html.BeginForm("AdminSite", "Item", FormMethod.Get))
-        {
-            @Html.ValidationSummary(true)
-            
-            <input asp-for="SearchInput" type="text" />
-            <button type="submit">Søg</button>
-        }
-        <div class="row">
-            @for (int i = 0; i < Model.Hosts.Count; i++)
-            {
-                @if (Model.Hosts[i].Rented == false)
-                {
-                    <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 py-2">
-                        <button name="CollapButton" type="button" class="collapsible bg-success text-white" value="">@Model.Hosts[i].Name</button>
-                        <div class="content" style="border : solid 2px black;">
-                            <div>
-                                <button class="RentColorGreen"></button>
-                                <p>Status: Ledig</p>
+    @for (int i = 0; i < Model.Hosts.Count; i++)
+    {
+        <div class="table-responsive">
+            <table class="table-bordered w-100 p-3" style="text-align:center;">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(x => x.Hosts[i].Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(x => x.Hosts[i].UserName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(x => x.Hosts[i].HostIp)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(x => x.Hosts[i].VmWareVersion)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(x => x.Hosts[i].NumberOfPeoplePerHost)
+                        </th>
+                        @if (Model.Hosts[i].Rented == true)
+                        {
+                            <th>
+                                @Html.DisplayNameFor(x => x.Hosts[i].Rented)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(x => x.Hosts[i].TurnInDate)
+                            </th>
+                        }
+                        <th>
+                            Rediger Host
+                        </th>
+                        <th>
+                            Fjern Host
+                        </th>
+                    </tr>
 
-                                <dl style="margin: 0px 10px 0px 0px;">
-                                    <dt>
-                                        Brugernavn:
-                                    </dt>
-                                    <dd>
-                                        @Model.Hosts[i].UserName
-                                    </dd>
-                                    <dt>
-                                        Ip:
-                                    </dt>
-                                    <dd>
-                                        @Model.Hosts[i].HostIp<br />
-                                    </dd>
-                                    <dt>
-                                        Adgangskode:
-                                    </dt>
-                                    <dd>
-                                        @Model.Hosts[i].Password<br />
-                                    </dd>
-                                    <dt>
-                                        VmWare version:
-                                    </dt>
-                                    <dd>
-                                        @Model.Hosts[i].VmWareVersion<br />
-                                    </dd>
-                                    <dt>
-                                        Max antal elever:
-                                    </dt>
-                                    <dd>
-                                        @Model.Hosts[i].NumberOfPeoplePerHost<br />
-                                    </dd>
-                                    @if (Model.Bookings.Count != 0 && Model.Hosts[i].Rented == true)
-                                    {
-                                        <dt>
-                                            Lånt til:
-                                        </dt>
-                                        <dd>
-                                            @for (int j = 0; j < Model.Bookings.Count; j++)
-                                            {
-                                                if (Model.Bookings[j].Id == Model.Hosts[i].Id)
-                                                {
-                                                    @Model.Bookings[j].CurrentUser.Initials
-                                                }
-                                            }
-                                        </dd>
-                                        <dt>
-                                            Lejning udløber:
-                                        </dt>
-                                        <dd>
-                                            @for (int j = 0; j < Model.Bookings.Count; j++)
-                                            {
-                                                if (Model.Bookings[j].Id == Model.Hosts[i].Id)
-                                                {
-                                                    @Model.Bookings[j].TurnInDate
-                                                }
-                                            }
-                                        </dd>
-                                    }
-                                </dl>
+                </thead>
 
-                                <ul style="display: inline-block; list-style-type:none;">
-                                    <li style="margin-left: 10px; display: inline-block; list-style-type: none;">
-                                        @using (Html.BeginForm("EditItem", "Item", FormMethod.Get))
-                                        {
-                                            @Html.ValidationSummary(true)
-                                            <input asp-for="Id" type="number" value="@Model.Hosts[i].Id" hidden />
-                                            <button type="submit">Rediger</button>
-                                        }
-
-                                    </li>
-                                    <li style="margin-left: 10px; display: inline-block; list-style-type: none;">
-                                        @using (Html.BeginForm("DeleteItem", "Item", FormMethod.Get))
-                                        {
-                                            @Html.ValidationSummary(true)
-                                            <input asp-for="Id" type="number" value="@Model.Hosts[i].Id" hidden />
-                                            <button type="submit">Fjern</button>
-
-                                        }
-
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                }
-                else
-                {
-                    <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 py-2">
-                        <button name="CollapButton" type="button" class="collapsible bg-danger text-white" value="">@Model.Hosts[i].Name</button>
-                        <div class="content" style="border : solid 2px black;">
-                            <div>
-
-                                <button class="RentColorRed"></button>
-                                <p>Status: Udlånt</p>
-
-                                <dl style="margin: 0px 10px 0px 0px;">
-                                    <dt>
-                                        Brugernavn:
-                                    </dt>
-                                    <dd>
-                                        @Model.Hosts[i].UserName
-                                    </dd>
-                                    <dt>
-                                        Ip:
-                                    </dt>
-                                    <dd>
-                                        @Model.Hosts[i].HostIp<br />
-                                    </dd>
-                                    <dt>
-                                        Adgangskode:
-                                    </dt>
-                                    <dd>
-                                        @Model.Hosts[i].Password<br />
-                                    </dd>
-                                    <dt>
-                                        VmWare version:
-                                    </dt>
-                                    <dd>
-                                        @Model.Hosts[i].VmWareVersion<br />
-                                    </dd>
-                                    <dt>
-                                        Max antal elever:
-                                    </dt>
-                                    <dd>
-                                        @Model.Hosts[i].NumberOfPeoplePerHost<br />
-                                    </dd>
-                                    @if (Model.Bookings.Count != 0 && Model.Hosts[i].Rented == true)
-                                    {
-                                        <dt>
-                                            Lånt til:
-                                        </dt>
-                                        <dd>
-                                            @for (int j = 0; j < Model.Bookings.Count; j++)
-                                            {
-                                                if (Model.Bookings[j].Id == Model.Hosts[i].Id)
-                                                {
-                                                    @Model.Bookings[j].CurrentUser.Initials
-                                                }
-                                            }
-                                        </dd>
-                                        <dt>
-                                            Lejning udløber:
-                                        </dt>
-                                        <dd>
-                                            @for (int j = 0; j < Model.Bookings.Count; j++)
-                                            {
-                                                if (Model.Bookings[j].Id == Model.Hosts[i].Id)
-                                                {
-                                                    @Model.Bookings[j].TurnInDate
-                                                }
-                                            }
-                                        </dd>
-                                    }
-                                </dl>
-
-                                <ul style="display: inline-block; list-style-type:none;">
-                                    <li style="margin-left: 10px; display: inline-block; list-style-type: none;">
-                                        @using (Html.BeginForm("EditItem", "Item", FormMethod.Get))
-                                        {
-                                            @Html.ValidationSummary(true)
-                                            <input asp-for="Id" type="number" value="@Model.Hosts[i].Id" hidden />
-                                            <button type="submit">Rediger</button>
-                                        }
-
-                                    </li>
-                                    <li style="margin-left: 10px; display: inline-block; list-style-type: none;">
-                                        @using (Html.BeginForm("DeleteItem", "Item", FormMethod.Get))
-                                        {
-                                            @Html.ValidationSummary(true)
-                                            <input asp-for="Id" type="number" value="@Model.Hosts[i].Id" hidden />
-                                            <button type="submit">Fjern</button>
-                                        }
-
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                }
-            }
+                <tbody>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(x => x.Hosts[i].Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => x.Hosts[i].UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => x.Hosts[i].HostIp)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => x.Hosts[i].VmWareVersion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => x.Hosts[i].NumberOfPeoplePerHost)
+                        </td>
+                        @if (Model.Hosts[i].Rented == true)
+                        {
+                            @for (int j = 0; j < Model.Bookings.Count; j++)
+                            {
+                                if (Model.Hosts[i].Id == Model.Bookings[j].Id)
+                                {
+                                    <td>
+                                        @Html.DisplayFor(x => x.Hosts[i].Rented)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(x => x.Bookings[j].TurnInDate)
+                                    </td>
+                                }
+                            }
+                        }
+                        <td>
+                            @using (Html.BeginForm("EditItem", "Item", FormMethod.Get))
+                            {
+                                @Html.ValidationSummary(true)
+                                <input asp-for="Id" type="number" value="@Model.Hosts[i].Id" hidden />
+                                <button type="submit">Rediger</button>
+                            }
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("DeleteItem", "Item", FormMethod.Get))
+                            {
+                                @Html.ValidationSummary(true)
+                                <input asp-for="Id" type="number" value="@Model.Hosts[i].Id" hidden />
+                                <button type="submit">Fjern</button>
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+                <br />
         </div>
-    </div>
+    }
+</div>
+
