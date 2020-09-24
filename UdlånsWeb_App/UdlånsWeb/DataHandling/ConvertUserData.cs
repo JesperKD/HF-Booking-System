@@ -21,10 +21,8 @@ namespace UdlånsWeb.DataHandling
         {
             Encrypt = new Encrypt();
             //Save the user to file/database
-            string password = passwordGenerator.Generate();
-            // rewrite to handle encryption
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append(user.Name + "," + user.Initials + "," + user.Email + "," + user.Admin + "," + 0 + "," + password);
+            stringBuilder.Append(user.Name + "," + user.Initials + "," + user.Email + "," + user.Admin + "," + 0 + "," + user.Passwordpassword);
 
             // change to correct path for file saving
             ToTxt.AppendStringToTxt(FILE_PATH + USER_FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5) + Environment.NewLine);
