@@ -177,7 +177,7 @@ namespace UdlånsWeb.DataHandling
         }
         public static void EditCourse(Course course)
         {
-            GetUsers();
+            GetCourses();
             Course courseToDelete = CourseData.Courses.Where(x => x.Id == course.Id).FirstOrDefault();
             CourseData.Courses.Remove(courseToDelete);
             CourseData.Courses.Add(course);
