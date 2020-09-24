@@ -1,5 +1,9 @@
 ﻿@model UdlånsWeb.Models.BookingViewModel
 
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
 <h5>Booking gennemført</h5>
 <h6>
     Mail vil blive sendt til: @if (Model.CurrentUser.Email != null) { Html.DisplayFor(x => Model.CurrentUser.Email); }
@@ -38,7 +42,7 @@
 
 </dl>
 <div>
-    @using (Html.BeginForm("InfoPage", "Home", FormMethod.Get))
+    @using (Html.BeginForm("Bookings", "Home", FormMethod.Get))
     {
         <button type="submit">Godkend</button>
     }

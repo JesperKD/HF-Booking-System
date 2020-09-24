@@ -364,7 +364,7 @@ namespace UdlånsWeb.Controllers
                 item.InUse = false;
                 Data.ConvertItemData.EditItem(item);
             }
-            return Redirect("Booking");
+            return Redirect("InfoPage");
         }
 
         public IActionResult ResetAdminBooking()
@@ -374,7 +374,7 @@ namespace UdlånsWeb.Controllers
                 item.InUse = false;
                 Data.ConvertItemData.EditItem(item);
             }
-            return Redirect("AdminBooking");
+            return Redirect("AdminInfoPage");
         }
 
         public IActionResult ResetBookingHome()
@@ -396,6 +396,86 @@ namespace UdlånsWeb.Controllers
 
         // need a get and post
         public IActionResult BookingSucces()
+        {
+            //Make a booking save file
+            List<Item> hosts = Data.ConvertItemData.GetItems().Items;
+            List<Course> courses = Data.ConvertCourseData.GetCourses().Courses;
+
+            foreach (var item in userBooking.HostRentedForCourse)
+            {
+                if (item.Rented == false)
+                {
+                    //sets the host to rented
+                    item.Rented = true;
+                    //sets the hosts renteddate to the day it was rented
+                    item.RentedDate = userBooking.RentDate;
+                    //sets turnindate to day it was rented plus days its rented for aka turnindate
+                    foreach (var course in courses)
+                    {
+                        if (userBooking.CourseModel.Name == course.Name)
+                        {
+                            if (userBooking.CustomTurninDate != null)
+                            {
+                                item.TurnInDate = userBooking.CustomTurninDate;
+                            }
+                            else
+                            {
+                                item.TurnInDate = userBooking.RentDate.AddDays(course.Duration);
+                            }
+                            Data.ConvertItemData.EditItem(item);
+                        }
+                    }
+                }
+            }
+            Data.ConvertBookingData.SaveBooking(userBooking);
+
+            // send mail to user and admins
+            UserViewModel users = Data.ConvertUserData.GetUsers();
+            UserViewModel mailRecipients = new UserViewModel();
+            foreach (User user in users.Users)
+            {
+                if (user.Email == CurrentUser.Email && user.Initials == CurrentUser.Initials)
+                {
+                    mailRecipients.Users.Add(user);
+                    continue;
+                }
+                if (user.Admin == true)
+                {
+                    mailRecipients.Users.Add(user);
+                    continue;
+                }
+            }
+            // New stringbuilder
+            StringBuilder stringBuilder = new StringBuilder();
+
+            // String for email
+            stringBuilder.Append("Booking summary:" + Environment.NewLine + "Lærer initialer: " + CurrentUser.Initials
+                + Environment.NewLine + "Fag: " + userBooking.CourseModel.Name + Environment.NewLine
+                + "Booket fra " + userBooking.HostRentedForCourse.First().RentedDate + " - til " + userBooking.HostRentedForCourse.First().TurnInDate
+                + Environment.NewLine + "Hostnavn       Ip      User        Password" + Environment.NewLine
+                );
+
+            foreach (var item in userBooking.HostRentedForCourse)
+            {
+                stringBuilder.Append(item.HostName + "          " + item.HostIp + "         " + item.UserName + "            " + item.HostPassword + Environment.NewLine);
+            }
+
+            stringBuilder.Append("Antal grupper pr host [" + userBooking.CourseModel.NumberOfGroupsPerHost + "]" + Environment.NewLine
+                + Environment.NewLine + "Adgang til serveren kan etableres via følgnde netværk:"
+                + "Trådløst (Når eleverne er på skolen) - Forbind til DataExpNet" + Environment.NewLine
+                + "(kode: Just@Salt&Vinegar666)" + Environment.NewLine
+                + "VPN (Når eleverne er hjemme) - Følg vejledningen til installation" + Environment.NewLine
+                + "af VPN forbindelsen og forbind hrefter med jeres ZBC initialer" + Environment.NewLine
+                + "(Kode: Just@Salt&Vinegar666)" + Environment.NewLine + Environment.NewLine
+                + "!!! Husk at bede dine elever om at ryde op på hostn inden" + Environment.NewLine
+                + "faget slutter !!!");
+
+            MailSending.Email(stringBuilder.ToString(), mailRecipients);
+
+            return View(userBooking);
+        }
+
+        public IActionResult AdminBookingSuccess()
         {
             //Make a booking save file
             List<Item> hosts = Data.ConvertItemData.GetItems().Items;
