@@ -22,7 +22,7 @@ namespace UdlånsWeb.DataHandling
             Encrypt = new Encrypt();
             //Save the user to file/database
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append(user.Name + "," + user.Initials + "," + user.Email + "," + user.Admin + "," + 0 + "," + user.Passwordpassword);
+            stringBuilder.Append(user.Name + "," + user.Initials + "," + user.Email + "," + user.Admin + "," + 0 + "," + user.Password);
 
             // change to correct path for file saving
             ToTxt.AppendStringToTxt(FILE_PATH + USER_FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5) + Environment.NewLine);
