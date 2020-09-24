@@ -672,10 +672,13 @@ namespace UdlånsWeb.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditUser()
+        public IActionResult EditUser(int id)
         {
             if (CurrentUser == null || CurrentUser.Admin == false)
                 return Redirect("ErrorPage");
+
+            UserViewModel users = Data.ConvertUserData.GetUsers();
+            SelectedUser = users.Users[id];
 
             return View(SelectedUser);
         }
