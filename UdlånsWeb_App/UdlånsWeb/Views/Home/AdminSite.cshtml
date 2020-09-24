@@ -49,12 +49,12 @@
                         @using (Html.BeginForm("EditItem", "Home", FormMethod.Get))
                         {
                             @Html.ValidationSummary(true)
-                            <input asp-for="Id" type="number" value="@i" hidden />
+                            <input asp-for="Id" type="number" value="@Model.Items[i].Id" hidden />
                             <button type="submit">Rediger</button>
                         }
                         @using (Html.BeginForm("DeleteItem", "Home", FormMethod.Get))
                         {
-                            <input asp-for="Id" type="number" value="@i" hidden />
+                            <input asp-for="Id" type="number" value="@Model.Items[i].Id" hidden />
                             <button type="submit">Fjern</button>
                         }
                     </td>
@@ -73,12 +73,12 @@
                         @using (Html.BeginForm("EditItem", "Home", FormMethod.Get))
                         {
                             @Html.ValidationSummary(true)
-                            <input asp-for="Id" type="number" value="@i" hidden />
+                            <input asp-for="Id" type="number" value="@Model.Items[i].Id" hidden />
                             <button type="submit">Rediger</button>
                         }
                         @using (Html.BeginForm("DeleteItem", "Home", FormMethod.Get))
                         {
-                            <input asp-for="Id" type="number" value="@i" hidden />
+                            <input asp-for="Id" type="number" value="@Model.Items[i].Id" hidden />
                             <button type="submit">Fjern</button>
                         }
                     </td>
