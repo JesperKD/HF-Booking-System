@@ -414,7 +414,7 @@ namespace UdlånsWeb.Controllers
                     {
                         if (userBooking.CourseModel.Name == course.Name)
                         {
-                            if (userBooking.CustomTurninDate != null)
+                            if (userBooking.CustomTurninDate != DateTime.MinValue && userBooking.CustomTurninDate > DateTime.Now.Date)
                             {
                                 item.TurnInDate = userBooking.CustomTurninDate;
                             }
