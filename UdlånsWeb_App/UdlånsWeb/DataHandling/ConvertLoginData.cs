@@ -14,21 +14,16 @@ namespace UdlånsWeb.DataHandling
 
     public class ConvertLoginData
     {
-        //private readonly IHttpContextAccessor _httpContextAccessor;
-
-
         ConvertUserData convertuserdata = new ConvertUserData();
         public bool loginConfirmed = false;
 
         public User AutoLogin()
         {
             User user = new User();
-
             string initials = Environment.UserName;
             string[] iniSplit = initials.Split('.');
 
             UserViewModel userModel = convertuserdata.GetUsers();
-
             try
             {
                 if (userModel.Users.Any(x => x.Initials == iniSplit[0].ToUpper() && x.Password == user.Password))
@@ -42,7 +37,6 @@ namespace UdlånsWeb.DataHandling
                 return null;
             }
             return null;
-
         }
 
         public User ManuelLogin(string Initials)

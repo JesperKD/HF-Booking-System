@@ -7,80 +7,68 @@
     <div class="row">
         @for (int i = 0; i < Model.Users.Count; i++)
         {
-
-            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 py-2">
-                <button name="CollapButton" type="button" class="collapsible bg-success text-white" value="">@Model.Users[i].FirstName</button>
-                <div class="content" style="border : solid 2px black;">
-                    <div>
-                        <dl style="margin: 0px 10px 0px 0px;">
-                            <dt>
+            <div class="table-responsive">
+                <table  class="table-bordered w-100 p-3" style="text-align:center;">
+                    <thead>
+                        <tr>
+                            <th>
                                 @Html.DisplayNameFor(x => x.Users[i].FirstName)
-                            </dt>
-                            <dd>
-                                @Model.Users[i].FirstName
-                            </dd>
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(x => x.Users[i].Initials)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(x => x.Users[i].Email)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(x => x.Users[i].Admin)
+                            </th>
+                        </tr>
+                    </thead>
 
-                            <dt>
-                                @Html.DisplayNameFor(x => x.Users[i].LastName)
-                            </dt>
-                            <dd>
-                                @Model.Users[i].LastName
-                            </dd>
-
-                            <dt>
-                                Initialer:
-                            </dt>
-                            <dd>
-                                @Model.Users[i].Initials<br />
-                            </dd>
-
-                            <dt>
-                                Email:
-                            </dt>
-                            <dd>
-                                @Model.Users[i].Email<br />
-                            </dd>
-
-                            <dt>
-                                @Html.DisplayNameFor(x => x.Users[i].Password)
-                            </dt>
-                            <dd>
-                                @Model.Users[i].Password<br />
-                            </dd>
-
-                            <dt>
-                                Admin:
-                            </dt>
-                            <dd>
-                                @Model.Users[i].Admin<br />
-                            </dd>
-
-                        </dl>
-
-                        <ul style="display: inline-block; list-style-type:none;">
-                            <li style="margin-left: 10px; display: inline-block; list-style-type: none;">
-                                @using (Html.BeginForm("EditUser", "User", FormMethod.Get))
-                                {
-                                    @Html.ValidationSummary(true)
-                                    <input asp-for="Id" type="number" value="@Model.Users[i].Id" hidden />
-                                    <button type="submit">Rediger</button>
-                                }
-
-                            </li>
-                            <li style="margin-left: 10px; display: inline-block; list-style-type: none;">
-                                @using (Html.BeginForm("DeleteUser", "User", FormMethod.Get))
-                                {
-                                    @Html.ValidationSummary(true)
-                                    <input asp-for="Id" type="number" value="@Model.Users[i].Id" hidden />
-                                    <button type="submit">Fjern</button>
-                                }
-
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                    <tbody>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(x => x.Users[i].FirstName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(x => x.Users[i].Initials)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(x => x.Users[i].Email)
+                            </td>
+                            <td>
+                               @if(Model.Users[i].Admin == true)
+                               {
+                                   <p style="height: 10px">Ja</p>
+                               }
+                               else
+                               {
+                                   <p style="height: 10px">Nej</p>
+                               }
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <ul style="display: inline-block; list-style-type:none;">
+                    <li style="margin-left: 10px; display: inline-block; list-style-type: none;">
+                        @using (Html.BeginForm("EditUser", "User", FormMethod.Get))
+                        {
+                            @Html.ValidationSummary(true)
+                            <input asp-for="Id" type="number" value="@Model.Users[i].Id" hidden />
+                            <button type="submit">Rediger</button>
+                        }
+                    </li>
+                    <li style="margin-left: 10px; display: inline-block; list-style-type: none;">
+                        @using (Html.BeginForm("DeleteUser", "User", FormMethod.Get))
+                        {
+                            @Html.ValidationSummary(true)
+                            <input asp-for="Id" type="number" value="@Model.Users[i].Id" hidden />
+                            <button type="submit">Fjern</button>
+                        }
+                    </li>
+                </ul>
             </div>
-
         }
     </div>
 </div>

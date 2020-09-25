@@ -8,7 +8,7 @@
     {
         @Html.ValidationSummary(true)
 
-        <input asp-for="SearchInput" type="text" />
+        <input asp-for="SearchInput" type="text"/>
         <button type="submit">Søg</button>
     }
 
@@ -49,7 +49,6 @@
                             Fjern Host
                         </th>
                     </tr>
-
                 </thead>
 
                 <tbody>
@@ -76,7 +75,7 @@
                                 if (Model.Hosts[i].Id == Model.Bookings[j].Id)
                                 {
                                     <td>
-                                        @Html.DisplayFor(x => x.Hosts[i].Rented)
+                                        <p style="height: 10px"> Ja</p>
                                     </td>
                                     <td>
                                         @Html.DisplayFor(x => x.Bookings[j].TurnInDate)

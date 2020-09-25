@@ -145,7 +145,6 @@ namespace UdlånsWeb.Controllers
 
             return View(userBooking);
         }
-    
 
         public IActionResult Bookings()
         {

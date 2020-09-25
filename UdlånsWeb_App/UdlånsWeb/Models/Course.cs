@@ -28,7 +28,5 @@ namespace UdlånsWeb.Models
             else
                 return this.Id.CompareTo(other.Id);
         }
-
-      
     }
 }
