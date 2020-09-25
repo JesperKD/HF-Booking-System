@@ -461,13 +461,13 @@ namespace UdlånsWeb.Controllers
             }
 
             stringBuilder.Append("Antal grupper pr host [" + userBooking.CourseModel.NumberOfGroupsPerHost + "]" + Environment.NewLine
-                + Environment.NewLine + "Adgang til serveren kan etableres via følgnde netværk:"
+                + Environment.NewLine + "Adgang til serveren kan etableres via følgende netværk:"
                 + "Trådløst (Når eleverne er på skolen) - Forbind til DataExpNet" + Environment.NewLine
                 + "(kode: Just@Salt&Vinegar666)" + Environment.NewLine
                 + "VPN (Når eleverne er hjemme) - Følg vejledningen til installation" + Environment.NewLine
-                + "af VPN forbindelsen og forbind hrefter med jeres ZBC initialer" + Environment.NewLine
+                + "af VPN forbindelsen og forbind herefter med jeres ZBC initialer" + Environment.NewLine
                 + "(Kode: Just@Salt&Vinegar666)" + Environment.NewLine + Environment.NewLine
-                + "!!! Husk at bede dine elever om at ryde op på hostn inden" + Environment.NewLine
+                + "!!! Husk at bede dine elever om at ryde op på hosten inden" + Environment.NewLine
                 + "faget slutter !!!");
 
             MailSending.Email(stringBuilder.ToString(), mailRecipients);
