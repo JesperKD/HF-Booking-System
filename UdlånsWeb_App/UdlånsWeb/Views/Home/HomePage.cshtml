@@ -1,17 +1,39 @@
 ﻿@model Login
 @{
     ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
-<div class="imgcontainer">
-    <img src="./Images/ZBCLogo.jpg" height="150" width="150" />
+
+<div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
 </div>
-<div class="container">
+<div class="imgcontainer d-flex justify-content-center">
+    <img src="~/Images/ZBCLogo.jpg" height="150" width="150" />
+</div>
+<hr />
+<div class="container d-flex justify-content-center">
+    @if (!Model.Valid)
+    {
+        <p style="color:red">Bruger oplysningerne er forkerte</p>
+    }
+</div>
+<div class="container d-flex justify-content-center">
     @using (Html.BeginForm("HomePage", "Home", FormMethod.Post))
     {
         <label for="uname"><b>Initialer</b></label>
         @Html.TextBoxFor(m => m.Initials)
-        
+
+        <label for="upass"><b>Password</b></label>
+        @Html.TextBoxFor(m => m.Password)
+
         <button type="submit">Login</button>
     }
 </div>
-

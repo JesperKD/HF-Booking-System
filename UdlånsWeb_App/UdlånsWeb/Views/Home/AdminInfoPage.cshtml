@@ -1,16 +1,15 @@
 ﻿@model UdlånsWeb.Models.BookingViewModel
 
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
 <div class="container">
     <div style="width:250px">
         <form asp-action="InfoPage">
 
             <div>
                 <label>
-                    Tryk her for at sætte en anden varighed af faget    
+                    Tryk her for at sætte en anden varighed af faget
                     <input type="checkbox" id="cBox" onclick="myfunction();" />
                 </label>
             </div>
@@ -26,8 +25,10 @@
             </select>
             <span asp-validation-for="@Model.CourseModel.Name"></span>
             <br />
+
             <label asp-for="@Model.RentDate" class="control-label"></label>
             <br />
+
             <input asp-for="@Model.RentDate" class="form-control" />
             <span asp-validation-for="@Model.RentDate" class="text-danger"></span>
             <br />
@@ -39,6 +40,8 @@
                 <span asp-validation-for="@Model.CustomTurninDate" class="text-danger"></span>
                 <br />
             </div>
+
+
             <label asp-for="@Model.NumberOfGroups" class="control-label"></label>
             <br />
 
@@ -46,10 +49,7 @@
             <span asp-validation-for="@Model.NumberOfGroups" class="text-danger"></span>
             <br />
 
-            <input style="margin-top:20px;" type="submit" value="Book" class="btn btn-primary" />
-            <div>
-                <a asp-action="Booking">Tilbage</a>
-            </div>
+            <input style="margin-top:20px;" type="submit" value="Book" class="btn btn-primary" asp-action="AdminInfoPage" />
         </form>
     </div>
 </div>

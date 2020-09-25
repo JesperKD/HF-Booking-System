@@ -5,12 +5,11 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>EditItem</h1>
+<h1>Rediger Host</h1>
 
-<h4>Item</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-5">
         <form asp-action="EditItem">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -38,20 +37,20 @@
                 <input asp-for="HostIp" class="form-control" />
                 <span asp-validation-for="HostIp" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="NumberOfPeoplePerHost" class="control-label"></label>
-                <input asp-for="NumberOfPeoplePerHost" class="form-control" />
-                <span asp-validation-for="NumberOfPeoplePerHost" class="text-danger"></span>
-            </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Rented" /> @Html.DisplayNameFor(model => model.Rented)
                 </label>
             </div>
-            <div class="form-group">
+            <div hidden class="form-group">
                 <label asp-for="Id" class="control-label"></label>
                 <input asp-for="Id" class="form-control" />
                 <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea rows="4" cols="50" input asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

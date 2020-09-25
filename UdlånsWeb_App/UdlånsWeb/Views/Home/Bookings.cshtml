@@ -1,0 +1,40 @@
+﻿@model List<UdlånsWeb.Models.BookingViewModel>
+
+@{
+    ViewData["Title"] = "Bookings";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Bookings</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        @foreach (var item in Model)
+        {
+            <dt class="col-sm-2">
+                Udlånt til:
+            </dt>
+            <dd class="col-sm-10">
+                @item.RentedClient
+            </dd>
+
+            @foreach (var host in item.HostRentedForCourse)
+            {
+                <dt class="col-sm-2">
+                    Hosts:
+                </dt>
+                <dd class="col-sm-10">
+                    @host.HostName
+                </dd>
+                <dt class="col-sm-2">
+                    Udlejning udløber:
+                </dt>
+                <dd class="col-sm-10">
+                    @host.TurnInDate
+                </dd>
+            }
+        }
+    </dl>
+</div>
+

@@ -5,10 +5,10 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>EditCourse</h1>
+<h1>Rediger Fag</h1>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-5">
         <form asp-action="EditCourse">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -17,26 +17,27 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" />
-                <span asp-validation-for="StartDate" class="text-danger"></span>
+                <label asp-for="NumberOfGroupsPerHost" class="control-label"></label>
+                <input asp-for="NumberOfGroupsPerHost" class="form-control" />
+                <span asp-validation-for="NumberOfGroupsPerHost" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EndDate" class="control-label"></label>
-                <input asp-for="EndDate" class="form-control" />
-                <span asp-validation-for="EndDate" class="text-danger"></span>
+                <label asp-for="Duration" class="control-label"></label>
+                <input asp-for="Duration" class="form-control" />
+                <span asp-validation-for="Duration" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="NumberOfStudents" class="control-label"></label>
-                <input asp-for="NumberOfStudents" class="form-control" />
-                <span asp-validation-for="NumberOfStudents" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
+            <div hidden class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Difined" /> @Html.DisplayNameFor(model => model.Difined)
+                    <input class="form-check-input" asp-for="Defined" /> @Html.DisplayNameFor(model => model.Defined)
                 </label>
             </div>
             <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea rows="4" cols="50" input asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Id" hidden />
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
@@ -44,7 +45,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="CourseSite">Back to List</a>
 </div>
 
 @section Scripts {

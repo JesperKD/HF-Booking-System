@@ -1,26 +1,48 @@
 ﻿@model UdlånsWeb.Models.User
 @{
     ViewData["Title"] = "AddUser";
-}
-<h2>Tilføj ny bruger</h2>
-
-@using (Html.BeginForm("AddUser"))
-{
-    <div>
-        @Html.TextBoxFor(u => u.Name, new { @class = "form-control", placeholder = "Navn" })
-    </div>
-    <br />
-    <div>
-        @Html.TextBoxFor(u => u.Email, new { @class = "form-control", placeholder = "Email" })
-    </div>
-    <br />
-    @Html.TextBoxFor(u => u.Initials, new { @class = "form-control", placeholder = "Initialer" })
-    <br />
-    <p>Admin</p>
-    <div>
-        @Html.CheckBoxFor(u => u.Admin)
-    </div>
-    <button type="submit">Tilføj bruger</button>
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
+<h1>Opret Bruger</h1>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="AddUser">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Initials" class="control-label"></label>
+                <input asp-for="Initials" class="form-control" />
+                <span asp-validation-for="Initials" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Admin" /> @Html.DisplayNameFor(model => model.Admin)
+                </label>
+                <span asp-validation-for="Admin" class="text-danger"></span>
+            </div>
+            <div hidden class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Opret" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

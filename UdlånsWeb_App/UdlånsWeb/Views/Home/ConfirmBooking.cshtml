@@ -1,0 +1,48 @@
+﻿@model UdlånsWeb.Models.BookingViewModel
+
+@{
+    ViewData["Title"] = "ConfirmBooking";
+}
+
+<h1>Er du sikker på at du vil Booke dette?</h1>
+
+@using (Html.BeginForm("BookingSucces", "Home", FormMethod.Get))
+{
+    <dl>
+        <dt>
+            Dine initialer:
+        </dt>
+        <dd>
+            @Html.DisplayFor(x => x.RentedClient)
+        </dd>
+        <dt>
+            ____________________________________________________________________________________
+        </dt>
+
+        @foreach (var host in Model.HostRentedForCourse)
+        {
+            <dt>
+                Navn på host:
+            </dt>
+            <dd>
+                @host.HostName
+            </dd>
+
+            <dt>
+                Indleverings dato:
+            </dt>
+            <dd>
+                @host.TurnInDate
+            </dd>
+            <dt>
+                ____________________________________________________________________________________
+            </dt>
+        }
+
+    </dl>
+    <button type="submit" accesskey="sb">Godkend</button>
+}
+@using (Html.BeginForm("ResetBooking", "Home", FormMethod.Get))
+{
+    <button type="submit">Afvis</button>
+}

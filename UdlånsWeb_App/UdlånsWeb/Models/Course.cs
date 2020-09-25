@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,22 +12,13 @@ namespace UdlånsWeb.Models
     {
         [DisplayName("Fag")]
         public string Name { get; set; }
-        [DisplayName("Start Dato")]
-        public DateTime StartDate { get; set; }
-        [DisplayName("Slut Dato")]
-        public DateTime EndDate { get; set; }
-        [DisplayName("Antal elever")]
-        public int NumberOfStudents { get; set; }
-        [DisplayName("Fagets varighed")]
+        [DisplayName("Antal grupper per host")]
+        public int NumberOfGroupsPerHost { get; set; }
+        [DisplayName("Fagets varighed i dage, weekend skal inkluderes")]
         public int Duration { get; set; }
-        public bool Difined { get; set; }
-
-        public Course()
-        {
-            var time = DateTime.UtcNow;
-            var timenow = new DateTime(time.Year, time.Month, time.Day, time.Hour, time.Minute, 0);
-            StartDate = timenow;
-            EndDate = timenow;
-        }
+        public bool Defined { get; set; }
+        public int Id { get; set; }
+        [DisplayName("Beskrivelse")]
+        public string Description { get; set; }
     }
 }

@@ -1,0 +1,59 @@
+﻿@model CourseViewModel
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "CourseSite";
+}
+
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
+
+<body>
+    <h2>Liste af Fag</h2>
+
+    <table>
+        <tr>
+            <th>Fag</th>
+            <th>Grupper pr Host</th>
+            <th>Varighed i dage</th>
+            <th>Beskrivelse</th>
+        </tr>
+        @for (int i = 0; i < Model.Courses.Count; i++)
+        {
+            <tr>
+                <td>@Model.Courses[i].Name</td>
+                <td>@Model.Courses[i].NumberOfGroupsPerHost</td>
+                <td>@Model.Courses[i].Duration</td>
+                <td>@Model.Courses[i].Description</td>
+                <td>
+                    @using (Html.BeginForm("EditCourse", "Home", FormMethod.Get))
+                    {
+                        @Html.ValidationSummary(true)
+                        <input asp-for="Id" type="number" value="@i" hidden />
+                        <button type="submit">Rediger</button>
+                    }
+                    @using (Html.BeginForm("DeleteCourse", "Home", FormMethod.Get))
+                    {
+                        <input asp-for="Id" type="number" value="@i" hidden />
+                        <button type="submit">Fjern</button>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+</body>
