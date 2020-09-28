@@ -530,10 +530,10 @@ namespace UdlånsWeb.Controllers
 
             // String for email
             stringBuilder.Append("Booking summary:" + Environment.NewLine + "Lærer initialer: " + CurrentUser.Initials
-                + Environment.NewLine + "Fag: " + userBooking.CourseModel.Name + Environment.NewLine
-                + "Booket fra " + userBooking.HostRentedForCourse.First().RentedDate + " - til " + userBooking.HostRentedForCourse.First().TurnInDate
-                + Environment.NewLine + "Hostnavn       Ip      User        Password" + Environment.NewLine
-                );
+                 + Environment.NewLine + "Fag: " + userBooking.CourseModel.Name + Environment.NewLine
+                 + "Booket fra " + userBooking.HostRentedForCourse.First().RentedDate + " - til " + userBooking.HostRentedForCourse.First().TurnInDate
+                 + Environment.NewLine + "Hostnavn           Ip                            User              Password" + Environment.NewLine
+                 );
 
             foreach (var item in userBooking.HostRentedForCourse)
             {
