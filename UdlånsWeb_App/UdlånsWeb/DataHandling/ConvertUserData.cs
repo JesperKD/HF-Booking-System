@@ -20,9 +20,10 @@ namespace UdlånsWeb.DataHandling
         public void AddUser(User user)
         {
             Encrypt = new Encrypt();
+            user.Id = GetUsers().Users.Last().Id + 1;
             //Save the user to file/database
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append(user.Name + "," + user.Initials + "," + user.Email + "," + user.Admin + "," + 0 + "," + user.Password);
+            stringBuilder.Append(user.Name + "," + user.Initials + "," + user.Email + "," + user.Admin + "," + user.Id + "," + user.Password);
 
             // change to correct path for file saving
             ToTxt.AppendStringToTxt(FILE_PATH + USER_FILE_NAME, Encrypt.EncryptString(stringBuilder.ToString(), "SkPRingsted", 5) + Environment.NewLine);

@@ -707,6 +707,23 @@ namespace UdlånsWeb.Controllers
         [HttpPost]
         public IActionResult DeleteUser(User user)
         {
+            List<BookingViewModel> bookings = Data.ConvertBookingData.GetBookings();
+            var items = Data.ConvertItemData.GetItems();
+            foreach (var booking in bookings)
+            {
+                if (booking.RentedClient == user.Initials)
+                {
+                    foreach (var hosts in booking.HostRentedForCourse)
+                    {
+                        Item edit = items.Items.Where(x => x.HostName == hosts.HostName && x.Id == hosts.Id).FirstOrDefault();
+                        edit.Rented = false;
+                        // doesnt get the entire host..
+                        Data.ConvertItemData.EditItem(edit);
+                    }
+                    Data.ConvertBookingData.DeleteBooking(booking);
+                }
+            }
+
             Data.ConvertUserData.DeleteUser(user);
             return Redirect("UserPage");
         }
