@@ -81,7 +81,7 @@ namespace UdlånsWeb.Controllers
                 bookingViewModel.CoursesForSelection = Data.ConvertCourseData.GetCourses().Courses;
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
 
@@ -160,7 +160,7 @@ namespace UdlånsWeb.Controllers
                 bookingViewModel.CoursesForSelection = Data.ConvertCourseData.GetCourses().Courses;
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
 
@@ -253,7 +253,7 @@ namespace UdlånsWeb.Controllers
                 bookingViewModel.CoursesForSelection = Data.ConvertCourseData.GetCourses().Courses;
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
 
@@ -294,7 +294,7 @@ namespace UdlånsWeb.Controllers
                 bookingViewModel.CoursesForSelection = Data.ConvertCourseData.GetCourses().Courses;
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
 
