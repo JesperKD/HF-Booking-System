@@ -22,7 +22,7 @@ namespace UdlånsWeb
                 result = File.ReadAllLines(path);
                 return result;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 result[0] = null;
             }
