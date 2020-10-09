@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -180,7 +181,7 @@ namespace UdlånsWeb.DataHandling
             }
 
             // finds the old user and removes it
-            User removeUser = userModel.Users.Where(x => x.Name == user.Name && x.Email == user.Email).FirstOrDefault();
+            User removeUser = userModel.Users.Where(x => x.Name == user.Name && x.Id == user.Id).FirstOrDefault();
             userModel.Users.Remove(removeUser);
 
             // creates correct user string
