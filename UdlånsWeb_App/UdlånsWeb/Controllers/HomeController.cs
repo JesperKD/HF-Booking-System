@@ -699,8 +699,7 @@ namespace UdlånsWeb.Controllers
 
             //Sends the right user to the delete view
             UserViewModel users = Data.ConvertUserData.GetUsers();
-            SelectedUser = users.Users[id];
-
+            SelectedUser = users.Users.Where(x => x.Id == id).FirstOrDefault();
 
             return View(SelectedUser);
         }
