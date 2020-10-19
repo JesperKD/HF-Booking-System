@@ -532,15 +532,15 @@ namespace UdlånsWeb.Controllers
             stringBuilder.Append("Booking summary:" + Environment.NewLine + "Lærer initialer: " + CurrentUser.Initials
                  + Environment.NewLine + "Fag: " + userBooking.CourseModel.Name + Environment.NewLine
                  + "Booket fra " + userBooking.HostRentedForCourse.First().RentedDate + " - til " + userBooking.HostRentedForCourse.First().TurnInDate
-                 + Environment.NewLine + "Hostnavn           Ip                            User              Password" + Environment.NewLine
+                 + Environment.NewLine + Environment.NewLine
                  );
 
             foreach (var item in userBooking.HostRentedForCourse)
             {
-                stringBuilder.Append(item.HostName + "          " + item.HostIp + "         " + item.UserName + "            " + item.HostPassword + Environment.NewLine);
+                stringBuilder.Append("Navn: " + item.HostName + "        IP: " + item.HostIp + "        Brugernavn: " + item.UserName + "           Password: " + item.HostPassword + Environment.NewLine);
             }
 
-            stringBuilder.Append("Antal grupper pr host [" + userBooking.CourseModel.NumberOfGroupsPerHost + "]" + Environment.NewLine
+            stringBuilder.Append(Environment.NewLine + "Antal grupper pr host [" + userBooking.CourseModel.NumberOfGroupsPerHost + "]" + Environment.NewLine
                 + Environment.NewLine + "Adgang til serveren kan etableres via følgende netværk:"
                 + "Trådløst (Når eleverne er på skolen) - Forbind til DataExpNet" + Environment.NewLine
                 + "(kode: Just@Salt&Vinegar666)" + Environment.NewLine
