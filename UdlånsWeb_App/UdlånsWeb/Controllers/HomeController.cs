@@ -559,7 +559,6 @@ namespace UdlånsWeb.Controllers
         public IActionResult Privacy()
         {
             var ItemModel = new ItemViewModel();
-            ItemModel.Items = TestData.GetItems();
             return View(ItemModel);
         }
 

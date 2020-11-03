@@ -17,7 +17,7 @@ namespace UdlånsWeb.DataHandling
         Encrypt Encrypt;
         Decrypt Decrypt;
         const string FILE_NAME = "\\course.txt";
-        const string FILE_PATH = "C:\\TestSite";
+        const string FILE_PATH = "C:\\HUdata";
 
         #region Course Methods
         public void AddCourse(Course course)

@@ -16,7 +16,7 @@ namespace UdlånsWeb.DataHandling
         Decrypt Decrypt;
         PasswordGenerator passwordGenerator = new PasswordGenerator();
         const string USER_FILE_NAME = "\\user.txt";
-        const string FILE_PATH = "C:\\TestSite";
+        const string FILE_PATH = "C:\\HUdata";
 
         public void AddUser(User user)
         {

@@ -15,7 +15,7 @@ namespace UdlånsWeb.DataHandling
         Encrypt Encrypt;
         Decrypt Decrypt;
         const string FILE_NAME = "\\booking.txt";
-        const string FILE_PATH = "C:\\TestSite";
+        const string FILE_PATH = "C:\\HUdata";
 
 
         #region Course Methods
